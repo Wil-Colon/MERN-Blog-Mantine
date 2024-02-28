@@ -1,0 +1,21 @@
+.root {
+  color: rgb(157, 157, 157);
+
+  @include dark {
+    color: rgb(199, 199, 25);
+    @include hover {
+      color: rgb(255, 255, 19);
+    }
+  }
+
+  @include light {
+    color: rgb(220, 220, 220);
+    @include hover {
+      color: rgb(255, 255, 255);
+    }
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}

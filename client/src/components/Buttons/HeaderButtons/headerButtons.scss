@@ -1,0 +1,42 @@
+.button {
+  transition: all 0.2s;
+  color: #74c0fc;
+  font-size: 1rem;
+  letter-spacing: 0.2rem;
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  font-weight: 800;
+
+  @include light {
+    color: #245377;
+    @include hover {
+      color: rgb(255, 255, 255);
+    }
+  }
+
+  &:hover {
+    color: white;
+    transform: scale(1.05);
+  }
+
+  &::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: ".";
+    color: transparent;
+    height: 1px;
+    transition: all 0.3s;
+  }
+
+  &:hover::after {
+    width: 100%;
+    background: rgb(174, 210, 31);
+  }
+
+  @include light {
+  }
+}
