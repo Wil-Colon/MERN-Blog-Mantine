@@ -1,8 +1,14 @@
 .hero {
   position: relative;
-  background-image: url("../../assets//images/hero-bg.jpeg");
   background-size: cover;
   background-position: center;
+  @include light {
+    background-image: url("../../assets//images/hero-bg-light.png");
+  }
+
+  @include dark {
+    background-image: url("../../assets//images/hero-bg-dark.png");
+  }
 }
 
 .container {
@@ -22,7 +28,19 @@
 }
 
 .title {
-  color: var(--mantine-color-white);
+  @include light {
+    color: var(--mantine-color-white);
+  }
+
+  @include dark {
+    color: var(--mantine-color-gray-text);
+  }
+
+  font-family: "Fuzzy Bubbles", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+  transform: rotate(10deg);
   font-size: rem(60px);
   font-weight: 900;
   line-height: 1.1;
@@ -50,8 +68,47 @@
 
 .control {
   margin-top: calc(var(--mantine-spacing-xl) * 1.5);
+  color: var(--mantine-color-black);
 
-  //   @media (max-width: $mantine-breakpoint-sm) {
-  //     width: 100%;
-  //   }
+  @include light {
+    background: var(--mantine-color-white);
+    @include hover {
+      background: var(--mantine-color-dimmed);
+    }
+  }
+
+  @include dark {
+    background: var(--mantine-color-gray-text);
+    @include hover {
+      background: var(--mantine-color-dimmed);
+    }
+  }
+}
+
+.root {
+  @include light {
+    animation: fadeIn-light 0.4s linear forwards;
+  }
+
+  @include dark {
+    animation: fadeIn-dark 0.4s linear forwards;
+  }
+}
+
+@keyframes fadeIn-light {
+  from {
+    background: rgb(67, 67, 67);
+  }
+  to {
+    background: (180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.65) 40%);
+  }
+}
+
+@keyframes fadeIn-dark {
+  from {
+    background: black;
+  }
+  to {
+    background: rgba(0, 0, 0, 0.608);
+  }
 }

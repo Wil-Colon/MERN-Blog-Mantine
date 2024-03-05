@@ -3,12 +3,10 @@
   color: #74c0fc;
   font-size: 1rem;
   letter-spacing: 0.2rem;
-  // -webkit-background-clip: text;
-  // -webkit-text-fill-color: transparent;
-  font-weight: 800;
+  font-weight: 500;
 
   @include light {
-    color: #245377;
+    color: #74c0fc;
     @include hover {
       color: rgb(255, 255, 255);
     }
@@ -34,7 +32,7 @@
 
   &:hover::after {
     width: 100%;
-    background: rgb(174, 210, 31);
+    background: white;
   }
 
   @include light {

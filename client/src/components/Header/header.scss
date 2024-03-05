@@ -1,8 +1,28 @@
 .header {
   display: flex;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.79);
   border-radius: 1rem 1rem 0 0;
   position: relative;
+  // border-bottom: 0.1rem solid white;
+
+  &::after {
+    content: "";
+    // background: rgb(255, 255, 255);
+    position: absolute;
+    bottom: 0;
+    left: 6rem;
+    height: 0.08rem;
+    width: calc(100% - 6.1rem);
+    // border-bottom-width: 10rem;
+    // border-bottom: 0.1rem solid white;
+
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.04),
+        rgb(255, 255, 255)
+      )
+      100%;
+  }
 
   &__logo-container {
     position: relative;
@@ -12,10 +32,20 @@
 
   .logo {
     position: absolute;
-    top: 0rem;
-    left: 0rem;
+    top: 1rem;
+    left: 0.5rem;
     width: 5rem;
     height: 5rem;
+    z-index: 99;
+
+    @media (max-width: $mantine-breakpoint-sm) {
+      left: -0.7rem;
+      width: 5rem;
+      height: 3rem;
+    }
+    @media (max-width: $mantine-breakpoint-xs) {
+      top: 2.3rem;
+    }
   }
 
   &__btns {

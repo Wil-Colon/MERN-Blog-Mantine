@@ -14,6 +14,8 @@ html {
 }
 
 body {
+  animation: fadeIn 0.4s linear;
+
   @include light {
     background: rgb(255, 255, 255);
     background: linear-gradient(
@@ -38,5 +40,14 @@ body {
 
   @include smaller-than($mantine-breakpoint-sm) {
     margin: 1rem;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
