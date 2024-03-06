@@ -14,6 +14,7 @@ html {
 }
 
 body {
+  font-family: "Fuzzy Bubbles", sans-serif;
   animation: fadeIn 0.4s linear;
 
   @include light {

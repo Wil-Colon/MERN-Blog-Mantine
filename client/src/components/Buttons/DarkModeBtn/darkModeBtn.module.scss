@@ -2,16 +2,16 @@
   color: rgb(157, 157, 157);
 
   @include dark {
-    color: rgb(199, 199, 25);
+    color: rgb(165, 165, 11);
     @include hover {
-      color: rgb(255, 255, 19);
+      color: rgb(226, 226, 100);
     }
   }
 
   @include light {
-    color: rgb(220, 220, 220);
+    color: rgb(123, 121, 121);
     @include hover {
-      color: rgb(255, 255, 255);
+      color: rgb(152, 152, 152);
     }
   }
 
