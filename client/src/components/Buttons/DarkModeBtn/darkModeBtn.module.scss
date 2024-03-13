@@ -1,5 +1,6 @@
 .root {
   color: rgb(157, 157, 157);
+  transform: scale(1.2);
 
   @include dark {
     color: rgb(165, 165, 11);

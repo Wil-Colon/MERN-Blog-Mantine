@@ -68,9 +68,14 @@
       }
 
       &-text {
+        font-size: 0.8rem;
         display: flex;
-        gap: 0.5rem;
+        align-items: center;
         cursor: pointer;
+
+        & span {
+          margin-left: 0.5rem;
+        }
       }
 
       @include hover {
@@ -78,37 +83,15 @@
       }
     }
   }
-  // .logo {
-  //   position: absolute;
-  //   top: 1rem;
-  //   left: 0.5rem;
-  //   width: 5rem;
-  //   height: 5rem;
-  //   z-index: 99;
-
-  //   @media (max-width: $mantine-breakpoint-sm) {
-  //     left: -0.7rem;
-  //     width: 5rem;
-  //     height: 3rem;
-  //   }
-  //   @media (max-width: $mantine-breakpoint-xs) {
-  //     top: 2.3rem;
-  //   }
-  // }
 
   &__bottom {
-    .link-item {
-      border-right: 0.1rem solid rgba(120, 120, 120, 0.283);
-    }
-
+    background: white;
     @include dark {
       background: rgb(34, 33, 33);
     }
 
-    background: white;
-
-    & > * {
-      color: red;
+    .link-item {
+      border-right: 0.1rem solid rgba(120, 120, 120, 0.283);
     }
   }
   &__btns {

@@ -17,7 +17,6 @@ function App() {
   return (
     <MantineProvider>
       <BrowserRouter>
-        <BackGroundWave />
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -27,6 +26,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/projects" element={<Projects />} />
         </Routes>
+        {/* <BackGroundWave /> */}
       </BrowserRouter>
     </MantineProvider>
   );

@@ -1,37 +1,43 @@
 .button {
+  text-decoration: none;
   transition: all 0.2s;
   font-size: 1rem;
   letter-spacing: 0.2rem;
   font-weight: 700;
 
-  @include light {
-    color: #252525;
-    @include hover {
-      color: rgb(106, 105, 105);
+  &__link-item {
+    border-right: 0.1rem solid rgba(120, 120, 120, 0.283);
+    transition: 0.5s;
+
+    &::after {
+      content: ".";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      width: 0%;
+      height: 1px;
+      transition: all 0.3s;
+      background: rgb(17, 135, 167);
     }
-  }
 
-  &:hover {
-    color: white;
-    transform: scale(1.05);
-  }
+    &:hover::after {
+      width: 100%;
+      background: red;
+    }
 
-  &::after {
-    content: ".";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 0%;
-    // color: transparent;
-    height: 1px;
-    transition: all 0.3s;
-    background: rgb(17, 135, 167);
-  }
+    @include light {
+      color: #252525;
+      @include hover {
+        color: rgb(106, 105, 105);
+      }
+    }
 
-  &:hover::after {
-    width: 100%;
-    background: rgb(174, 174, 174);
+    &--active {
+      border-right: 0.1rem solid rgba(120, 120, 120, 0.283);
+      text-decoration: none;
+      color: red;
+    }
   }
 }

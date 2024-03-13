@@ -9,12 +9,7 @@
   box-sizing: inherit;
 }
 
-html {
-  height: 100%;
-}
-
 body {
-  font-family: "Fuzzy Bubbles", sans-serif;
   animation: fadeIn 0.4s linear;
 
   @include light {
@@ -35,9 +30,9 @@ body {
       rgba(70, 70, 70, 1) 77%
     );
   }
-  border-radius: 0.5rem;
-  margin: 2rem 5rem;
-  box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.3);
+  // border-radius: 1rem;
+  margin: 2rem 3rem;
+  box-shadow: 0rem 2rem 2rem 1rem rgba(0, 0, 0, 0.76);
 
   @include smaller-than($mantine-breakpoint-sm) {
     margin: 1rem;

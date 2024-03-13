@@ -2,13 +2,9 @@ import "./header.scss";
 import { Flex, Button, Image } from "@mantine/core";
 import DarkModeBtn from "../Buttons/DarkModeBtn/DarkModeBtn";
 import HeaderButtons from "../Buttons/HeaderButtons/HeaderButtons";
-import logo from "../../assets/images/logo.png";
-import { Link, useLocation } from "react-router-dom";
 import { IconSailboat } from "@tabler/icons-react";
 
 export default function Header() {
-  const path = useLocation().pathname;
-  console.log(path);
   return (
     <header className="header">
       <Flex gap="md" className="header__top">
@@ -30,10 +26,8 @@ export default function Header() {
               <IconSailboat />
             </span>
           </div>
-          <span>
-            <DarkModeBtn />
-          </span>
         </div>
+        <DarkModeBtn />
       </Flex>
 
       <Flex
@@ -43,15 +37,7 @@ export default function Header() {
         wrap="nowrap"
         className="header__bottom"
       >
-        <Link to="/" className="link-item">
-          <HeaderButtons>Home</HeaderButtons>
-        </Link>
-        <Link to="/about" className="link-item">
-          <HeaderButtons>About</HeaderButtons>
-        </Link>
-        <Link to="/blogs" className="link-item">
-          <HeaderButtons>Blogs</HeaderButtons>
-        </Link>
+        <HeaderButtons />
       </Flex>
     </header>
   );

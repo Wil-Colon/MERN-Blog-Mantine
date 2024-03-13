@@ -1,14 +1,49 @@
 import { Button } from "@mantine/core";
 import "./headerButtons.scss";
+import { Link, useLocation } from "react-router-dom";
+// interface ButtonProps {
+//   active: boolean;
+// }
 
-interface ButtonProps {
-  children: string;
-}
+export default function HeaderButtons() {
+  const path = useLocation().pathname;
 
-export default function HeaderButtons({ children }: ButtonProps) {
   return (
-    <Button className="button" variant="transparent">
-      {children}
-    </Button>
+    <div className="button">
+      <Link to="/">
+        <Button
+          className={`${
+            path === "/" ? "button__link-item--active" : "button__link-item"
+          }`}
+          variant="transparent"
+        >
+          Home
+        </Button>
+      </Link>
+      <Link to="/about">
+        <Button
+          className={`${
+            path === "/about"
+              ? "button__link-item--active"
+              : "button__link-item"
+          }`}
+          variant="transparent"
+        >
+          About
+        </Button>
+      </Link>
+      <Link to="/blogs">
+        <Button
+          className={`${
+            path === "/blogs"
+              ? "button__link-item--active"
+              : "button__link-item"
+          }`}
+          variant="transparent"
+        >
+          Blogs
+        </Button>
+      </Link>
+    </div>
   );
 }

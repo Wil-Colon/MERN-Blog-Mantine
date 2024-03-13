@@ -3,11 +3,39 @@
   background-size: cover;
   background-position: center;
   @include light {
-    background-image: url("../../assets//images/hero-bg-light.png");
+    background-image: url("../../assets//images/hero-bg.png");
   }
 
   @include dark {
-    background-image: url("../../assets//images/hero-bg-dark.png");
+    background-image: url("../../assets//images/hero-bg.png");
+  }
+
+  .divider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+  }
+
+  .divider svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 5rem;
+
+    @media (max-width: $mantine-breakpoint-sm) {
+      height: 2rem;
+    }
+  }
+
+  .divider {
+    fill: white;
+    @include dark {
+      fill: #161817;
+    }
   }
 }
 
@@ -16,7 +44,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  align-items: flex-start;
+  align-items: center;
   padding-bottom: calc(var(--mantine-spacing-xl) * 6);
   z-index: 1;
   position: relative;
@@ -39,7 +67,6 @@
   font-family: "Fuzzy Bubbles", sans-serif;
   font-weight: 400;
   font-style: normal;
-
   transform: rotate(10deg);
   font-size: rem(60px);
   font-weight: 900;
@@ -69,6 +96,7 @@
 .control {
   margin-top: calc(var(--mantine-spacing-xl) * 1.5);
   color: var(--mantine-color-black);
+  align-items: center;
 
   @include light {
     background: var(--mantine-color-white);
@@ -87,6 +115,7 @@
 
 .root {
   @include light {
+    background: transparent;
     animation: fadeIn-light 0.4s linear forwards;
   }
 
