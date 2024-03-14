@@ -22,7 +22,7 @@ export default function Hero() {
         <Button
           variant="trasnparent"
           size="md"
-          radius="xl"
+          radius="sm"
           className={classes.control}
         >
           Blogs

@@ -1,8 +1,63 @@
 .body-container {
-  padding: 5rem 5rem;
-  background-color: white;
-
   @include dark {
     background-color: #161817;
+  }
+
+  padding: 5rem 5rem;
+  background-color: #d9d9d9;
+
+  & p {
+    font-family: "Fuzzy Bubbles", sans-serif;
+  }
+
+  &__header {
+    margin: 0 4.5rem 1rem;
+    text-decoration: underline red;
+  }
+
+  &__column {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+
+  &__card {
+    max-height: 10.5rem;
+    @include light {
+      background-color: #d9d9d9;
+    }
+    @include dark {
+      background-color: #161817;
+    }
+  }
+
+  &__button {
+    background: #50ad68;
+  }
+
+  &__title p {
+    font-size: 2rem;
+    font-family: "Fuzzy Bubbles", sans-serif;
+  }
+
+  &__section {
+    border-bottom: rem(1px) solid
+      light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+    padding-left: var(--mantine-spacing-md);
+    padding-right: var(--mantine-spacing-md);
+    padding-bottom: var(--mantine-spacing-md);
+  }
+
+  &__like {
+    color: var(--mantine-color-red-6);
+    width: rem(20px);
+    height: rem(20px);
+  }
+
+  &__text {
+    width: 80%;
+    // margin: auto;
   }
 }
