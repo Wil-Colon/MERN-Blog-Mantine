@@ -1,0 +1,42 @@
+.thoughtcard-container {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  cursor: pointer;
+  max-height: 10.5rem;
+  transition: all 0.2s;
+
+  @include light {
+    background-color: #d9d9d9;
+  }
+  @include dark {
+    background-color: rgb(34, 33, 33);
+  }
+
+  &__section {
+    border-bottom: rem(1px) solid
+      light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+    padding-left: var(--mantine-spacing-md);
+    padding-right: var(--mantine-spacing-md);
+    padding-bottom: var(--mantine-spacing-md);
+  }
+
+  &:hover {
+    transform: scale(1.01);
+  }
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &__title p {
+    font-size: 2rem;
+    margin-bottom: -15px;
+    font-family: "Fuzzy Bubbles", sans-serif;
+  }
+
+  &__author {
+    font-style: italic;
+    font-size: 0.8rem;
+    text-decoration: underline;
+  }
+}
