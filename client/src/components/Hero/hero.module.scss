@@ -1,15 +1,10 @@
 .hero {
   position: relative;
-  background-size: cover;
+  background-image: url("../../assets//images/hero-bg.png");
+  background-attachment: fixed;
   background-position: center;
-
-  @include light {
-    background-image: url("../../assets//images/hero-bg.png");
-  }
-
-  @include dark {
-    background-image: url("../../assets//images/hero-bg.png");
-  }
+  background-repeat: no-repeat;
+  background-size: cover;
 
   .divider {
     position: absolute;

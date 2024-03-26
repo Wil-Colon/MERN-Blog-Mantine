@@ -1,4 +1,5 @@
 .thoughtcard-container {
+  position: relative;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
@@ -6,11 +7,10 @@
   max-height: 10.5rem;
   transition: all 0.2s;
 
-  @include light {
-    background-color: #d9d9d9;
-  }
-  @include dark {
-    background-color: rgb(34, 33, 33);
+  &__icon {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
   &__section {
@@ -38,5 +38,12 @@
     font-style: italic;
     font-size: 0.8rem;
     text-decoration: underline;
+  }
+
+  @include light {
+    background-color: #d9d9d9;
+  }
+  @include dark {
+    background-color: rgb(34, 33, 33);
   }
 }

@@ -1,4 +1,5 @@
 import { Card, Group, Text } from "@mantine/core";
+import { IconFishHook } from "@tabler/icons-react";
 import "./thoughtcard.scss";
 
 interface ThoughtCardProps {
@@ -12,6 +13,7 @@ export default function ThoughtCard({ id }: ThoughtCardProps) {
 
   return (
     <Card radius="md" p="md" className="thoughtcard-container">
+      <IconFishHook className="thoughtcard-container__icon" />
       <Card.Section className="thoughtcard-container__section">
         <Group justify="apart" className="thoughtcard-container__title">
           <Text fw={500}>{"Random Thought"}</Text>
