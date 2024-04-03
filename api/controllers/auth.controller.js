@@ -1,17 +1,16 @@
 const { User } = require('../models/user.model');
+const { validationResult } = require('express-validator');
+
+const bcrypt = require('bcryptjs');
 
 exports.signup = async (req, res) => {
-    const { username, email, password } = req.body;
+    const errors = validationResult(req);
 
-    if (
-        !username ||
-        !email ||
-        !password ||
-        username === '' ||
-        password === ''
-    ) {
-        return res.status(400).json({ message: 'All fields are required' });
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
+
+    const { username, email, password } = req.body;
 
     try {
         //Check if user exists
@@ -22,16 +21,21 @@ exports.signup = async (req, res) => {
                 .status(400)
                 .json({ errors: [{ msg: 'User already exists' }] });
         }
-    } catch {
-        res.status(400).json({ errors: [{ msg: 'error' }] });
+
+        //Encrypy password
+        const hashedPassword = bcrypt.hashSync(password, 10);
+
+        const newUser = new User({
+            username,
+            email,
+            password: hashedPassword,
+        });
+
+        await newUser.save();
+        res.json({ newUser });
+    } catch (err) {
+        return res.status(400).json({
+            errors: [{ msg: 'error in auth controller' }],
+        });
     }
-
-    const newUser = new User({
-        username,
-        email,
-        password,
-    });
-
-    await newUser.save();
-    res.send('signuped');
 };

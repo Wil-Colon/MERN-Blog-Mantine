@@ -1,50 +1,50 @@
 * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 body {
-  animation: fadeIn 0.4s linear;
-  transition: all 0.5s;
+    animation: fadeIn 0.4s linear;
+    transition: all 0.5s;
 
-  @include light {
-    background: rgb(255, 255, 255);
-    background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 1) 23%,
-      rgba(249, 245, 245, 1) 44%,
-      rgba(191, 187, 187, 1) 77%
-    );
-  }
-  @include dark {
-    background: rgb(78, 78, 78);
-    background: linear-gradient(
-      0deg,
-      rgba(78, 78, 78, 1) 23%,
-      rgba(77, 77, 77, 1) 44%,
-      rgba(70, 70, 70, 1) 77%
-    );
-  }
-  // border-radius: 1rem;
-  margin: 2rem 3rem;
-  box-shadow: 0rem 2rem 2rem 1rem rgba(0, 0, 0, 0.76);
+    @include light {
+        background: rgb(255, 255, 255);
+        background: linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 1) 23%,
+            rgba(249, 245, 245, 1) 44%,
+            rgba(191, 187, 187, 1) 77%
+        );
+    }
+    @include dark {
+        background: rgb(78, 78, 78);
+        background: linear-gradient(
+            0deg,
+            rgba(78, 78, 78, 1) 23%,
+            rgba(77, 77, 77, 1) 44%,
+            rgba(70, 70, 70, 1) 77%
+        );
+    }
+    // border-radius: 1rem;
+    margin: 2rem 3rem;
+    box-shadow: 0rem 2rem 2rem 1rem rgba(0, 0, 0, 0.76);
 
-  @include smaller-than($mantine-breakpoint-sm) {
-    margin: 0rem;
-  }
+    @include smaller-than($mantine-breakpoint-sm) {
+        margin: 0rem;
+    }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
