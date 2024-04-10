@@ -3,6 +3,7 @@ import { Flex } from '@mantine/core';
 import DarkModeBtn from '../Buttons/DarkModeBtn/DarkModeBtn';
 import HeaderButtons from '../Buttons/HeaderButtons/HeaderButtons';
 import { IconSailboat } from '@tabler/icons-react';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
     return (
@@ -21,10 +22,12 @@ export default function Header() {
 
                 <div className="top-container__right">
                     <div className="top-container__right-text">
-                        Admin Login{' '}
-                        <span>
-                            <IconSailboat />
-                        </span>
+                        <Link to="/register" className="register-btn">
+                            <p>Register</p>
+                            <span>
+                                <IconSailboat />
+                            </span>
+                        </Link>
                     </div>
                 </div>
                 <DarkModeBtn />

@@ -1,6 +1,10 @@
-import React from 'react';
-import { LoginSignUp } from '../components/LoginSignUp/LoginSignUp';
+import { Box } from '@mantine/core';
+import { UserLoginForm } from '../components/UserLoginForm/UserLoginForm';
 
 export default function SignIn() {
-    return <LoginSignUp />;
+    return (
+        <Box pb={100}>
+            <UserLoginForm />
+        </Box>
+    );
 }

@@ -11,8 +11,8 @@ export default function HeaderButtons() {
 
     return (
         <div className="button">
-            <GradientSegmentedControl />
-            {/* <Link to="/">
+            {/* <GradientSegmentedControl /> */}
+            <Link to="/">
                 <Button
                     className={`${
                         path === '/'
@@ -48,18 +48,18 @@ export default function HeaderButtons() {
                     Blogs
                 </Button>
             </Link>
-            <Link to="/signup">
+            <Link to="/signin">
                 <Button
                     className={`${
-                        path === '/signup'
+                        path === '/signin'
                             ? 'button__link-item--active'
                             : 'button__link-item'
                     }`}
                     variant="transparent"
                 >
-                    Sign up
+                    Login
                 </Button>
-            </Link> */}
+            </Link>
         </div>
     );
 }

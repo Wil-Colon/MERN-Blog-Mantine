@@ -3,8 +3,10 @@ import classes from './segmentedcontrol.module.scss';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSessionStorage } from '@mantine/hooks';
+import { useMediaQuery } from '@mantine/hooks';
 
 export function GradientSegmentedControl() {
+    const matches = useMediaQuery('(max-width: 56.25em)');
     const navigate = useNavigate();
     const [value, setValue] = useState('');
 
@@ -28,12 +30,13 @@ export function GradientSegmentedControl() {
             value={value}
             onChange={(value) => change(value)}
             radius="xl"
-            size="md"
+            size={matches ? 'sm' : 'md'}
             data={[
                 { label: 'Home', value: '' },
                 { label: 'About', value: 'about' },
                 { label: 'Blogs', value: 'blogs' },
-                { label: 'Sign up', value: 'signin' },
+                { label: 'Sign In', value: 'signin' },
+                { label: 'sign up', value: 'signup' },
             ]}
             classNames={classes}
         />
