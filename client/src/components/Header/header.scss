@@ -51,7 +51,7 @@
                 & span:nth-child(1)::after {
                     content: '';
                     margin: 0 1rem 0;
-                    border-right: 0.1rem solid grey;
+                    border-right: 0.1rem solid red;
                     inset: 0;
                 }
             }
@@ -65,26 +65,28 @@
             justify-content: flex-end;
             flex-wrap: nowrap;
 
-            & span:nth-child(2) {
-                padding-bottom: 0.4rem;
-            }
-
             &-text {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding-bottom: 5px;
                 cursor: pointer;
 
+                @media (max-width: $mantine-breakpoint-sm) {
+                    font-size: 0.8rem;
+                }
+
                 & span {
-                    margin-left: 0.5rem;
+                    // padding-top: 0.2rem;
+
+                    &:nth-child(1) {
+                        border-right: 0.1rem solid red;
+                        padding-right: 1.5rem;
+                    }
                 }
 
                 .register-btn {
-                    display: flex;
-                    align-items: center;
                     color: inherit;
-
-                    & p {
-                        margin-top: -7px;
-                    }
-
                     &:link,
                     &:visited {
                         text-decoration: none;

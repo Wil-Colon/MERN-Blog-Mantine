@@ -3,7 +3,9 @@ const { validationResult } = require('express-validator');
 
 const bcrypt = require('bcryptjs');
 
-exports.signup = async (req, res) => {
+//REGISTER
+//'api/auth/register'
+exports.register = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {

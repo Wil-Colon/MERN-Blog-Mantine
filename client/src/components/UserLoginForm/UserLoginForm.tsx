@@ -15,7 +15,6 @@ import classes from './userloginform.module.scss';
 
 export function UserLoginForm() {
     const form = useForm({
-        // validateInputOnChange: ['name', 'password'],
         initialValues: {
             email: '',
             password: '',

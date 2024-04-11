@@ -5,7 +5,20 @@ import HeaderButtons from '../Buttons/HeaderButtons/HeaderButtons';
 import { IconSailboat } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 
+//LOGIN TERNARY: If user logged in, dont show anything. If user not logged in, show both login/register button
+
 export default function Header() {
+    const register = (
+        <Link to="/register" className="register-btn">
+            <p>Register</p>
+        </Link>
+    );
+
+    const login = (
+        <Link to="/login" className="register-btn">
+            <p>Login</p>
+        </Link>
+    );
     return (
         <header className="header">
             <Flex gap="md" className="header__top">
@@ -22,12 +35,8 @@ export default function Header() {
 
                 <div className="top-container__right">
                     <div className="top-container__right-text">
-                        <Link to="/register" className="register-btn">
-                            <p>Register</p>
-                            <span>
-                                <IconSailboat />
-                            </span>
-                        </Link>
+                        <span> {login} </span>
+                        <span>{register} </span>
                     </div>
                 </div>
                 <DarkModeBtn />

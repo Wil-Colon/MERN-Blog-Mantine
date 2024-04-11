@@ -1,17 +1,12 @@
 import { Button } from '@mantine/core';
 import './headerButtons.scss';
 import { Link, useLocation } from 'react-router-dom';
-import { GradientSegmentedControl } from '../../SegmentedControl/SegmentedControl';
-// interface ButtonProps {
-//   active: boolean;
-// }
 
 export default function HeaderButtons() {
     const path = useLocation().pathname;
 
     return (
         <div className="button">
-            {/* <GradientSegmentedControl /> */}
             <Link to="/">
                 <Button
                     className={`${
@@ -46,18 +41,6 @@ export default function HeaderButtons() {
                     variant="transparent"
                 >
                     Blogs
-                </Button>
-            </Link>
-            <Link to="/signin">
-                <Button
-                    className={`${
-                        path === '/signin'
-                            ? 'button__link-item--active'
-                            : 'button__link-item'
-                    }`}
-                    variant="transparent"
-                >
-                    Login
                 </Button>
             </Link>
         </div>

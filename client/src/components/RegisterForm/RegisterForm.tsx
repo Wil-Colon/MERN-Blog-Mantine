@@ -15,32 +15,39 @@ import classes from './registerform.module.scss';
 
 export function RegisterForm() {
     const form = useForm({
-        // validateInputOnChange: ['name', 'password'],
         initialValues: {
+            username: '',
             email: '',
             password: '',
         },
 
         validate: {
+            username: (value) =>
+                value.length <= 3 &&
+                'User name must be longer then 3 characters!',
             email: (value) =>
                 /^\S+@\S+$/.test(value) ? null : 'Invalid email',
+            password: (value) =>
+                value.length <= 5 &&
+                'Password must be longer then 5 characters!',
         },
     });
 
     return (
         <Container size={420} my={40}>
             <Title ta="center" className={classes.title}>
-                Welcome back!
+                Register a new account
             </Title>
-            <Text c="dimmed" size="sm" ta="center" mt={5}>
-                Do not have an account yet?{' '}
-                <Anchor size="sm" component="button">
-                    Create account
-                </Anchor>
-            </Text>
 
             <Paper withBorder shadow="md" p={30} mt={30} radius="md">
                 <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                    <TextInput
+                        label="Username"
+                        placeholder="Select a user name"
+                        required
+                        style={{ width: '93%' }}
+                        {...form.getInputProps('username')}
+                    />
                     <TextInput
                         label="Email"
                         placeholder="email@gmail.com"

@@ -3,7 +3,7 @@ const { check, validationResult } = require('express-validator');
 const { signup } = require('../controllers/auth.controller');
 
 router.post(
-    '/signup',
+    '/register',
     [
         check('username', 'Name is required').not().isEmpty(),
         check('email', 'please include a valid email address').isEmail(),
