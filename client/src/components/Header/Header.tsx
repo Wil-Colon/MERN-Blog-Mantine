@@ -1,13 +1,17 @@
 import './header.scss';
-import { Flex } from '@mantine/core';
+import { Flex, Image } from '@mantine/core';
 import DarkModeBtn from '../Buttons/DarkModeBtn/DarkModeBtn';
 import HeaderButtons from '../Buttons/HeaderButtons/HeaderButtons';
-import { IconSailboat } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
-
-//LOGIN TERNARY: If user logged in, dont show anything. If user not logged in, show both login/register button
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../redux/store';
+import { Fragment } from 'react';
 
 export default function Header() {
+    const isLoggedIn = useSelector(
+        (state: RootState) => state.user.currentUser
+    );
+
     const register = (
         <Link to="/register" className="register-btn">
             <p>Register</p>
@@ -35,8 +39,14 @@ export default function Header() {
 
                 <div className="top-container__right">
                     <div className="top-container__right-text">
-                        <span> {login} </span>
-                        <span>{register} </span>
+                        {isLoggedIn === null ? (
+                            <Fragment>
+                                <span> {login} </span>
+                                <span>{register} </span>
+                            </Fragment>
+                        ) : (
+                            <span>Logout</span>
+                        )}
                     </div>
                 </div>
                 <DarkModeBtn />

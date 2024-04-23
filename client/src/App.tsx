@@ -10,8 +10,21 @@ import Header from './components/Header/Header';
 import Blogs from './pages/Blogs';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import { useEffect } from 'react';
+import { loadUser } from './redux/actions/auth';
+
+import store, { RootState } from './redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
+    const token = useSelector((state: RootState) => state.user.token);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (token) {
+            dispatch(loadUser());
+        }
+    }, [dispatch, token]);
     return (
         <MantineProvider>
             <BrowserRouter>

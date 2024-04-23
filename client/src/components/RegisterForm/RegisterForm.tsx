@@ -9,9 +9,11 @@ import {
     Container,
     Group,
     Button,
+    Image,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import classes from './registerform.module.scss';
+import fishHead from '../../assets/images/fish-head.png';
 
 export function RegisterForm() {
     const form = useForm({
@@ -34,7 +36,7 @@ export function RegisterForm() {
     });
 
     return (
-        <Container size={420} my={40}>
+        <Container size={420} my={40} className="container">
             <Title ta="center" className={classes.title}>
                 Register a new account
             </Title>

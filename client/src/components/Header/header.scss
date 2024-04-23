@@ -77,7 +77,9 @@
                 }
 
                 & span {
-                    // padding-top: 0.2rem;
+                    @include hover {
+                        color: rgb(170, 170, 170);
+                    }
 
                     &:nth-child(1) {
                         border-right: 0.1rem solid red;
@@ -92,10 +94,6 @@
                         text-decoration: none;
                     }
                 }
-            }
-
-            @include hover {
-                color: rgb(170, 170, 170);
             }
         }
     }

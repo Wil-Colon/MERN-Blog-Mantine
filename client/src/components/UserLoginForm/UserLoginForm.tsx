@@ -12,8 +12,30 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import classes from './userloginform.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../redux/store';
+import { userLogin } from '../../redux/actions/auth';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 export function UserLoginForm() {
+    const navigate = useNavigate();
+    const error = useSelector((state: RootState) => state.user.error);
+    const token = useSelector((state: RootState) => state.user.token);
+
+    useEffect(() => {
+        // if (token !== null) {
+        //     navigate('/dashboard');
+        // }
+
+        if (token) {
+            navigate('/dashboard');
+        }
+    }, [token, navigate]);
+
+    const dispatch = useDispatch();
+
     const form = useForm({
         initialValues: {
             email: '',
@@ -39,7 +61,11 @@ export function UserLoginForm() {
             </Text>
 
             <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-                <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                <form
+                    onSubmit={form.onSubmit((values) =>
+                        dispatch(userLogin(values))
+                    )}
+                >
                     <TextInput
                         label="Email"
                         placeholder="email@gmail.com"
@@ -47,6 +73,11 @@ export function UserLoginForm() {
                         style={{ width: '93%' }}
                         {...form.getInputProps('email')}
                     />
+                    {error !== null && (
+                        <Text color="red" size={'sm'}>
+                            {error[0].msg}
+                        </Text>
+                    )}
                     <PasswordInput
                         label="Password"
                         placeholder="Your password"
@@ -71,6 +102,7 @@ export function UserLoginForm() {
                     </Button>
                 </form>
             </Paper>
+            {/* {error !== null && <ErrorMessage errors={error} />} */}
         </Container>
     );
 }
