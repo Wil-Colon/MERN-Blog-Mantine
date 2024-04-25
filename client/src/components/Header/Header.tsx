@@ -3,11 +3,14 @@ import { Flex, Image } from '@mantine/core';
 import DarkModeBtn from '../Buttons/DarkModeBtn/DarkModeBtn';
 import HeaderButtons from '../Buttons/HeaderButtons/HeaderButtons';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../redux/store';
 import { Fragment } from 'react';
+import { logOutUser } from '../../redux/user/userSlice';
 
 export default function Header() {
+    const dispatch = useDispatch();
+
     const isLoggedIn = useSelector(
         (state: RootState) => state.user.currentUser
     );
@@ -23,6 +26,9 @@ export default function Header() {
             <p>Login</p>
         </Link>
     );
+
+    const logOut = <span onClick={() => dispatch(logOutUser())}>Logout</span>;
+
     return (
         <header className="header">
             <Flex gap="md" className="header__top">
@@ -45,7 +51,7 @@ export default function Header() {
                                 <span>{register} </span>
                             </Fragment>
                         ) : (
-                            <span>Logout</span>
+                            <Fragment>{logOut}</Fragment>
                         )}
                     </div>
                 </div>

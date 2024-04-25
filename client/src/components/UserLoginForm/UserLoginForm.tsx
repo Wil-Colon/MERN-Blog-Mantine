@@ -14,27 +14,30 @@ import { useForm } from '@mantine/form';
 import classes from './userloginform.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../redux/store';
-import { userLogin } from '../../redux/actions/auth';
+import { loadUser, userLogin } from '../../redux/actions/auth';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 export function UserLoginForm() {
     const navigate = useNavigate();
-    const error = useSelector((state: RootState) => state.user.error);
-    const token = useSelector((state: RootState) => state.user.token);
+    const error = useSelector((state: RootState) => state?.user?.error);
+    const token = useSelector((state: RootState) => state?.user?.token);
+    const user = useSelector((state: RootState) => state.user.currentUser);
+    // const userId = useSelector(
+    //     (state: RootState) => state?.user?.currentUser._id
+    // );
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        // if (token !== null) {
-        //     navigate('/dashboard');
-        // }
-
         if (token) {
-            navigate('/dashboard');
+            dispatch(loadUser());
         }
-    }, [token, navigate]);
+    }, [dispatch, token]);
 
-    const dispatch = useDispatch();
+    useEffect(() => {
+        if (user !== null) navigate(`/userProfile/${user?._id}`);
+    }, [navigate, user]);
 
     const form = useForm({
         initialValues: {

@@ -4,7 +4,6 @@ import { MantineProvider } from '@mantine/core';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
-import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import Header from './components/Header/Header';
 import Blogs from './pages/Blogs';
@@ -15,6 +14,8 @@ import { loadUser } from './redux/actions/auth';
 
 import store, { RootState } from './redux/store';
 import { useDispatch, useSelector } from 'react-redux';
+import AdminDashboard from './pages/AdminDashboard';
+import UserProfile from './pages/UserProfile';
 
 function App() {
     const token = useSelector((state: RootState) => state.user.token);
@@ -25,6 +26,7 @@ function App() {
             dispatch(loadUser());
         }
     }, [dispatch, token]);
+
     return (
         <MantineProvider>
             <BrowserRouter>
@@ -34,7 +36,11 @@ function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/userProfile/:id" element={<UserProfile />} />
+                    <Route
+                        path="/admindashboard"
+                        element={<AdminDashboard />}
+                    />
                     <Route path="/projects" element={<Projects />} />
                     <Route path="/blogs" element={<Blogs />} />
                 </Routes>

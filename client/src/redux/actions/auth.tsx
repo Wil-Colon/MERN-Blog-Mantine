@@ -6,6 +6,7 @@ import {
     getUserStart,
     getUserSuccess,
     getUsersFailure,
+    logOutUser,
 } from '../user/userSlice';
 import setAuthToken from '../../utils/setAuthToken';
 
@@ -32,10 +33,7 @@ export const userLogin = (formData) => async (dispatch) => {
     }
 };
 
-export const userRegister = (formdata) => async (dispatch) => {
-    console.log('poop');
-};
-
+//load logged in Users Data
 export const loadUser = () => async (dispatch) => {
     if (localStorage.token) {
         setAuthToken(localStorage.token);
@@ -50,4 +48,14 @@ export const loadUser = () => async (dispatch) => {
         const errors = err.response.data.errors;
         dispatch(getUsersFailure(errors));
     }
+};
+
+//logout user
+
+export const logOut = () => (dispatch) => {
+    dispatch(logOutUser());
+};
+
+export const userRegister = (formdata) => async (dispatch) => {
+    console.log('poop');
 };
