@@ -38,6 +38,8 @@ const userSlice = createSlice({
             state.error = null;
         },
         getUsersFailure: (state, action) => {
+            localStorage.removeItem('token');
+            state.token = null;
             state.currentUser = null;
             state.loading = false;
             state.error = action.payload;

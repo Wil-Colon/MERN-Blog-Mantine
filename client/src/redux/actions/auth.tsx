@@ -23,12 +23,6 @@ export const userLogin = (formData) => async (dispatch) => {
     } catch (err) {
         const errors = err.response.data.errors;
 
-        // if (errors) {
-        //     errors.forEach((error) =>
-        //         dispatch(setAlert(error.msg, 'danger', 3000))
-        //     );
-        // }
-
         dispatch(signInFailure(errors));
     }
 };
@@ -45,13 +39,14 @@ export const loadUser = () => async (dispatch) => {
 
         dispatch(getUserSuccess(res.data));
     } catch (err) {
-        const errors = err.response.data.errors;
-        dispatch(getUsersFailure(errors));
+        // localStorage.removeItem('token');
+        // const errors = err.response.data.errors;
+        // dispatch(getUsersFailure(errors));
+        dispatch(logOutUser());
     }
 };
 
 //logout user
-
 export const logOut = () => (dispatch) => {
     dispatch(logOutUser());
 };

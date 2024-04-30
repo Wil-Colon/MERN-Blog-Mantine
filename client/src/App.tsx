@@ -18,14 +18,13 @@ import AdminDashboard from './pages/AdminDashboard';
 import UserProfile from './pages/UserProfile';
 
 function App() {
-    const token = useSelector((state: RootState) => state.user.token);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (token) {
+        if (localStorage.token) {
             dispatch(loadUser());
         }
-    }, [dispatch, token]);
+    }, [dispatch]);
 
     return (
         <MantineProvider>

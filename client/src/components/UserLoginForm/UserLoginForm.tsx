@@ -24,9 +24,6 @@ export function UserLoginForm() {
     const error = useSelector((state: RootState) => state?.user?.error);
     const token = useSelector((state: RootState) => state?.user?.token);
     const user = useSelector((state: RootState) => state.user.currentUser);
-    // const userId = useSelector(
-    //     (state: RootState) => state?.user?.currentUser._id
-    // );
     const dispatch = useDispatch();
 
     useEffect(() => {
