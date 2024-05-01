@@ -32,8 +32,10 @@ export function UserLoginForm() {
         }
     }, [dispatch, token]);
 
+    // navigate('/other-page', { state: { id: 7, color: 'green' } });
+
     useEffect(() => {
-        if (user !== null) navigate(`/userProfile/${user?._id}`);
+        if (user !== null) navigate(`/dashboard`);
     }, [navigate, user]);
 
     const form = useForm({

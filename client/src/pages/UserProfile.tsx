@@ -2,9 +2,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadUser } from '../redux/actions/auth';
 import { Fragment, useEffect } from 'react';
 import store, { RootState } from './redux/store';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getCurrentProfile } from '../redux/actions/profiles';
 
 export default function UserProfile() {
+    const location = useLocation();
+    const { hash, pathname, search } = location;
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getCurrentProfile());
+    }, []);
+
+    console.log(pathname);
+
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -15,13 +27,8 @@ export default function UserProfile() {
 
     return (
         <Fragment>
-            <p>UserProfile</p>
-            <p>UserProfile</p>
-            <p>UserProfile</p>
-            <p>UserProfile</p>
-            <p>UserProfile</p>
-            <p>UserProfile</p>
-            <p>UserProfile</p>
+            userprofile of:
+            <p>{}</p>
         </Fragment>
     );
 }

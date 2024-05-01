@@ -26,9 +26,7 @@ export default function AdminDashboard() {
 
     return !loading ? (
         <Fragment>
-            <div>Dashboard</div>;<div>Dashboard</div>;<div>Dashboard</div>
-            <div>Dashboard</div>;<div>Dashboard</div>;<div>Dashboard</div>
-            <div>Dashboard</div>;<div>Dashboard</div>;<div>Dashboard</div>;
+            <div>ADMIN DASHBOARD</div>
         </Fragment>
     ) : (
         <Loader />

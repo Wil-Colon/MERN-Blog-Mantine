@@ -11,11 +11,13 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import { useEffect } from 'react';
 import { loadUser } from './redux/actions/auth';
-
-import store, { RootState } from './redux/store';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import AdminDashboard from './pages/AdminDashboard';
 import UserProfile from './pages/UserProfile';
+import PrivateRoute from './utils/PrivateRoute';
+import PageNotFound from './pages/PageNotFound/PageNotFound';
+import UserDashBoard from './pages/UserDashboard';
+// import PrivateRoute from './components/routing/privateRoute';
 
 function App() {
     const dispatch = useDispatch();
@@ -31,11 +33,25 @@ function App() {
             <BrowserRouter>
                 <Header />
                 <Routes>
+                    <Route path="*" element={<PageNotFound />} />
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/userProfile/:id" element={<UserProfile />} />
+                    {/* <Route path="/userProfile/:id" element={<UserProfile />} /> */}
+
+                    {/* private */}
+                    <Route path="/userProfile" element={<PrivateRoute />}>
+                        <Route
+                            path="/userProfile/:id"
+                            element={<UserProfile />}
+                        />
+                    </Route>
+
+                    <Route path="/dashboard" element={<PrivateRoute />}>
+                        <Route path="/dashboard" element={<UserDashBoard />} />
+                    </Route>
+
                     <Route
                         path="/admindashboard"
                         element={<AdminDashboard />}

@@ -1,10 +1,11 @@
 import { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
-import { AuthContext } from '../../context/AuthContext/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../redux/store';
 
 export default function PrivateRoute() {
-    const { user } = useContext(AuthContext);
+    const user = useSelector((state: RootState) => state?.user?.currentUser);
 
-    return user?.accessToken ? <Outlet /> : <Navigate to="/admin/login" />;
+    return user !== null ? <Outlet /> : <Navigate to="/login" />;
 }
