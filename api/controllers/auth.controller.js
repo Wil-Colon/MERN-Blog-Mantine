@@ -21,7 +21,9 @@ exports.register = async (req, res) => {
         let user = await User.findOne({ email });
 
         if (user) {
-            return res.status(400).json({ errors: [{ msg: 'Invalid Login' }] });
+            return res
+                .status(400)
+                .json({ errors: [{ msg: 'Account already exists!' }] });
         }
 
         //Encrypy password

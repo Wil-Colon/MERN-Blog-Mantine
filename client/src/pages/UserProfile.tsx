@@ -19,8 +19,6 @@ export default function UserProfile() {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-
     // useEffect(() => {
     //     dispatch(loadUser());
     // }, [dispatch]);

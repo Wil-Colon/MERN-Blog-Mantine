@@ -9,7 +9,7 @@ router.post(
             .not()
             .isEmpty()
             .isLength({ min: 3 })
-            .withMessage('Usnername must be greater then 3 characters!'),
+            .withMessage('Username must be greater then 3 characters!'),
         check('email', 'please include a valid email address').isEmail(),
         check(
             'password',

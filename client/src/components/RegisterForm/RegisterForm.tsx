@@ -5,17 +5,30 @@ import {
     Anchor,
     Paper,
     Title,
-    Text,
     Container,
     Group,
     Button,
-    Image,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import classes from './registerform.module.scss';
-import fishHead from '../../assets/images/fish-head.png';
+
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../redux/store';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { userRegister } from '../../redux/actions/auth';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 export function RegisterForm() {
+    const user = useSelector((state: RootState) => state.user.currentUser);
+    const error = useSelector((state: RootState) => state?.user?.error);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user !== null) navigate(`/dashboard`);
+    }, [navigate, user]);
+
     const form = useForm({
         initialValues: {
             username: '',
@@ -25,8 +38,9 @@ export function RegisterForm() {
 
         validate: {
             username: (value) =>
-                value.length <= 3 &&
-                'User name must be longer then 3 characters!',
+                value.length <= 3 || /^[a-zA-Z0-9]+$/.test(value) === false
+                    ? 'Username must be longer then 3 characters and must not contain special characters!'
+                    : null,
             email: (value) =>
                 /^\S+@\S+$/.test(value) ? null : 'Invalid email',
             password: (value) =>
@@ -42,7 +56,11 @@ export function RegisterForm() {
             </Title>
 
             <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-                <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                <form
+                    onSubmit={form.onSubmit((values) =>
+                        dispatch(userRegister(values))
+                    )}
+                >
                     <TextInput
                         label="Username"
                         placeholder="Select a user name"
@@ -63,6 +81,9 @@ export function RegisterForm() {
                         required
                         mt="lg"
                         style={{ width: '87%' }}
+                        classNames={{
+                            visibilityToggle: classes.visibilityToggle,
+                        }}
                         {...form.getInputProps('password')}
                     />
                     <Group justify="space-between" mt="lg">
@@ -81,6 +102,9 @@ export function RegisterForm() {
                     </Button>
                 </form>
             </Paper>
+            {error !== null && (
+                <ErrorMessage title={'Register Error'} errors={error} />
+            )}
         </Container>
     );
 }

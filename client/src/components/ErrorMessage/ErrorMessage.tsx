@@ -1,15 +1,15 @@
 import { Notification } from '@mantine/core';
 
 interface ErrorProps {
+    title: string;
     errors: any;
 }
 
-export default function ErrorMessage({ errors }: ErrorProps) {
-    console.log(errors);
+export default function ErrorMessage({ title, errors }: ErrorProps) {
     return (
-        <Notification color="red" title="Login Error!">
-            {errors.map((errors) => (
-                <p>{errors.msg}</p>
+        <Notification color="red" title={title}>
+            {errors.map((errors, i) => (
+                <p key={i}>{errors.msg}</p>
             ))}
         </Notification>
     );

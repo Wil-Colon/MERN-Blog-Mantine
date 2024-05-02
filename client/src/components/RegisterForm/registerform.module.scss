@@ -1,7 +1,3 @@
-.mantine-TextInput-input {
-    width: 75%;
-}
-
 .input {
     width: 2rem;
 }
@@ -9,4 +5,8 @@
 .title {
     font-family: Greycliff CF, var(--mantine-font-family);
     font-weight: 900;
+}
+
+.visibilityToggle {
+    right: -2.5rem;
 }

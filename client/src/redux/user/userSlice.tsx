@@ -11,6 +11,25 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        userRegisterStart: (state) => {
+            state.currentUser = null;
+            state.loading = true;
+            state.error = null;
+        },
+        userRegisterSuccess: (state, action) => {
+            localStorage.setItem('token', action.payload.token);
+            // state.token = action.payload;
+            state.currentUser = null;
+            state.loading = false;
+            state.error = null;
+        },
+        userRegisterFailure: (state, action) => {
+            localStorage.removeItem('token');
+            state.token = null;
+            state.currentUser = null;
+            state.loading = false;
+            state.error = action.payload;
+        },
         signInStart: (state) => {
             state.currentUser = null;
             state.loading = true;
@@ -24,6 +43,9 @@ const userSlice = createSlice({
             state.error = null;
         },
         signInFailure: (state, action) => {
+            localStorage.removeItem('token');
+            state.token = null;
+            state.currentUser = null;
             state.loading = false;
             state.error = action.payload;
         },
@@ -55,6 +77,9 @@ const userSlice = createSlice({
 });
 
 export const {
+    userRegisterStart,
+    userRegisterSuccess,
+    userRegisterFailure,
     signInStart,
     signInSuccess,
     signInFailure,
