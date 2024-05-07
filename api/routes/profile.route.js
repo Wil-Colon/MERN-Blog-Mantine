@@ -3,12 +3,16 @@ const auth = require('../middleware/auth');
 const {
     getProfileById,
     getCurrentUserProfile,
+    updateProfile,
 } = require('../controllers/profile.controller');
 
-//Get Currently Logged in users Profile
+//GET Currently Logged in users Profile
 router.get('/me', auth, getCurrentUserProfile);
 
-//Get Profile by ID
+//GET Profile by ID
 router.get('/:id', auth, getProfileById);
+
+//POST Create profile for user by ID
+router.post('/updateProfile', auth, updateProfile);
 
 module.exports = router;

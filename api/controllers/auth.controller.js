@@ -1,4 +1,5 @@
 const { User } = require('../models/user.model');
+const { Profile } = require('../models/profile.model');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -36,6 +37,24 @@ exports.register = async (req, res) => {
         });
 
         await newUser.save();
+
+        //Create empty Profile
+        const profile = new Profile({
+            user: newUser.id,
+            name: '',
+            location: '',
+            experience: '',
+            contact: '',
+            social: {
+                youtube: '',
+                twitter: '',
+                facebook: '',
+                linkedin: '',
+                instagram: '',
+            },
+        });
+
+        await profile.save();
 
         // return jsonwebtoken
         const payload = {
