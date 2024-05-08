@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     token: localStorage.getItem('token')?.toString() as any,
     currentUser: null,
-    error: null,
+    error: null as any,
     loading: false,
 };
 
@@ -59,12 +59,12 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = null;
         },
-        getUsersFailure: (state, action) => {
+        getUserFailure: (state, action) => {
             localStorage.removeItem('token');
             state.token = null;
             state.currentUser = null;
             state.loading = false;
-            state.error = action.payload;
+            state.error = 'user does not exist';
         },
         logOutUser: (state) => {
             localStorage.removeItem('token');
@@ -85,7 +85,7 @@ export const {
     signInFailure,
     getUserStart,
     getUserSuccess,
-    getUsersFailure,
+    getUserFailure,
     logOutUser,
 } = userSlice.actions;
 export default userSlice.reducer;

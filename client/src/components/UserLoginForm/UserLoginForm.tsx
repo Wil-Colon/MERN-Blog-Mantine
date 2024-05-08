@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../redux/store';
 import { loadUser, userLogin } from '../../redux/actions/auth';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 export function UserLoginForm() {
@@ -57,8 +57,13 @@ export function UserLoginForm() {
             </Title>
             <Text c="dimmed" size="sm" ta="center" mt={5}>
                 Do not have an account yet?{' '}
-                <Anchor size="sm" component="button">
-                    Create account
+                <Anchor
+                    size="sm"
+                    component="button"
+                    variant="gradient"
+                    gradient={{ from: 'red', to: 'orange' }}
+                >
+                    <Link to="/register">Create account</Link>
                 </Anchor>
             </Text>
 
@@ -86,6 +91,9 @@ export function UserLoginForm() {
                         required
                         mt="lg"
                         style={{ width: '87%' }}
+                        classNames={{
+                            visibilityToggle: classes.visibilityToggle,
+                        }}
                         {...form.getInputProps('password')}
                     />
                     <Group justify="space-between" mt="lg">

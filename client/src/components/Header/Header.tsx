@@ -54,8 +54,8 @@ export default function Header() {
                             <Fragment>{logOut}</Fragment>
                         )}
                     </div>
+                    <DarkModeBtn />
                 </div>
-                <DarkModeBtn />
             </Flex>
 
             <Flex

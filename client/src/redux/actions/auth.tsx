@@ -38,7 +38,10 @@ export const loadUser = () => async (dispatch) => {
 
     try {
         const res = await axios.get('http://localhost:3000/api/user');
-        dispatch(getUserSuccess(res.data));
+
+        res.data === null
+            ? dispatch(getUserFailure())
+            : dispatch(getUserSuccess(res.data));
     } catch (err) {
         // localStorage.removeItem('token');
         // const errors = err.response.data.errors;

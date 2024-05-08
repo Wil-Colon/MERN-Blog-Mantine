@@ -1,6 +1,7 @@
 const { User } = require('../models/user.model');
 const { Profile } = require('../models/profile.model');
 const { validationResult } = require('express-validator');
+const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
@@ -29,10 +30,17 @@ exports.register = async (req, res) => {
 
         //Encrypy password
         const hashedPassword = bcrypt.hashSync(password, 10);
+        // Get users gravatar
+        const avatar = gravatar.url(email, {
+            s: '200',
+            r: 'pg',
+            d: 'mm',
+        });
 
         const newUser = new User({
             username,
             email,
+            avatar: avatar.slice(2),
             password: hashedPassword,
         });
 

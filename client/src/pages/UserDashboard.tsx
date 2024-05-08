@@ -10,7 +10,7 @@ export default function UserDashBoard() {
     useEffect(() => {
         dispatch(getCurrentProfile());
     }, [dispatch]);
-    console.log(profile.loading);
+
     // useEffect(() => {
     //     dispatch(loadUser());
     // }, [dispatch]);
