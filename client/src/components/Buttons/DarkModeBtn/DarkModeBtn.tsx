@@ -23,6 +23,7 @@ export default function DarkModeBtn() {
             className={classes.root}
             variant="transparent"
             onClick={() => toggleColorScheme()}
+            pl={0}
         >
             {computedColorScheme === 'light' ? <IconMoon /> : <IconSun />}
         </Button>
