@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/rootReducer';
 import { Fragment, useEffect } from 'react';
 import { getCurrentProfile } from '../redux/actions/profiles';
+import { Skeleton } from '@mantine/core';
+import UserDash from '../components/UserDashboard/UserDashboard';
 
 export default function UserDashBoard() {
     const dispatch = useDispatch();
@@ -18,13 +20,21 @@ export default function UserDashBoard() {
     return profile.loading === false ? (
         <Fragment>
             userprofile of:
-            <p>
-                {profile.error !== false
-                    ? profile.error.msg
-                    : 'here is ur empty frggn profile for now'}
-            </p>
+            {profile.error !== false ? (
+                <p>{profile.error.msg}</p>
+            ) : (
+                <div>
+                    {' '}
+                    <UserDash />
+                </div>
+            )}
         </Fragment>
     ) : (
-        <p>LOADING</p>
+        <>
+            <Skeleton height={50} circle mb="xl" />
+            <Skeleton height={8} radius="xl" />
+            <Skeleton height={8} mt={6} radius="xl" />
+            <Skeleton height={8} mt={6} width="70%" radius="xl" />
+        </>
     );
 }

@@ -12,6 +12,7 @@ import {
     userRegisterFailure,
 } from '../user/userSlice';
 import setAuthToken from '../../utils/setAuthToken';
+import { resetProfileData } from '../profile/profileSlice';
 
 //Login User
 export const userLogin = (formData) => async (dispatch) => {
@@ -51,10 +52,12 @@ export const loadUser = () => async (dispatch) => {
 };
 
 //logout user
-export const logOut = () => (dispatch) => {
+export const logOut = (dispatch) => {
+    dispatch(resetProfileData());
     dispatch(logOutUser());
 };
 
+//Register new user
 export const userRegister = (formdata) => async (dispatch) => {
     dispatch(userRegisterStart());
 

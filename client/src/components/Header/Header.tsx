@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../redux/store';
 import { Fragment } from 'react';
 import { logOutUser } from '../../redux/user/userSlice';
+import { resetProfileData } from '../../redux/profile/profileSlice';
+import { logOut } from '../../redux/actions/auth';
 
 export default function Header() {
     const dispatch = useDispatch();
@@ -16,18 +18,27 @@ export default function Header() {
     );
 
     const register = (
-        <Link to="/register" className="register-btn">
+        <Link to="/register" className="btn">
             <p>Register</p>
         </Link>
     );
 
     const login = (
-        <Link to="/login" className="register-btn">
+        <Link to="/login" className="btn">
             <p>Login</p>
         </Link>
     );
 
-    const logOut = <span onClick={() => dispatch(logOutUser())}>Logout</span>;
+    const dashBoardLink = (
+        <>
+            <Link className="btn" to="/dashboard">
+                <span>Dashboard</span>
+            </Link>
+            <span onClick={() => logOut(dispatch)}>Logout</span>
+        </>
+    );
+
+    // const logOut = ;
 
     return (
         <header className="header">
@@ -51,7 +62,7 @@ export default function Header() {
                                 <span>{register} </span>
                             </Fragment>
                         ) : (
-                            <Fragment>{logOut}</Fragment>
+                            <Fragment>{dashBoardLink}</Fragment>
                         )}
                     </div>
                     <DarkModeBtn />
