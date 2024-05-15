@@ -1,7 +1,8 @@
-.body {
+.bodyContainer {
+    min-height: 50vh;
+
     @media (max-width: $mantine-breakpoint-sm) {
         height: 100vh;
+        overflow-x: hidden;
     }
-    overflow-x: clip;
-    min-height: 80vh;
 }

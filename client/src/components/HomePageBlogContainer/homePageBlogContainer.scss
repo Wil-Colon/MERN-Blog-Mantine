@@ -1,0 +1,34 @@
+.body-container {
+    position: relative;
+    padding: 5rem 5rem;
+    background-color: #d9d9d9;
+
+    @media (max-width: $mantine-breakpoint-sm) {
+        padding: 1rem 0rem;
+    }
+
+    @include dark {
+        background-color: rgb(34, 33, 33);
+    }
+
+    & p {
+        font-family: 'Fuzzy Bubbles', sans-serif;
+    }
+
+    &__header {
+        margin: 0 4.5rem 1rem;
+        text-decoration: underline rgb(45, 118, 89);
+    }
+
+    &__column {
+        position: relative;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
+            rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        margin-right: 1rem;
+        margin-top: 1rem;
+
+        @media (max-width: $mantine-breakpoint-sm) {
+            margin-right: 0;
+        }
+    }
+}

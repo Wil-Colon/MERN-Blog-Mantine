@@ -10,31 +10,18 @@
 }
 
 body {
-    animation: fadeIn 0.4s linear;
-    transition: all 0.5s;
-    background-repeat: repeat;
-    // height: 100vh;
     @include light {
         background: rgb(255, 255, 255);
-        // background: linear-gradient(
-        //     0deg,
-        //     rgba(255, 255, 255, 1) 23%,
-        //     rgba(249, 245, 245, 1) 44%,
-        //     rgba(191, 187, 187, 1) 77%
-        // );
     }
     @include dark {
         background: rgb(78, 78, 78);
-        // background: linear-gradient(
-        //     0deg,
-        //     rgba(78, 78, 78, 1) 23%,
-        //     rgba(77, 77, 77, 1) 44%,
-        //     rgba(70, 70, 70, 1) 77%
-        // );
     }
-    // border-radius: 1rem;
+
+    background-repeat: repeat;
     margin: 2rem 3rem;
     box-shadow: 0rem 2rem 2rem 1rem rgba(0, 0, 0, 0.76);
+    animation: fadeIn 0.4s linear;
+    transition: all 0.5s;
 
     @include smaller-than($mantine-breakpoint-sm) {
         margin: 0rem;

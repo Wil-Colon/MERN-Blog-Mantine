@@ -1,9 +1,11 @@
+import './userdashboard.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/rootReducer';
-import { Fragment, useEffect } from 'react';
-import { getCurrentProfile } from '../redux/actions/profiles';
-import { Skeleton } from '@mantine/core';
-import UserDash from '../components/UserDashboard/UserDashboard';
+import { RootState } from '../../redux/rootReducer';
+import { useEffect } from 'react';
+import { getCurrentProfile } from '../../redux/actions/profiles';
+import { Skeleton, Text } from '@mantine/core';
+import ProfileLayout from '../../components/UserDashboard/ProfileLayout';
+import BodyContainer from '../../components/BodyContainer/BodyContainer';
 
 export default function UserDashBoard() {
     const dispatch = useDispatch();
@@ -13,22 +15,20 @@ export default function UserDashBoard() {
         dispatch(getCurrentProfile());
     }, [dispatch]);
 
-    // useEffect(() => {
-    //     dispatch(loadUser());
-    // }, [dispatch]);
-
     return profile.loading === false ? (
-        <Fragment>
-            userprofile of:
+        <BodyContainer size="xl">
+            <div className="body__header">
+                <Text td="underline" size="xl">
+                    User Profile of:
+                </Text>
+                <Text>Edit Profile</Text>
+            </div>
             {profile.error !== false ? (
                 <p>{profile.error.msg}</p>
             ) : (
-                <div>
-                    {' '}
-                    <UserDash />
-                </div>
+                <ProfileLayout />
             )}
-        </Fragment>
+        </BodyContainer>
     ) : (
         <>
             <Skeleton height={50} circle mb="xl" />

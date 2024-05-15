@@ -1,6 +1,6 @@
 import './app.scss';
 import '@mantine/core/styles.css';
-import { MantineProvider } from '@mantine/core';
+import { Container, MantineProvider } from '@mantine/core';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -16,7 +16,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import UserProfile from './pages/UserProfile';
 import PrivateRoute from './utils/PrivateRoute';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
-import UserDashBoard from './pages/UserDashboard';
+import UserDashBoard from './pages/UserDashboard/UserDashboard';
 // import PrivateRoute from './components/routing/privateRoute';
 
 function App() {
@@ -32,6 +32,7 @@ function App() {
         <MantineProvider>
             <BrowserRouter>
                 <Header />
+
                 <Routes>
                     <Route path="*" element={<PageNotFound />} />
                     <Route path="/" element={<Home />} />
