@@ -1,32 +1,36 @@
 import './userdashboard.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { getCurrentProfile } from '../../redux/actions/profiles';
 import { Skeleton, Text } from '@mantine/core';
 import ProfileLayout from '../../components/UserDashboard/ProfileLayout';
 import BodyContainer from '../../components/BodyContainer/BodyContainer';
+import EditProfileForm from '../../components/EditProfile/EditProfileForm';
 
 export default function UserDashBoard() {
     const dispatch = useDispatch();
     const profile = useSelector((state: RootState) => state.profile);
+    const user = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
         dispatch(getCurrentProfile());
     }, [dispatch]);
 
     return profile.loading === false ? (
-        <BodyContainer size="xl">
+        <BodyContainer fluid={false} size="">
             <div className="body__header">
                 <Text td="underline" size="xl">
-                    User Profile of:
+                    {user?.currentUser?.username}:
                 </Text>
-                <Text>Edit Profile</Text>
             </div>
             {profile.error !== false ? (
                 <p>{profile.error.msg}</p>
             ) : (
-                <ProfileLayout />
+                <>
+                    <ProfileLayout />
+                    <EditProfileForm />
+                </>
             )}
         </BodyContainer>
     ) : (

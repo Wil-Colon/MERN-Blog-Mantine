@@ -1,4 +1,10 @@
-.bodyContainer {
+.container {
+    // @include light {
+    //     background-color: white;
+    // }
+    // @include dark {
+    //     // background-color: rgb(78, 78, 78);
+    // }
     min-height: 50vh;
 
     @media (max-width: $mantine-breakpoint-sm) {

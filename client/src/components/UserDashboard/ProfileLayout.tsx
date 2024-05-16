@@ -6,6 +6,7 @@ import {
     rem,
     Loader,
     Center,
+    Divider,
 } from '@mantine/core';
 import { IconChevronRight } from '@tabler/icons-react';
 import classes from './profileLayout.module.scss';
@@ -45,6 +46,7 @@ export default function ProfileLayout() {
                     />
                 </Group>
             </UnstyledButton>
+            <Divider my="md" />
         </>
     ) : (
         <Center>

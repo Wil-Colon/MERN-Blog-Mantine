@@ -4,11 +4,16 @@ import './bodyContainer.scss';
 interface BodyContainerProps {
     children: any;
     size: string;
+    fluid: boolean;
 }
 
-export default function BodyContainer({ children, size }: BodyContainerProps) {
+export default function BodyContainer({
+    children,
+    size,
+    fluid,
+}: BodyContainerProps) {
     return (
-        <Container size={size} my={20} className="bodyContainer">
+        <Container fluid={fluid} size={size} className="container">
             {children}
         </Container>
     );
