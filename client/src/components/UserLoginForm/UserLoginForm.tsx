@@ -63,7 +63,12 @@ export function UserLoginForm() {
                     variant="gradient"
                     gradient={{ from: 'red', to: 'orange' }}
                 >
-                    <Link to="/register">Create account</Link>
+                    <Link
+                        onClick={() => dispatch(resetErrors())}
+                        to="/register"
+                    >
+                        Create account
+                    </Link>
                 </Anchor>
             </Text>
 

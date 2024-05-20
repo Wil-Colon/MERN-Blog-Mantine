@@ -18,7 +18,11 @@ export default function Header() {
     );
 
     const register = (
-        <Link to="/register" className="btn">
+        <Link
+            onClick={() => dispatch(resetErrors())}
+            to="/register"
+            className="btn"
+        >
             <p>Register</p>
         </Link>
     );

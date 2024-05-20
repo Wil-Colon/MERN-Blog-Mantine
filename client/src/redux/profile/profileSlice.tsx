@@ -47,6 +47,9 @@ const profileSlice = createSlice({
             state.loading = false;
             state.error = false;
         },
+        resetErrors: (state) => {
+            state.error = false;
+        },
     },
 });
 
@@ -58,5 +61,6 @@ export const {
     getAllProfilesStart,
     getAllProfilesSuccess,
     getAllProfilesError,
+    resetErrors,
 } = profileSlice.actions;
 export default profileSlice.reducer;
