@@ -11,46 +11,68 @@ import {
 import { IconChevronRight } from '@tabler/icons-react';
 import classes from './profileLayout.module.scss';
 import { RootState } from '../../redux/rootReducer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useMediaQuery } from '@mantine/hooks';
 
 export default function ProfileLayout() {
-    const profile = useSelector((state: RootState) => state.profile);
-
+    const matches = useMediaQuery('(max-width: 50em)');
     const user = useSelector((state: RootState) => state.user.currentUser);
+    const profile = useSelector(
+        (state: RootState) => state.profile.userProfile
+    );
 
-    const { name, avatar, email } = user;
-    const { location } = profile;
+    const { email, avatar } = user;
 
-    return profile.loading === false ? (
-        <>
-            <UnstyledButton className={classes.user} w="20rem">
-                <Group>
-                    <Avatar src={`http://${avatar}`} radius="xl" />
+    return (
+        <div className={classes.user}>
+            <Group className={classes.group}>
+                <Avatar src={`http://${avatar}`} radius="xl" />
 
-                    <div style={{ flex: 1 }}>
-                        <Text size="sm" fw={500}>
-                            {name ? name : 'No name provided'}
-                        </Text>
+                <div style={{ flex: 1 }}>
+                    <Text size="sm" fw={500}>
+                        {profile?.userProfile?.name
+                            ? profile?.userProfile?.name
+                            : 'No name provided'}
+                    </Text>
 
-                        <Text c="dimmed" size="xs">
-                            {email}
-                        </Text>
-                        <Text c="dimmed" size="xs">
-                            {location ? location : 'No location provided'}
-                        </Text>
-                    </div>
+                    <Text c="dimmed" size="xs">
+                        {email}
+                    </Text>
+                    <Text c="dimmed" size="xs">
+                        {profile?.userProfile?.location
+                            ? profile?.userProfile?.location
+                            : 'No location provided'}
+                    </Text>
+                    <Text c="dimmed" size="xs">
+                        {profile?.userProfile?.experience
+                            ? profile?.userProfile?.experience
+                            : 'No experience provided'}
+                    </Text>
+                </div>
+            </Group>
+            {!matches && (
+                <IconChevronRight style={{ height: rem(14) }} stroke={1.5} />
+            )}
 
-                    <IconChevronRight
-                        style={{ height: rem(14) }}
-                        stroke={1.5}
-                    />
-                </Group>
-            </UnstyledButton>
-            <Divider my="md" />
-        </>
-    ) : (
-        <Center>
-            <Loader />
-        </Center>
+            <div>
+                <Text td="underline" size="xl">
+                    Social:
+                </Text>
+
+                <div style={{ flex: 1 }}>
+                    <Text size="sm" fw={500}>
+                        Twitter: {profile?.userProfile?.experience}
+                    </Text>
+
+                    <Text size="sm" fw={500}>
+                        Instagram:
+                    </Text>
+                    <Text size="sm" fw={500}>
+                        Facebook: {}
+                    </Text>
+                </div>
+            </div>
+        </div>
     );
 }

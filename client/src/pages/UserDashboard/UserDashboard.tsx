@@ -1,9 +1,9 @@
 import './userdashboard.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
-import { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
 import { getCurrentProfile } from '../../redux/actions/profiles';
-import { Skeleton, Text } from '@mantine/core';
+import { Divider, Skeleton, Text } from '@mantine/core';
 import ProfileLayout from '../../components/UserDashboard/ProfileLayout';
 import BodyContainer from '../../components/BodyContainer/BodyContainer';
 import EditProfileForm from '../../components/EditProfile/EditProfileForm';
@@ -29,6 +29,7 @@ export default function UserDashBoard() {
             ) : (
                 <>
                     <ProfileLayout />
+                    <Divider my="md" />
                     <EditProfileForm />
                 </>
             )}
