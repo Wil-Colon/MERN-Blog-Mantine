@@ -1,18 +1,25 @@
 import { Box, Button, Fieldset, Group, Text, TextInput } from '@mantine/core';
 import './EditProfileForm.scss';
 import { useForm } from '@mantine/form';
+import { randomId } from '@mantine/hooks';
 
 export default function EditProfileForm() {
     const form = useForm({
+        mode: 'uncontrolled',
         initialValues: {
             name: '',
             location: '',
             experience: '',
+            social: {
+                x: '',
+                instagram: '',
+                facebook: '',
+            },
         },
 
         validate: {
-            name: (value) => value.length < 20 && '20 characters max',
-            location: (value) => value.length < 12 && '12 characters max',
+            name: (value) => value.length > 20 && '20 characters max',
+            location: (value) => value.length > 12 && '12 characters max',
             experience: (value) =>
                 value.length > 2 || /^[0-9]+$/.test(value) === false
                     ? '2 characters or less, Numbers only'
@@ -59,21 +66,21 @@ export default function EditProfileForm() {
                     >
                         <TextInput
                             maw={'93%'}
-                            label="Twitter"
-                            placeholder="Twitter"
-                            {...form.getInputProps('twitter')}
+                            label="X"
+                            placeholder="X"
+                            {...form.getInputProps('social.x')}
                         />
                         <TextInput
                             maw={'93%'}
                             label="Instagram"
                             placeholder="Instagram"
-                            {...form.getInputProps('instagram')}
+                            {...form.getInputProps('social.instagram')}
                         />
                         <TextInput
                             maw={'93%'}
                             label="Facebook"
                             placeholder="Facebook"
-                            {...form.getInputProps('facebook')}
+                            {...form.getInputProps('social.facebook')}
                         />
                     </Fieldset>
 

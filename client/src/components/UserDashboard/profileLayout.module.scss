@@ -1,7 +1,7 @@
 .user {
     display: flex;
 
-    gap: 2rem;
+    gap: 10%;
     align-items: center;
 
     padding: var(--mantine-spacing-md);
@@ -10,7 +10,7 @@
     @media (max-width: $mantine-breakpoint-sm) {
         flex-direction: column;
         gap: 2rem;
-        // justify-content: space-evenly;
+        justify-content: space-evenly;
         align-items: flex-start;
     }
 
@@ -23,6 +23,15 @@
     }
 }
 
-// .group {
-//     display: flex;
-// }
+.group {
+    display: flex;
+    flex-direction: column;
+    // justify-content: flex-start;
+    align-items: flex-start;
+    @media (max-width: $mantine-breakpoint-sm) {
+        // display: flex;
+        // flex-direction: column;
+        // justify-content: center;
+        // align-items: center
+    }
+}

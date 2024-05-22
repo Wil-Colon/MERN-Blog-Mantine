@@ -74,7 +74,7 @@ export default function Header() {
             </Flex>
 
             <Flex
-                mih={50}
+                mih={40}
                 align="center"
                 direction="row"
                 wrap="nowrap"

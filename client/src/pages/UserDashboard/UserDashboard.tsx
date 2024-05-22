@@ -20,7 +20,7 @@ export default function UserDashBoard() {
     return profile.loading === false ? (
         <BodyContainer fluid={false} size="">
             <div className="body__header">
-                <Text td="underline" size="xl">
+                <Text td="underline" size="xl" fw={600}>
                     {user?.currentUser?.username}:
                 </Text>
             </div>

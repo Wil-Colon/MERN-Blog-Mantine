@@ -55,22 +55,39 @@ export default function ProfileLayout() {
                 <IconChevronRight style={{ height: rem(14) }} stroke={1.5} />
             )}
 
-            <div>
-                <Text td="underline" size="xl">
-                    Social:
-                </Text>
-
+            <div className={classes.social}>
                 <div style={{ flex: 1 }}>
                     <Text size="sm" fw={500}>
-                        Twitter: {profile?.userProfile?.experience}
+                        Twitter:{' '}
                     </Text>
+                    {profile?.userProfile?.social?.twitter ? (
+                        profile?.userProfile?.social?.twitter
+                    ) : (
+                        <Text size="sm" c="dimmed">
+                            Empty
+                        </Text>
+                    )}
 
                     <Text size="sm" fw={500}>
-                        Instagram:
+                        Instagram:{' '}
                     </Text>
+                    {profile?.userProfile?.social?.twitter ? (
+                        profile?.userProfile?.social?.twitter
+                    ) : (
+                        <Text size="sm" c="dimmed">
+                            Empty
+                        </Text>
+                    )}
                     <Text size="sm" fw={500}>
-                        Facebook: {}
+                        Facebook:{' '}
                     </Text>
+                    {profile?.userProfile?.social?.twitter ? (
+                        profile?.userProfile?.social?.twitter
+                    ) : (
+                        <Text size="sm" c="dimmed">
+                            Empty
+                        </Text>
+                    )}
                 </div>
             </div>
         </div>
