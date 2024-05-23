@@ -41,6 +41,20 @@ const profileSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        updateUserProfileStart: (state) => {
+            state.loading = true;
+            state.error = false;
+        },
+        updateUserProfileSuccess: (state, action) => {
+            state.userProfile = action.payload;
+            state.loading = false;
+            state.error = false;
+        },
+        updateUserProfileFailure: (state, action) => {
+            state.userProfile = action.payload;
+            state.loading = true;
+            state.error = action.payload;
+        },
         resetProfileData: (state) => {
             state.userProfile = null;
             state.allProfiles = null;
@@ -62,5 +76,8 @@ export const {
     getAllProfilesSuccess,
     getAllProfilesError,
     resetErrors,
+    updateUserProfileStart,
+    updateUserProfileSuccess,
+    updateUserProfileFailure,
 } = profileSlice.actions;
 export default profileSlice.reducer;

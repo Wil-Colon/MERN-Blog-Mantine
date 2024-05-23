@@ -12,7 +12,7 @@ const ProfileSchema = new mongoose.Schema({
         type: String,
     },
     experience: {
-        type: String,
+        type: Number,
     },
     contact: {
         type: String,

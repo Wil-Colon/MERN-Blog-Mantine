@@ -6,9 +6,11 @@ import {
     getAllProfilesStart,
     getAllProfilesSuccess,
     getAllProfilesError,
+    updateUserProfileStart,
+    updateUserProfileSuccess,
+    updateUserProfileFailure,
 } from '../profile/profileSlice';
 import setAuthToken from '../../utils/setAuthToken';
-import { useEffect } from 'react';
 
 //Get Currently Logged in Users Profile
 export const getCurrentProfile = () => async (dispatch) => {
@@ -25,5 +27,22 @@ export const getCurrentProfile = () => async (dispatch) => {
         const errors = err.response.data.errors;
 
         dispatch(getUserProfileError(errors[0]));
+    }
+};
+
+export const updateProfile = (profileInfo) => async (dispatch) => {
+    if (localStorage.token) {
+        setAuthToken(localStorage.token);
+    }
+    dispatch(updateUserProfileStart());
+    try {
+        const res = await axios.put(
+            'http://localhost:3000/api/profile/updateprofile',
+            { profileInfo }
+        );
+    } catch (err) {
+        const errors = err.response.data.errors;
+
+        dispatch(updateUserProfileFailure(errors));
     }
 };

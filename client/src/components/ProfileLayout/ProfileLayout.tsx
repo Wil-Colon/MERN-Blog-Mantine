@@ -31,22 +31,20 @@ export default function ProfileLayout() {
 
                 <div style={{ flex: 1 }}>
                     <Text size="sm" fw={500}>
-                        {profile?.userProfile?.name
-                            ? profile?.userProfile?.name
-                            : 'No name provided'}
+                        {profile?.name ? profile?.name : 'No name provided'}
                     </Text>
 
                     <Text c="dimmed" size="xs">
                         {email}
                     </Text>
                     <Text c="dimmed" size="xs">
-                        {profile?.userProfile?.location
-                            ? profile?.userProfile?.location
+                        {profile?.location
+                            ? profile?.location
                             : 'No location provided'}
                     </Text>
                     <Text c="dimmed" size="xs">
-                        {profile?.userProfile?.experience
-                            ? profile?.userProfile?.experience
+                        {profile?.experience
+                            ? profile?.experience
                             : 'No experience provided'}
                     </Text>
                 </div>
@@ -58,10 +56,10 @@ export default function ProfileLayout() {
             <div className={classes.social}>
                 <div style={{ flex: 1 }}>
                     <Text size="sm" fw={500}>
-                        Twitter:{' '}
+                        X:{' '}
                     </Text>
-                    {profile?.userProfile?.social?.twitter ? (
-                        profile?.userProfile?.social?.twitter
+                    {profile?.social?.x ? (
+                        profile?.social?.x
                     ) : (
                         <Text size="sm" c="dimmed">
                             Empty
@@ -71,8 +69,8 @@ export default function ProfileLayout() {
                     <Text size="sm" fw={500}>
                         Instagram:{' '}
                     </Text>
-                    {profile?.userProfile?.social?.twitter ? (
-                        profile?.userProfile?.social?.twitter
+                    {profile?.social?.instagram ? (
+                        profile?.social?.instagram
                     ) : (
                         <Text size="sm" c="dimmed">
                             Empty
@@ -81,8 +79,8 @@ export default function ProfileLayout() {
                     <Text size="sm" fw={500}>
                         Facebook:{' '}
                     </Text>
-                    {profile?.userProfile?.social?.twitter ? (
-                        profile?.userProfile?.social?.twitter
+                    {profile?.social?.facebook ? (
+                        profile?.social?.facebook
                     ) : (
                         <Text size="sm" c="dimmed">
                             Empty

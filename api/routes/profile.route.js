@@ -12,7 +12,7 @@ router.get('/me', auth, getCurrentUserProfile);
 //GET Profile by ID
 router.get('/:id', auth, getProfileById);
 
-//POST Create profile for user by ID
-router.post('/updateProfile', auth, updateProfile);
+//PUT update profile for user by ID
+router.put('/updateprofile', auth, updateProfile);
 
 module.exports = router;

@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator');
 const dotenv = require('dotenv');
 dotenv.config();
 
-//Update Profile
+//Update Profile info by user ID
 //AUTH Route
 //api/profile/updateProfile
 exports.updateProfile = async (req, res) => {
@@ -21,7 +21,11 @@ exports.updateProfile = async (req, res) => {
 
         return res.status(200).json(updatedProfile);
     } catch (err) {
-        res.status(500).json(err);
+        // res.status(500).json(err);
+        console.log(err);
+        return res.status(400).json({
+            errors: [{ msg: 'Profile update error.' }],
+        });
     }
 };
 
