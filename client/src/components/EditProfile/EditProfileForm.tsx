@@ -4,6 +4,7 @@ import { useForm } from '@mantine/form';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { useEffect, useState } from 'react';
+import ValidateUrl from '../../utils/ValidateUrl';
 
 interface EditProfileFormProps {
     profile: any;
@@ -11,25 +12,14 @@ interface EditProfileFormProps {
 
 export default function EditProfileForm({ profile }: EditProfileFormProps) {
     const [userProfile, setUserProfile] = useState(profile);
+    const [disableButton, setDisableButton] = useState(true);
 
-    const urlPattern = new RegExp(
-        '(?:https?)://(w+:?w*)?(S+)(:d+)?(/|/([w#!:.?+=&%!-/]))?'
-    );
+    // const urlPattern = new RegExp(
+    //     '(?:https?)://(w+:?w*)?(S+)(:d+)?(/|/([w#!:.?+=&%!-/]))?'
+    // );
 
-    const isValidUrl = (urlString) => {
-        let urlPattern = new RegExp(
-            '^(https?:\\/\\/)?' + // validate protocol
-                '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // validate domain name
-                '((\\d{1,3}\\.){3}\\d{1,3}))' + // validate OR ip (v4) address
-                '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // validate port and path
-                '(\\?[;&a-z\\d%_.~+=-]*)?' + // validate query string
-                '(\\#[-a-z\\d_]*)?$',
-            'i'
-        ); // validate fragment locator
-        return !!urlPattern.test(urlString);
-    };
     const form = useForm({
-        // mode: 'uncontrolled',
+        mode: 'uncontrolled',
         initialValues: {
             name: userProfile?.userProfile?.name,
             location: userProfile?.userProfile?.location,
@@ -43,13 +33,13 @@ export default function EditProfileForm({ profile }: EditProfileFormProps) {
         transformValues: (values) => ({
             ...values,
             social: {
-                x: `www.x.com/${values.social.x}`,
+                x: values.social.x,
             },
             instagram: {
-                x: `www.instagram.com/${values.social.instagram}`,
+                x: values.social.instagram,
             },
             facebook: {
-                x: `www.facebook.com/${values.social.facebook}`,
+                x: values.social.facebook,
             },
         }),
 
@@ -62,15 +52,15 @@ export default function EditProfileForm({ profile }: EditProfileFormProps) {
                     : null,
             social: {
                 x: (value) =>
-                    isValidUrl(value) === true
+                    ValidateUrl(value) === true
                         ? 'Please do no enter a URL'
                         : null,
                 instagram: (value) =>
-                    isValidUrl(value) === true
+                    ValidateUrl(value) === true
                         ? 'Please do no enter a URL'
                         : null,
                 facebook: (value) =>
-                    isValidUrl(value) === true
+                    ValidateUrl(value) === true
                         ? 'Please do no enter a URL'
                         : null,
             },
@@ -85,7 +75,9 @@ export default function EditProfileForm({ profile }: EditProfileFormProps) {
             <Box maw={'25rem'} mt={'1rem'} pb={'2rem'}>
                 <form
                     onSubmit={form.onSubmit((values) =>
-                        console.log(form.values)
+                        form.isDirty()
+                            ? console.log(form.values)
+                            : console.log('no fields changed')
                     )}
                 >
                     <Fieldset

@@ -11,9 +11,11 @@ import {
 import { IconChevronRight } from '@tabler/icons-react';
 import classes from './profileLayout.module.scss';
 import { RootState } from '../../redux/rootReducer';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useMediaQuery } from '@mantine/hooks';
+import { IconBrandInstagram } from '@tabler/icons-react';
+import { IconBrandX } from '@tabler/icons-react';
+import { IconBrandFacebook } from '@tabler/icons-react';
 
 export default function ProfileLayout() {
     const matches = useMediaQuery('(max-width: 50em)');
@@ -21,7 +23,6 @@ export default function ProfileLayout() {
     const profile = useSelector(
         (state: RootState) => state.profile.userProfile
     );
-
     const { email, avatar } = user;
 
     return (
@@ -56,33 +57,39 @@ export default function ProfileLayout() {
             <div className={classes.social}>
                 <div style={{ flex: 1 }}>
                     <Text size="sm" fw={500}>
-                        X:{' '}
+                        <IconBrandX stroke={2} width={16} height={16} />
                     </Text>
                     {profile?.social?.x ? (
-                        profile?.social?.x
+                        <Text size="sm" c="dimmed" pb={'.5rem'}>
+                            www.x.com/{profile?.social?.x}
+                        </Text>
                     ) : (
-                        <Text size="sm" c="dimmed">
+                        <Text size="sm" c="dimmed" pb={'.5rem'}>
                             Empty
                         </Text>
                     )}
 
                     <Text size="sm" fw={500}>
-                        Instagram:{' '}
+                        <IconBrandInstagram stroke={2} width={16} height={16} />
                     </Text>
                     {profile?.social?.instagram ? (
-                        profile?.social?.instagram
+                        <Text size="sm" c="dimmed" pb={'.5rem'}>
+                            www.instagram.com/{profile?.social?.instagram}
+                        </Text>
                     ) : (
-                        <Text size="sm" c="dimmed">
+                        <Text size="sm" c="dimmed" pb={'.5rem'}>
                             Empty
                         </Text>
                     )}
                     <Text size="sm" fw={500}>
-                        Facebook:{' '}
+                        <IconBrandFacebook stroke={2} width={16} height={16} />
                     </Text>
                     {profile?.social?.facebook ? (
-                        profile?.social?.facebook
+                        <Text size="sm" c="dimmed" pb={'.5rem'}>
+                            www.facebook.com/{profile?.social?.facebook}
+                        </Text>
                     ) : (
-                        <Text size="sm" c="dimmed">
+                        <Text size="sm" c="dimmed" pb={'.5rem'}>
                             Empty
                         </Text>
                     )}
