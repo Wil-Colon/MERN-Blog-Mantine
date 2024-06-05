@@ -1,7 +1,3 @@
-// const urlPattern = new RegExp(
-//     '(?:https?)://(w+:?w*)?(S+)(:d+)?(/|/([w#!:.?+=&%!-/]))?'
-// );
-
 export default function ValidateUrl(urlString) {
     const urlPattern = new RegExp(
         '^(https?:\\/\\/)?' + // validate protocol
@@ -14,5 +10,3 @@ export default function ValidateUrl(urlString) {
     ); // validate fragment locator
     return !!urlPattern.test(urlString);
 }
-
-// export const isValidUrl

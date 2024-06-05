@@ -1,22 +1,28 @@
-import { Box, Button, Fieldset, Group, Text, TextInput } from '@mantine/core';
+import {
+    Box,
+    Button,
+    Fieldset,
+    Group,
+    Text,
+    TextInput,
+    Tooltip,
+} from '@mantine/core';
 import './EditProfileForm.scss';
 import { useForm } from '@mantine/form';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ValidateUrl from '../../utils/ValidateUrl';
+import { updateProfile } from '../../redux/actions/profiles';
 
 interface EditProfileFormProps {
     profile: any;
 }
 
 export default function EditProfileForm({ profile }: EditProfileFormProps) {
+    const dispatch = useDispatch();
     const [userProfile, setUserProfile] = useState(profile);
     const [disableButton, setDisableButton] = useState(true);
-
-    // const urlPattern = new RegExp(
-    //     '(?:https?)://(w+:?w*)?(S+)(:d+)?(/|/([w#!:.?+=&%!-/]))?'
-    // );
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -30,18 +36,11 @@ export default function EditProfileForm({ profile }: EditProfileFormProps) {
                 facebook: userProfile?.userProfile?.social?.facebook,
             },
         },
-        transformValues: (values) => ({
-            ...values,
-            social: {
-                x: values.social.x,
-            },
-            instagram: {
-                x: values.social.instagram,
-            },
-            facebook: {
-                x: values.social.facebook,
-            },
-        }),
+
+        onValuesChange: () => {
+            setDisableButton(!form.isDirty());
+            console.log;
+        },
 
         validate: {
             name: (value) => value.length > 20 && '20 characters max',
@@ -66,6 +65,7 @@ export default function EditProfileForm({ profile }: EditProfileFormProps) {
             },
         },
     });
+
     return (
         <>
             <Text td="underline" size="xl" mt="2rem">
@@ -75,9 +75,7 @@ export default function EditProfileForm({ profile }: EditProfileFormProps) {
             <Box maw={'25rem'} mt={'1rem'} pb={'2rem'}>
                 <form
                     onSubmit={form.onSubmit((values) =>
-                        form.isDirty()
-                            ? console.log(form.values)
-                            : console.log('no fields changed')
+                        dispatch(updateProfile(values))
                     )}
                 >
                     <Fieldset
@@ -100,7 +98,7 @@ export default function EditProfileForm({ profile }: EditProfileFormProps) {
                         <TextInput
                             maw={'93%'}
                             label="Experience"
-                            placeholder="Enter years Experience"
+                            placeholder="Fishing experience in years?"
                             {...form.getInputProps('experience')}
                         />
                     </Fieldset>
@@ -131,7 +129,9 @@ export default function EditProfileForm({ profile }: EditProfileFormProps) {
                     </Fieldset>
 
                     <Group justify="flex-end" mt="md">
-                        <Button type="submit">Submit</Button>
+                        <Button disabled={disableButton} type="submit">
+                            Submit
+                        </Button>
                     </Group>
                 </form>
             </Box>
