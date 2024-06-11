@@ -16,13 +16,20 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconBrandInstagram } from '@tabler/icons-react';
 import { IconBrandX } from '@tabler/icons-react';
 import { IconBrandFacebook } from '@tabler/icons-react';
+import { useState } from 'react';
 
-export default function ProfileLayout() {
+interface ProfileLayoutProps {
+    profile: any;
+}
+
+export default function ProfileLayout({ profile }: ProfileLayoutProps) {
     const matches = useMediaQuery('(max-width: 50em)');
     const user = useSelector((state: RootState) => state.user.currentUser);
-    const profile = useSelector(
-        (state: RootState) => state.profile.userProfile
-    );
+    const [userProfile, setUserProfile] = useState(profile.userProfile);
+
+    // const profile = useSelector(
+    //     (state: RootState) => state.profile.userProfile
+    // );
     const { email, avatar } = user;
 
     return (
@@ -32,20 +39,20 @@ export default function ProfileLayout() {
 
                 <div style={{ flex: 1 }}>
                     <Text size="sm" fw={500}>
-                        {profile?.name ? profile?.name : 'No name provided'}
+                        {userProfile?.name
+                            ? userProfile?.name
+                            : 'No name provided'}
                     </Text>
 
-                    <Text c="dimmed" size="xs">
-                        {email}
-                    </Text>
-                    <Text c="dimmed" size="xs">
-                        {profile?.location
-                            ? profile?.location
+                    <Text size="xs">{email}</Text>
+                    <Text size="xs">
+                        {userProfile?.location
+                            ? userProfile?.location
                             : 'No location provided'}
                     </Text>
-                    <Text c="dimmed" size="xs">
-                        {profile?.experience
-                            ? profile?.experience
+                    <Text size="xs">
+                        {userProfile?.experience
+                            ? userProfile?.experience
                             : 'No experience provided'}
                     </Text>
                 </div>
@@ -59,9 +66,9 @@ export default function ProfileLayout() {
                     <Text size="sm" fw={500}>
                         <IconBrandX stroke={2} width={16} height={16} />
                     </Text>
-                    {profile?.social?.x ? (
-                        <Text size="sm" c="dimmed" pb={'.5rem'}>
-                            www.x.com/{profile?.social?.x}
+                    {userProfile?.social?.x ? (
+                        <Text size="sm" pb={'.5rem'}>
+                            www.x.com/{userProfile?.social?.x}
                         </Text>
                     ) : (
                         <Text size="sm" c="dimmed" pb={'.5rem'}>
@@ -72,9 +79,9 @@ export default function ProfileLayout() {
                     <Text size="sm" fw={500}>
                         <IconBrandInstagram stroke={2} width={16} height={16} />
                     </Text>
-                    {profile?.social?.instagram ? (
-                        <Text size="sm" c="dimmed" pb={'.5rem'}>
-                            www.instagram.com/{profile?.social?.instagram}
+                    {userProfile?.social?.instagram ? (
+                        <Text size="sm" pb={'.5rem'}>
+                            www.instagram.com/{userProfile?.social?.instagram}
                         </Text>
                     ) : (
                         <Text size="sm" c="dimmed" pb={'.5rem'}>
@@ -84,9 +91,9 @@ export default function ProfileLayout() {
                     <Text size="sm" fw={500}>
                         <IconBrandFacebook stroke={2} width={16} height={16} />
                     </Text>
-                    {profile?.social?.facebook ? (
-                        <Text size="sm" c="dimmed" pb={'.5rem'}>
-                            www.facebook.com/{profile?.social?.facebook}
+                    {userProfile?.social?.facebook ? (
+                        <Text size="sm" pb={'.5rem'}>
+                            www.facebook.com/{userProfile?.social?.facebook}
                         </Text>
                     ) : (
                         <Text size="sm" c="dimmed" pb={'.5rem'}>

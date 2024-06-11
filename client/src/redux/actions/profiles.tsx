@@ -11,6 +11,7 @@ import {
     updateUserProfileFailure,
 } from '../profile/profileSlice';
 import setAuthToken from '../../utils/setAuthToken';
+import { notifications } from '@mantine/notifications';
 
 //Get Currently Logged in Users Profile
 export const getCurrentProfile = () => async (dispatch) => {
@@ -23,6 +24,8 @@ export const getCurrentProfile = () => async (dispatch) => {
         const res = await axios.get('http://localhost:3000/api/profile/me');
 
         dispatch(getUserProfileSuccess(res.data));
+
+        return res.data;
     } catch (err) {
         const errors = err.response.data.errors;
         dispatch(getUserProfileError(errors[0]));
@@ -40,8 +43,25 @@ export const updateProfile = (profileInfo) => async (dispatch) => {
             { ...profileInfo }
         );
         dispatch(updateUserProfileSuccess(res.data));
+
+        notifications.show({
+            withCloseButton: true,
+            autoClose: 5000,
+            title: 'Successful!',
+            message: 'Profile has been updated.',
+            color: 'indigo',
+            loading: false,
+        });
     } catch (err) {
         const errors = err.response.data.errors;
+        notifications.show({
+            withCloseButton: true,
+            autoClose: 5000,
+            title: 'Unsuccessful!',
+            message: 'Profile update error!',
+            color: 'red',
+            loading: false,
+        });
         dispatch(updateUserProfileFailure(errors));
     }
 };

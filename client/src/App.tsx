@@ -1,6 +1,7 @@
 import './app.scss';
 import '@mantine/core/styles.css';
-import { Container, MantineProvider } from '@mantine/core';
+import '@mantine/notifications/styles.css';
+import { MantineProvider } from '@mantine/core';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -17,6 +18,7 @@ import UserProfile from './pages/UserProfile';
 import PrivateRoute from './utils/PrivateRoute';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import UserDashBoard from './pages/UserDashboard/UserDashboard';
+import { Notifications } from '@mantine/notifications';
 // import PrivateRoute from './components/routing/privateRoute';
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
 
     return (
         <MantineProvider>
+            <Notifications />
             <BrowserRouter>
                 <Header />
 

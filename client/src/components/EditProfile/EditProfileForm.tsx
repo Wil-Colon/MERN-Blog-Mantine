@@ -1,16 +1,7 @@
-import {
-    Box,
-    Button,
-    Fieldset,
-    Group,
-    Text,
-    TextInput,
-    Tooltip,
-} from '@mantine/core';
+import { Box, Button, Fieldset, Group, Text, TextInput } from '@mantine/core';
 import './EditProfileForm.scss';
 import { useForm } from '@mantine/form';
 import { useDispatch } from 'react-redux';
-import { RootState } from '../../redux/rootReducer';
 import { useState } from 'react';
 import ValidateUrl from '../../utils/ValidateUrl';
 import { updateProfile } from '../../redux/actions/profiles';
@@ -39,7 +30,6 @@ export default function EditProfileForm({ profile }: EditProfileFormProps) {
 
         onValuesChange: () => {
             setDisableButton(!form.isDirty());
-            console.log;
         },
 
         validate: {
