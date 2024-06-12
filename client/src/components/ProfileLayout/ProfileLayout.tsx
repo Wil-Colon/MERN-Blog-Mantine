@@ -7,6 +7,7 @@ import {
     Loader,
     Center,
     Divider,
+    Anchor,
 } from '@mantine/core';
 import { IconChevronRight } from '@tabler/icons-react';
 import classes from './profileLayout.module.scss';
@@ -25,12 +26,13 @@ interface ProfileLayoutProps {
 export default function ProfileLayout({ profile }: ProfileLayoutProps) {
     const matches = useMediaQuery('(max-width: 50em)');
     const user = useSelector((state: RootState) => state.user.currentUser);
-    const [userProfile, setUserProfile] = useState(profile.userProfile);
-
-    // const profile = useSelector(
-    //     (state: RootState) => state.profile.userProfile
-    // );
     const { email, avatar } = user;
+    const {
+        name,
+        location,
+        experience,
+        social: { x, instagram, facebook },
+    } = profile.userProfile;
 
     return (
         <div className={classes.user}>
@@ -39,21 +41,15 @@ export default function ProfileLayout({ profile }: ProfileLayoutProps) {
 
                 <div style={{ flex: 1 }}>
                     <Text size="sm" fw={500}>
-                        {userProfile?.name
-                            ? userProfile?.name
-                            : 'No name provided'}
+                        {name ? name : 'No name provided'}
                     </Text>
 
                     <Text size="xs">{email}</Text>
                     <Text size="xs">
-                        {userProfile?.location
-                            ? userProfile?.location
-                            : 'No location provided'}
+                        {location ? location : 'No location provided'}
                     </Text>
                     <Text size="xs">
-                        {userProfile?.experience
-                            ? userProfile?.experience
-                            : 'No experience provided'}
+                        {experience ? experience : 'No experience provided'}
                     </Text>
                 </div>
             </Group>
@@ -66,9 +62,11 @@ export default function ProfileLayout({ profile }: ProfileLayoutProps) {
                     <Text size="sm" fw={500}>
                         <IconBrandX stroke={2} width={16} height={16} />
                     </Text>
-                    {userProfile?.social?.x ? (
+                    {x ? (
                         <Text size="sm" pb={'.5rem'}>
-                            www.x.com/{userProfile?.social?.x}
+                            <Anchor href={`http://www.x.com/${x}`}>
+                                www.x.com/{x}
+                            </Anchor>
                         </Text>
                     ) : (
                         <Text size="sm" c="dimmed" pb={'.5rem'}>
@@ -79,9 +77,14 @@ export default function ProfileLayout({ profile }: ProfileLayoutProps) {
                     <Text size="sm" fw={500}>
                         <IconBrandInstagram stroke={2} width={16} height={16} />
                     </Text>
-                    {userProfile?.social?.instagram ? (
+                    {instagram ? (
                         <Text size="sm" pb={'.5rem'}>
-                            www.instagram.com/{userProfile?.social?.instagram}
+                            <Anchor
+                                href={`http://www.instagram.com/${instagram}`}
+                            >
+                                www.instagram.com/
+                                {instagram}
+                            </Anchor>
                         </Text>
                     ) : (
                         <Text size="sm" c="dimmed" pb={'.5rem'}>
@@ -91,9 +94,13 @@ export default function ProfileLayout({ profile }: ProfileLayoutProps) {
                     <Text size="sm" fw={500}>
                         <IconBrandFacebook stroke={2} width={16} height={16} />
                     </Text>
-                    {userProfile?.social?.facebook ? (
+                    {facebook ? (
                         <Text size="sm" pb={'.5rem'}>
-                            www.facebook.com/{userProfile?.social?.facebook}
+                            <Anchor
+                                href={`http://www.facebook.com/${facebook}`}
+                            >
+                                www.facebook.com/{facebook}
+                            </Anchor>
                         </Text>
                     ) : (
                         <Text size="sm" c="dimmed" pb={'.5rem'}>

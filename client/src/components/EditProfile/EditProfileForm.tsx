@@ -12,19 +12,24 @@ interface EditProfileFormProps {
 
 export default function EditProfileForm({ profile }: EditProfileFormProps) {
     const dispatch = useDispatch();
-    const [userProfile, setUserProfile] = useState(profile);
     const [disableButton, setDisableButton] = useState(true);
+    const {
+        name,
+        location,
+        experience,
+        social: { x, instagram, facebook },
+    } = profile.userProfile;
 
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
-            name: userProfile?.userProfile?.name,
-            location: userProfile?.userProfile?.location,
-            experience: userProfile?.userProfile?.experience,
+            name: name,
+            location: location,
+            experience: experience,
             social: {
-                x: userProfile?.userProfile?.social?.x,
-                instagram: userProfile?.userProfile?.social?.instagram,
-                facebook: userProfile?.userProfile?.social?.facebook,
+                x: x,
+                instagram: instagram,
+                facebook: facebook,
             },
         },
 
@@ -64,9 +69,11 @@ export default function EditProfileForm({ profile }: EditProfileFormProps) {
 
             <Box maw={'25rem'} mt={'1rem'} pb={'2rem'}>
                 <form
-                    onSubmit={form.onSubmit((values) =>
-                        dispatch(updateProfile(values))
-                    )}
+                    onSubmit={form.onSubmit((values) => {
+                        dispatch(updateProfile(values));
+                        form.resetDirty(values);
+                        setDisableButton(true);
+                    })}
                 >
                     <Fieldset
                         fw="600"

@@ -35,3 +35,15 @@
         // align-items: center
     }
 }
+
+.social a {
+    &:link,
+    &:visited {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    @include hover {
+        text-decoration: underline;
+    }
+}
