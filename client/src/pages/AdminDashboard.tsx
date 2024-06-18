@@ -13,22 +13,10 @@ export default function AdminDashboard() {
     const user = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
-        if (user.currentUser !== null) {
-            if (!user?.currentUser?.isAdmin) {
-                navigate('/');
-            } else {
-                setLoading(false);
-            }
-        } else {
-            navigate('/');
-        }
-    }, [loading, navigate, user?.currentUser, dispatch]);
+        !user?.currentUser?.isAdmin && navigate('/');
+    }, [navigate, user?.currentUser, dispatch]);
 
-    return !loading ? (
-        <Fragment>
-            <div>ADMIN DASHBOARD</div>
-        </Fragment>
-    ) : (
-        <Loader />
-    );
+    return user.currentUser !== null ? <h1>ADMIN BOARD</h1> : <h1>LOADING</h1>;
+
+    // return <h1>ADMING</h1>;
 }

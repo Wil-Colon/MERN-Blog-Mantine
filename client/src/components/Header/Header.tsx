@@ -12,7 +12,6 @@ import { logOut } from '../../redux/actions/auth';
 
 export default function Header() {
     const dispatch = useDispatch();
-
     const isLoggedIn = useSelector(
         (state: RootState) => state.user.currentUser
     );
@@ -41,8 +40,6 @@ export default function Header() {
             <span onClick={() => logOut(dispatch)}>Logout</span>
         </>
     );
-
-    // const logOut = ;
 
     return (
         <header className="header">

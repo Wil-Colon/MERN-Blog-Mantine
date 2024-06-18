@@ -1,9 +1,15 @@
 import { Button } from '@mantine/core';
 import './headerButtons.scss';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/rootReducer';
+import { useEffect } from 'react';
 
 export default function HeaderButtons() {
+    const user = useSelector((state: RootState) => state.user);
     const path = useLocation().pathname;
+
+    // console.log(user.currentUser.isAdmin);
 
     return (
         <div className="button">
@@ -43,6 +49,21 @@ export default function HeaderButtons() {
                     Blogs
                 </Button>
             </Link>
+            {user?.currentUser !== null &&
+                user?.currentUser?.isAdmin === true && (
+                    <Link to="/admin">
+                        <Button
+                            className={`${
+                                path === '/admin'
+                                    ? 'button__link-item--active'
+                                    : 'button__link-item'
+                            }`}
+                            variant="transparent"
+                        >
+                            Admin
+                        </Button>
+                    </Link>
+                )}
         </div>
     );
 }
