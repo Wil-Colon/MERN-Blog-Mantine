@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Group, Code, Burger, AppShell } from '@mantine/core';
+import { Group, Code, Burger, AppShell, Drawer } from '@mantine/core';
 import {
     IconBellRinging,
     IconFingerprint,
@@ -26,9 +26,10 @@ const data = [
 
 export default function AdminNavBar() {
     const [active, setActive] = useState('Billing');
-    const [opened, setOpened] = useState(false);
-    const matches = useMediaQuery('(min-width: 56.25em)');
+    // const [opened, setOpened] = useState(false);
+    const [opened, { open, close }] = useDisclosure(false);
     const [showNav, setShowNav] = useState(false);
+    const matches = useMediaQuery('(min-width: 56.25em)');
 
     const links = data.map((item) => (
         <a
@@ -46,22 +47,8 @@ export default function AdminNavBar() {
         </a>
     ));
 
-    const toggleNav = () => {
-        setOpened(!opened);
-        setShowNav(!showNav);
-        console.log(opened);
-    };
-
-    return (
+    const navBarContent = (
         <>
-            {!matches && (
-                <Burger
-                    opened={opened}
-                    onClick={toggleNav}
-                    aria-label="Toggle navigation"
-                />
-            )}
-
             <nav className={classes.navbar}>
                 <div className={classes.navbarMain}>
                     <Group className={classes.header} justify="space-between">
@@ -95,6 +82,69 @@ export default function AdminNavBar() {
                     </a>
                 </div>
             </nav>
+        </>
+    );
+
+    const toggleNav = () => {
+        // setOpened(!opened);
+        setShowNav(!showNav);
+
+        // console.log(opened);
+    };
+
+    return (
+        <>
+            <Drawer opened={opened} onClose={close}>
+                <nav className={classes.navbar}>
+                    <div className={classes.navbarMain}>
+                        <Group
+                            className={classes.header}
+                            justify="space-between"
+                        >
+                            LOGO
+                            <Code fw={700} className={classes.version}>
+                                v3.1.2
+                            </Code>
+                        </Group>
+                        {links}
+                    </div>
+                    <div className={classes.footer}>
+                        <a
+                            href="#"
+                            className={classes.link}
+                            onClick={(event) => event.preventDefault()}
+                        >
+                            <IconSwitchHorizontal
+                                className={classes.linkIcon}
+                                stroke={1.5}
+                            />
+                            <span>Change account</span>
+                        </a>
+
+                        <a
+                            href="#"
+                            className={classes.link}
+                            onClick={(event) => event.preventDefault()}
+                        >
+                            <IconLogout
+                                className={classes.linkIcon}
+                                stroke={1.5}
+                            />
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </nav>
+            </Drawer>
+
+            {!matches ? (
+                <Burger
+                    opened={opened}
+                    onClick={open}
+                    aria-label="Toggle navigation"
+                />
+            ) : (
+                navBarContent
+            )}
         </>
     );
 }
