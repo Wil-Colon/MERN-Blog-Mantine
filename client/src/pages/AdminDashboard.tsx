@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import type { RootState } from '../redux/store';
 
 import { useNavigate } from 'react-router-dom';
-import AdminNavBar from '../components/AdminNavBar/AdminNavBar';
+
+import AdminHeader from '../components/AdminHeader/AdminHeader';
 
 export default function AdminDashboard() {
     const navigate = useNavigate();
@@ -14,5 +15,10 @@ export default function AdminDashboard() {
         !user?.currentUser?.isAdmin && navigate('/');
     }, [navigate, user?.currentUser, dispatch]);
 
-    return <AdminNavBar></AdminNavBar>;
+    return (
+        <>
+            <AdminHeader />
+            <h1>hello</h1>
+        </>
+    );
 }
