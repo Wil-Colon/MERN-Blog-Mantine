@@ -60,6 +60,7 @@ function App() {
 
                     <Route path="/admin" element={<PrivateRoute />}>
                         <Route path="/admin" element={<AdminDashboard />} />
+                        <Route path="/admin/*" element={<AdminDashboard />} />
                     </Route>
 
                     {/* <Route
