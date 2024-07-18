@@ -59,8 +59,23 @@ function App() {
                     </Route>
 
                     <Route path="/admin" element={<PrivateRoute />}>
-                        <Route path="/admin" element={<AdminDashboard />} />
-                        <Route path="/admin/*" element={<AdminDashboard />} />
+                        {/* <Route path="/admin" element={<AdminDashboard />} /> */}
+                        <Route
+                            path="/admin/stats"
+                            element={<AdminDashboard />}
+                        />
+                        <Route
+                            path="/admin/community"
+                            element={<AdminDashboard />}
+                        />
+                        <Route
+                            path="/admin/thought"
+                            element={<AdminDashboard />}
+                        />
+                        <Route
+                            path="/admin/blog"
+                            element={<AdminDashboard />}
+                        />
                     </Route>
 
                     {/* <Route

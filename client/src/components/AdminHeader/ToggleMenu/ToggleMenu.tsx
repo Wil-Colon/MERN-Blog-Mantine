@@ -8,6 +8,7 @@ import {
     IconArrowsLeftRight,
 } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface ToggleMenuProps {
     opened: boolean;
@@ -22,6 +23,7 @@ export default function ToggleMenu({
     active,
     setActive,
 }: ToggleMenuProps) {
+    const navigate = useNavigate();
     const [activeItem, setActiveItem] = useState(active);
 
     useEffect(() => {
@@ -30,7 +32,7 @@ export default function ToggleMenu({
 
     const toggleMenuItem = (item: string) => {
         setOpened();
-        setActiveItem(item);
+        navigate(`/admin${item}`);
     };
 
     return (

@@ -3,6 +3,7 @@ import { Container, Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import classes from './adminHeader.module.scss';
 import ToggleMenu from './ToggleMenu/ToggleMenu';
+import { Link } from 'react-router-dom';
 
 const links = [
     { link: '/stats', label: 'Stats' },
@@ -16,8 +17,9 @@ interface AdminHeaderProps {
 }
 
 export default function AdminHeader({ activeLink }: AdminHeaderProps) {
+    const location = window.location.pathname.slice(6);
     const matches = useMediaQuery('(min-width: 36em)');
-    const [active, setActive] = useState(links[0].link);
+    const [active, setActive] = useState(location);
     const [opened, setOpened] = useState(false);
 
     useEffect(() => {
@@ -25,28 +27,23 @@ export default function AdminHeader({ activeLink }: AdminHeaderProps) {
     }, [matches]);
 
     useEffect(() => {
-        activeLink(active);
-    }, [active]);
-
-    const setLink = (event, link) => {
-        event.preventDefault();
-        setActive(link.link);
-    };
+        activeLink(location);
+        setActive(location);
+    }, [active, location]);
 
     const items = links.map((link) => (
-        <a
+        <Link
             key={link.label}
-            href={link.link}
+            to={`/admin${link.link}`}
             className={classes.link}
             data-active={active === link.link || undefined}
-            // onClick={(event) => {
-            //     event.preventDefault();
-            //     setActive(link.link);
-            // }}
-            onClick={(event) => setLink(event, link)}
+            onClick={(event) => {
+                // event.preventDefault();
+                setActive(link.link);
+            }}
         >
             {link.label}
-        </a>
+        </Link>
     ));
 
     return (

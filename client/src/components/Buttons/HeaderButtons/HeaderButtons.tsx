@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 export default function HeaderButtons() {
     const user = useSelector((state: RootState) => state.user);
     const path = useLocation().pathname;
+    // console.log(path);
 
     // console.log(user.currentUser.isAdmin);
 
@@ -51,7 +52,7 @@ export default function HeaderButtons() {
             </Link>
             {user?.currentUser !== null &&
                 user?.currentUser?.isAdmin === true && (
-                    <Link to="/admin">
+                    <Link to="/admin/stats">
                         <Button
                             className={`${
                                 path === '/admin'

@@ -8,24 +8,28 @@ export default function AdminDashboard() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user);
+    const location = window.location.pathname.slice(6);
 
-    const [activeLink, setActiveLink] = useState('/stats');
-
-    useEffect(() => {
-        !user?.currentUser?.isAdmin
-            ? navigate('/')
-            : navigate(`/admin${activeLink}`);
-    }, [navigate, user?.currentUser, activeLink, dispatch]);
+    const [activeLink, setActiveLink] = useState(location);
 
     console.log(activeLink);
+
+    // useEffect(() => {
+    //     !user?.currentUser?.isAdmin
+    //         ? navigate('/')
+    //         : window.history.pushState({}, undefined, `/admin${activeLink}`);
+    // }, [navigate, user?.currentUser, activeLink, dispatch]);
+
+    // console.log(activeLink);
 
     return (
         <>
             <AdminHeader activeLink={setActiveLink} />
             {activeLink === '/stats' ? (
-                <h1>Stats</h1>
+                // <h1>Stats</h1>
+                <title>stats</title>
             ) : activeLink === '/blog' ? (
-                <h1>Blogs</h1>
+                <title>Blogs</title>
             ) : activeLink === '/thought' ? (
                 <h1>Thoughts</h1>
             ) : activeLink === '/community' ? (
