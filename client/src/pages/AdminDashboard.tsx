@@ -16,7 +16,6 @@ export default function AdminDashboard() {
     const user = useSelector((state: RootState) => state.user);
     const location = window.location.pathname.slice(6);
     const [activeLink, setActiveLink] = useState(location);
-
     const [transitionOpened, setTransitionOpened] = useState(false);
 
     useEffect(() => {
@@ -29,6 +28,10 @@ export default function AdminDashboard() {
     return (
         <>
             <AdminHeader activeLink={setActiveLink} />
+            <title>{`Admin ${activeLink
+                .charAt(1)
+                .toUpperCase()}${activeLink.slice(2)}`}</title>
+
             <BodyContainer size="xs" fluid>
                 <Transition
                     mounted={transitionOpened}

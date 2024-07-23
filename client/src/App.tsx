@@ -59,7 +59,7 @@ function App() {
                     </Route>
 
                     <Route path="/admin" element={<PrivateRoute />}>
-                        {/* <Route path="/admin" element={<AdminDashboard />} /> */}
+                        <Route path="/admin" element={<AdminDashboard />} />
                         <Route
                             path="/admin/stats"
                             element={<AdminDashboard />}

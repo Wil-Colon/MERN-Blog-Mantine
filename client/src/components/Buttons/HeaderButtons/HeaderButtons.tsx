@@ -55,7 +55,7 @@ export default function HeaderButtons() {
                     <Link to="/admin/stats">
                         <Button
                             className={`${
-                                path === '/admin'
+                                path.includes('/admin')
                                     ? 'button__link-item--active'
                                     : 'button__link-item'
                             }`}
