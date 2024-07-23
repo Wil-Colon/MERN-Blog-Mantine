@@ -49,7 +49,9 @@ export default function ProfileLayout({ profile }: ProfileLayoutProps) {
                         {location ? location : 'No location provided'}
                     </Text>
                     <Text size="xs">
-                        {experience ? experience : 'No experience provided'}
+                        {experience
+                            ? `${experience}yrs exp`
+                            : 'No experience provided'}
                     </Text>
                 </div>
             </Group>

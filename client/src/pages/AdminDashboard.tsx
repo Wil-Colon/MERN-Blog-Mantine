@@ -3,38 +3,55 @@ import { useEffect, useState } from 'react';
 import type { RootState } from '../redux/store';
 import { useNavigate } from 'react-router-dom';
 import AdminHeader from '../components/AdminHeader/AdminHeader';
+import AdminBlogPage from '../components/AdminBlogPage/AdminBlogPage';
+import AdminStatsPage from '../components/AdminStatsPage/AdminStatsPage';
+import AdminThoughtsPage from '../components/AdminThoughtsPage/AdminThoughtsPage';
+import AdminCommunityPage from '../components/AdminCommunityPage/AdminCommunityPage';
+import { Transition } from '@mantine/core';
+import BodyContainer from '../components/BodyContainer/BodyContainer';
 
 export default function AdminDashboard() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user);
     const location = window.location.pathname.slice(6);
-
     const [activeLink, setActiveLink] = useState(location);
 
-    console.log(activeLink);
+    const [transitionOpened, setTransitionOpened] = useState(false);
 
-    // useEffect(() => {
-    //     !user?.currentUser?.isAdmin
-    //         ? navigate('/')
-    //         : window.history.pushState({}, undefined, `/admin${activeLink}`);
-    // }, [navigate, user?.currentUser, activeLink, dispatch]);
-
-    // console.log(activeLink);
+    useEffect(() => {
+        setTransitionOpened(false);
+        setTimeout(() => {
+            setTransitionOpened(true);
+        }, 200);
+    }, [activeLink]);
 
     return (
         <>
             <AdminHeader activeLink={setActiveLink} />
-            {activeLink === '/stats' ? (
-                // <h1>Stats</h1>
-                <title>stats</title>
-            ) : activeLink === '/blog' ? (
-                <title>Blogs</title>
-            ) : activeLink === '/thought' ? (
-                <h1>Thoughts</h1>
-            ) : activeLink === '/community' ? (
-                <h1>community</h1>
-            ) : null}
+            <BodyContainer size="xs" fluid>
+                <Transition
+                    mounted={transitionOpened}
+                    transition="fade-left"
+                    duration={200}
+                    timingFunction="ease"
+                    exitDuration={0}
+                >
+                    {(styles) => (
+                        <div style={styles}>
+                            {activeLink === '/stats' ? (
+                                <AdminStatsPage />
+                            ) : activeLink === '/blog' ? (
+                                <AdminBlogPage />
+                            ) : activeLink === '/thought' ? (
+                                <AdminThoughtsPage />
+                            ) : activeLink === '/community' ? (
+                                <AdminCommunityPage />
+                            ) : null}
+                        </div>
+                    )}
+                </Transition>
+            </BodyContainer>
         </>
     );
 }
