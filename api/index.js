@@ -5,6 +5,7 @@ const port = process.env.PORT || 3000;
 const userRoutes = require('./routes/user.route');
 const authRoutes = require('./routes/auth.route');
 const profileRoutes = require('./routes/profile.route');
+const blogRoutes = require('./routes/blog.route');
 const cors = require('cors');
 
 app.use(cors());
@@ -15,6 +16,7 @@ db();
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/blog', blogRoutes);
 
 app.listen(port, () => {
     console.log(`Server running in port ${port}`);

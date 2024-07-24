@@ -93,7 +93,7 @@ export default function ToggleMenu({
                                 : {}
                         }
                     >
-                        Thoughts
+                        Thought
                     </p>
                 </Menu.Item>
                 <Menu.Item

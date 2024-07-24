@@ -1,7 +1,6 @@
 const { User } = require('../models/user.model');
 const { Profile } = require('../models/profile.model');
 const { validationResult } = require('express-validator');
-
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -13,15 +12,20 @@ exports.updateProfile = async (req, res) => {
     let profileFields = req.body;
 
     try {
-        let updatedProfile = await Profile.findOneAndUpdate(
-            { user: id },
-            { $set: profileFields },
-            { new: true }
-        );
+        //Get user Profile
+        const profile = await Profile.findOne({ user: id });
 
-        return res.status(200).json(updatedProfile);
+        //Check if currently logged in user is assigned to currently found profile
+        if (id === profile.user.toString()) {
+            let updatedProfile = await Profile.findOneAndUpdate(
+                { user: id },
+                { $set: profileFields },
+                { new: true }
+            );
+
+            return res.status(200).json(updatedProfile);
+        }
     } catch (err) {
-        // res.status(500).json(err);
         console.log(err);
         return res.status(400).json({
             errors: [{ msg: 'Profile update error.' }],

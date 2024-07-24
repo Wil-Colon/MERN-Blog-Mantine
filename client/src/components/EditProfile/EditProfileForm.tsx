@@ -39,7 +39,7 @@ export default function EditProfileForm({ profile }: EditProfileFormProps) {
 
         validate: {
             name: (value) => value.length > 20 && '20 characters max',
-            location: (value) => value.length > 12 && '12 characters max',
+            location: (value) => value.length > 20 && '20 characters max',
             experience: (value) =>
                 value.length > 2 || /^[0-9]+$/.test(value) === false
                     ? '2 characters or less, Numbers only'
