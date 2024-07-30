@@ -1,9 +1,11 @@
 const { Blog } = require('../models/blog.model');
+const { User } = require('../models/user.model');
+
 const dotenv = require('dotenv');
 dotenv.config();
 
 //Get all Blogs
-//api/blog/
+//GET api/blog/
 exports.getAllBlogs = async (req, res) => {
     try {
         let blogs = await Blog.find();
@@ -17,7 +19,7 @@ exports.getAllBlogs = async (req, res) => {
 };
 
 //Get single Blog by ID
-//api/blog/:id
+//GET api/blog/:id
 exports.getSingleBlog = async (req, res) => {
     let blogId = req.params.id;
 
@@ -65,7 +67,7 @@ exports.createBlog = async (req, res) => {
 
 //PRIVATE AUTH
 //Update Blog
-//Put /api/blog/updateblog/:blogid
+//PUT /api/blog/updateblog/:blogid
 exports.updateBlog = async (req, res) => {
     let userId = req.user.id;
     let blogId = req.params.blogid;
@@ -100,4 +102,108 @@ exports.updateBlog = async (req, res) => {
     }
 };
 
-//DELETE BLOG BY ID
+//PRIVATE AUTH
+//Delete Blog by ID
+//DELETE /api/blog/deleteblog/:blogid
+exports.deleteBlog = async (req, res) => {
+    let blogId = req.params.blogid;
+    try {
+        let blog = await Blog.findByIdAndDelete(blogId);
+
+        !blog
+            ? res.status(400).json({ msg: 'Blog not found' })
+            : res.status(200).json({ msg: 'Blog successfully deleted' });
+    } catch (err) {
+        console.log(err);
+        return res.status(400).json({
+            errors: [{ msg: 'Blog delete error.' }],
+        });
+    }
+};
+
+//PRIVATE AUTH
+//Comment on Blog
+//POST /api/blog/comment/:blogId
+exports.commentBlog = async (req, res) => {
+    let userId = req.user.id;
+    let blogId = req.params.blogid;
+
+    try {
+        // Check of blog exists
+        let user = await User.findById(userId).select('-password');
+        let blog = await Blog.findById(blogId);
+
+        if (!blog || !user) {
+            return res
+                .status(400)
+                .json({ errors: [{ msg: 'No user or blog err' }] });
+        }
+
+        const newComment = {
+            userId: userId,
+            name: user.username,
+            avatar: user.avatar,
+            text: req.body.text,
+        };
+
+        //add the comment with unshift to keep most recently added comment at the top of the array.
+        blog.comments.unshift(newComment);
+
+        await blog.save();
+
+        return res.status(200).json(blog.comments);
+    } catch (err) {
+        return res.status(400).json({
+            errors: [{ msg: 'Error in commentBlog' }],
+        });
+    }
+};
+
+//PRIVATE AUTH
+//Delete Comment on Blog
+//Delete /api/blog/comment/:blogId/:commentId
+exports.deleteComment = async (req, res) => {
+    let blogId = req.params.blogid;
+    let commentId = req.params.commentid;
+    let userId = req.user.id;
+
+    try {
+        let blog = await Blog.findById(blogId);
+        let user = await User.findById(userId).select('-password');
+
+        const comment = blog.comments.find(
+            (comment) => commentId === comment.id
+        );
+
+        // Make sure comment exists
+        if (!comment) {
+            return res.status(404).json({ msg: 'Comment does not exist' });
+        }
+
+        // check if user deleting comment is currently logged in user
+        if (comment.userId.toString() === userId) {
+            await Blog.findOneAndUpdate(
+                { _id: blogId },
+                { $pull: { comments: { _id: commentId } } },
+                { safe: true, multi: false }
+            );
+
+            return res.status(200).json({ msg: 'Comment deleted by user.' });
+        }
+
+        //Check user attempting to delete comment is admin
+        else if (user.isAdmin) {
+            await Blog.findOneAndUpdate(
+                { _id: blogId },
+                { $pull: { comments: { _id: commentId } } },
+                { safe: true, multi: false }
+            );
+
+            return res.status(200).json({ msg: 'Comment deleted by admin.' });
+        }
+    } catch (err) {
+        return res.status(400).json({
+            errors: [{ msg: 'Error in commentBlog' }],
+        });
+    }
+};

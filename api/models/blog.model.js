@@ -21,6 +21,33 @@ const BlogSchema = new mongoose.Schema(
         galleryPhotos: {
             type: String,
         },
+        likes: [
+            {
+                user: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'users',
+                },
+            },
+        ],
+        comments: [
+            {
+                userId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'user',
+                },
+                text: {
+                    type: String,
+                    required: true,
+                },
+                avatar: {
+                    type: String,
+                },
+                date: {
+                    type: Date,
+                    default: Date.now,
+                },
+            },
+        ],
         date: {
             type: Date,
             default: Date.now,
