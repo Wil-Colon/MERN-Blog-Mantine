@@ -114,7 +114,6 @@ exports.deleteBlog = async (req, res) => {
             ? res.status(400).json({ msg: 'Blog not found' })
             : res.status(200).json({ msg: 'Blog successfully deleted' });
     } catch (err) {
-        console.log(err);
         return res.status(400).json({
             errors: [{ msg: 'Blog delete error.' }],
         });
@@ -204,6 +203,70 @@ exports.deleteComment = async (req, res) => {
     } catch (err) {
         return res.status(400).json({
             errors: [{ msg: 'Error in commentBlog' }],
+        });
+    }
+};
+
+//PRIVATE AUTH
+//Add a 'Like' to a Blog
+//PUT /api/blog/likeblog/:blogid
+exports.likeBlog = async (req, res) => {
+    let userId = req.user.id;
+    let blogId = req.params.blogid;
+
+    try {
+        let blog = await Blog.findById(blogId);
+
+        //check if current user already has a like in this blog
+        const like = blog.likes.find((like) => like.user.toString() === userId);
+
+        if (!like) {
+            blog.likes.push({ user: userId });
+            await blog.save();
+            return res.status(200).json(blog.likes);
+        }
+
+        return res.status(400).json({
+            errors: [{ msg: 'Unable to like more then once.' }],
+        });
+    } catch (err) {
+        return res.status(400).json({
+            errors: [{ msg: 'Like blog server error.' }],
+        });
+    }
+};
+
+//PRIVATE AUTH
+//Delete a 'Like' to a Blog
+//Delete /api/blog/unlike/:blogid
+exports.unlikeblog = async (req, res) => {
+    let userId = req.user.id;
+    let blogId = req.params.blogid;
+
+    try {
+        let blog = await Blog.findById(blogId);
+
+        //check if current user is user attempting to unlike
+        const checkUser = blog.likes.find(
+            (like) => like.user.toString() === userId
+        );
+
+        if (checkUser) {
+            //return all likes not from the user and save
+            const likes = blog.likes.filter(
+                (like) => like.user.toString() !== userId
+            );
+
+            blog.likes = likes;
+            await blog.save();
+            return res.status(200).json(blog.likes);
+        }
+        return res.status(400).json({
+            errors: [{ msg: 'Unable to unlike.' }],
+        });
+    } catch (err) {
+        return res.status(400).json({
+            errors: [{ msg: 'Like blog server error.' }],
         });
     }
 };

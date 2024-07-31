@@ -8,6 +8,8 @@ const {
     deleteBlog,
     commentBlog,
     deleteComment,
+    likeBlog,
+    unlikeblog,
 } = require('../controllers/blog.controller');
 
 //GET All blogs
@@ -38,8 +40,18 @@ router.delete('/deleteblog/:blogid', auth, deleteBlog);
 router.post('/commentblog/:blogid', auth, commentBlog);
 
 //PRIVATE AUTH
-//Comment on Blog
+//Delete comment on Blog
 //DELETE /api/blog/deletecomment/:blogId/:commentId
 router.delete('/deletecomment/:blogid/:commentid', auth, deleteComment);
+
+//PRIVATE AUTH
+//Add a 'Like' to a Blog
+//PUT /api/blog/likeblog/:blogid
+router.put('/likeblog/:blogid', auth, likeBlog);
+
+//PRIVATE AUTH
+//Delete a 'Like' to a Blog
+//Delete /api/blog/unlike/:blogid
+router.delete('/unlikeblog/:blogid', auth, unlikeblog);
 
 module.exports = router;
