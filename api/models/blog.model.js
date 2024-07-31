@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 
 const BlogSchema = new mongoose.Schema(
     {
+        type: {
+            type: String,
+        },
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'user',
@@ -18,9 +21,7 @@ const BlogSchema = new mongoose.Schema(
         coverPhoto: {
             type: String,
         },
-        galleryPhotos: {
-            type: String,
-        },
+        galleryPhotos: [String],
         likes: [
             {
                 user: {
