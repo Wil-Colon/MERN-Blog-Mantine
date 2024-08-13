@@ -1,9 +1,9 @@
 import './homePageBlogContainer.scss';
 
 import img2 from '../../assets/images/filler2.png';
-import { Container, Grid, Text } from '@mantine/core';
+import { Grid, Text } from '@mantine/core';
 
-import BlogCard from '../Blog-Card/BlogCard';
+import BlogCard from '../BlogCard/BlogCard';
 import ThoughtCard from '../ThoughtCard/ThoughtCard';
 import BodyContainer from '../BodyContainer/BodyContainer';
 

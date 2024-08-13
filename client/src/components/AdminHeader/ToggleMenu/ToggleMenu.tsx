@@ -1,4 +1,4 @@
-import { Menu, Button, Text, rem, Burger } from '@mantine/core';
+import { Menu, rem, Burger } from '@mantine/core';
 import {
     IconSettings,
     IconSearch,
@@ -7,7 +7,6 @@ import {
 } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useClickOutside } from '@mantine/hooks';
 
 interface ToggleMenuProps {
     opened: boolean;
