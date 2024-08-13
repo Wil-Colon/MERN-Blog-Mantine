@@ -4,11 +4,10 @@ import {
     IconSearch,
     IconPhoto,
     IconMessageCircle,
-    IconTrash,
-    IconArrowsLeftRight,
 } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useClickOutside } from '@mantine/hooks';
 
 interface ToggleMenuProps {
     opened: boolean;
@@ -36,7 +35,7 @@ export default function ToggleMenu({
     };
 
     return (
-        <Menu shadow="md" width={200}>
+        <Menu shadow="md" width={200} closeOnClickOutside={false}>
             <Menu.Target>
                 <Burger opened={opened} onClick={setOpened} />
             </Menu.Target>

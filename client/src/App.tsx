@@ -15,10 +15,10 @@ import Blogs from './pages/Blogs';
 import Register from './pages/Register';
 import Login from './pages/Login';
 
-import AdminDashboard from './pages/AdminDashboard';
+import AdminDashboard from './pages/Admin/AdminDashboard/AdminDashboard';
 import UserProfile from './pages/UserProfile';
 import PrivateRoute from './utils/PrivateRoute';
-import PageNotFound from './pages/PageNotFound/PageNotFound';
+import PageNotFound from './pages/PageNotFound';
 import UserDashBoard from './pages/UserDashboard/UserDashboard';
 
 // import PrivateRoute from './components/routing/privateRoute';
