@@ -7,23 +7,20 @@ import AdminBlogPage from '../AdminBlogPage/AdminBlogPage';
 import AdminStatsPage from '../AdminStatsPage/AdminStatsPage';
 import AdminThoughtsPage from '../../../components/AdminThoughtsPage/AdminThoughtsPage';
 import AdminCommunityPage from '../AdminCommunityPage/AdminCommunityPage';
-import { Transition } from '@mantine/core';
 import BodyContainer from '../../../components/BodyContainer/BodyContainer';
+import { getAllBlogs } from '../../../redux/actions/blog';
 
 export default function AdminDashboard() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user);
+    const blogs = useSelector((state: RootState) => state.blogs);
     const location = window.location.pathname.slice(6);
     const [activeLink, setActiveLink] = useState(location);
-    const [transitionOpened, setTransitionOpened] = useState(false);
 
     useEffect(() => {
-        setTransitionOpened(false);
-        setTimeout(() => {
-            setTransitionOpened(true);
-        }, 200);
-    }, [activeLink]);
+        dispatch(getAllBlogs());
+    }, []);
 
     return (
         <>
@@ -33,27 +30,15 @@ export default function AdminDashboard() {
                 .toUpperCase()}${activeLink.slice(2)}`}</title>
 
             <BodyContainer size="xs" fluid>
-                <Transition
-                    mounted={transitionOpened}
-                    transition="fade-left"
-                    duration={200}
-                    timingFunction="ease"
-                    exitDuration={0}
-                >
-                    {(styles) => (
-                        <div style={styles}>
-                            {activeLink === '/stats' ? (
-                                <AdminStatsPage />
-                            ) : activeLink === '/blog' ? (
-                                <AdminBlogPage />
-                            ) : activeLink === '/thought' ? (
-                                <AdminThoughtsPage />
-                            ) : activeLink === '/community' ? (
-                                <AdminCommunityPage />
-                            ) : null}
-                        </div>
-                    )}
-                </Transition>
+                <div>
+                    {activeLink === '/stats' ? (
+                        <AdminStatsPage />
+                    ) : activeLink === '/blog' ? (
+                        <AdminBlogPage />
+                    ) : activeLink === '/community' ? (
+                        <AdminCommunityPage />
+                    ) : null}
+                </div>
             </BodyContainer>
         </>
     );

@@ -1,78 +1,84 @@
 .blogcard-container {
-  position: relative;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
-  transition: all 0.2s;
-  cursor: pointer;
+    position: relative;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    transition: all 0.2s;
+    cursor: pointer;
 
-  @include dark {
-    filter: brightness(80%);
-  }
-
-  &__header {
-    position: absolute;
-    top: 0;
-    left: 1rem;
-    z-index: 99999;
-    transition: all 5s;
-
-    & p {
-      color: white;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-        1px 1px 0 #000;
-      font-family: "Angkor", serif;
-    }
-    &__title {
-      font-size: 2rem;
-      margin-bottom: -20px;
+    @include dark {
+        filter: brightness(80%);
     }
 
-    &__author {
-      font-size: 0.6rem;
-      font-style: italic;
+    &__header {
+        position: absolute;
+        top: 0;
+        left: 1rem;
+        z-index: 99999;
+        transition: all 5s;
+
+        & p {
+            color: white;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+                1px 1px 0 #000;
+            font-family: 'Angkor', serif;
+        }
+        &__title {
+            font-size: 2rem;
+            margin-bottom: -20px;
+        }
+
+        &__author {
+            font-size: 0.6rem;
+            font-style: italic;
+        }
     }
-  }
 
-  & img {
-    // filter: blur(0px);
-    transition: all 0.5s;
+    & img {
+        // filter: blur(0px);
+        transition: all 0.5s;
 
-    &:active {
-      transform: scale(0.98);
+        &:active {
+            transform: scale(0.98);
+        }
     }
-  }
 
-  &:hover {
-    transform: scale(1.02);
+    &:hover {
+        transform: scale(1.02);
 
-    p {
-      text-shadow: -1px -1px 0 rgb(5, 81, 66), 1px -1px 0 rgb(5, 81, 66),
-        -1px 1px 0 rgb(5, 81, 66), 1px 1px 0 rgb(5, 81, 66);
-      transition: all 0.5s;
+        p {
+            text-shadow: -1px -1px 0 rgb(5, 81, 66), 1px -1px 0 rgb(5, 81, 66),
+                -1px 1px 0 rgb(5, 81, 66), 1px 1px 0 rgb(5, 81, 66);
+            transition: all 0.5s;
+        }
+
+        & p::after {
+            width: 100%;
+        }
+
+        img {
+            filter: blur(1.8px);
+        }
     }
 
     & p::after {
-      width: 100%;
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 0%;
+        height: 5px;
+        transition: all 0.3s;
+        background: rgb(5, 81, 66);
+        clip-path: polygon(0 0, 100% 1%, 71% 100%, 0% 100%);
+        transition: all 0.5s;
     }
 
-    img {
-      filter: blur(1.8px);
+    &__likes {
+        position: absolute;
+        bottom: 0.5rem;
+        right: 1rem;
     }
-  }
-
-  & p::after {
-    content: "";
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 0%;
-    height: 5px;
-    transition: all 0.3s;
-    background: rgb(5, 81, 66);
-    clip-path: polygon(0 0, 100% 1%, 71% 100%, 0% 100%);
-    transition: all 0.5s;
-  }
 }

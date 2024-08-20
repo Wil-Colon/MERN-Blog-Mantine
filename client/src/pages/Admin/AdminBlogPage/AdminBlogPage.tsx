@@ -4,18 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import type { RootState } from '../../../redux/store';
 import { getAllBlogs } from '../../../redux/actions/blog';
+import HomePageBlogContainer from '../../../components/HomePageBlogContainer/HomePageBlogContainer';
+import BlogCard from '../../../components/BlogCard/BlogCard';
+import { Text } from '@mantine/core';
 
 export default function AdminBlogPage() {
-    const dispatch = useDispatch();
-    const blogs = useSelector((state: RootState) => state.blogs);
-
-    useEffect(() => {
-        dispatch(getAllBlogs());
-    }, []);
-
     return (
-        <BodyContainer size="xs" fluid>
-            <h1>Future home of blog lists with edit button</h1>
-        </BodyContainer>
+        <>
+            <Text>Current Blogs</Text>
+            <HomePageBlogContainer alt={true}>
+                <BlogCard id={'2'} />
+            </HomePageBlogContainer>
+        </>
     );
 }
