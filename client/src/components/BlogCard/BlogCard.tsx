@@ -4,13 +4,20 @@ import { Group, Image, Stack, Text, rem } from '@mantine/core';
 import { IconThumbUpFilled } from '@tabler/icons-react';
 
 interface BlogCardProps {
-    id: string;
+    blogData: any;
 }
 
-export default function BlogCard({ id }: BlogCardProps) {
-    //API CALL FOR ID HERE
-
-    //ID IMAGE URL to Src, title, author, date
+export default function BlogCard({ blogData }: BlogCardProps) {
+    const {
+        userName,
+        body,
+        comments,
+        date,
+        galleryPhotos,
+        likes,
+        title,
+        type,
+    } = blogData;
 
     return (
         <>
@@ -21,14 +28,14 @@ export default function BlogCard({ id }: BlogCardProps) {
                             fw={500}
                             className="blogcard-container__header__title"
                         >
-                            {'Just a Test Title'}{' '}
+                            {title}{' '}
                         </Text>
 
                         <Text
                             fw={300}
                             className="blogcard-container__header__author"
                         >
-                            {'Berto Aguilar'} - {'3/19/24'}
+                            {userName} - {'3/19/24'}
                         </Text>
                     </Stack>
                 </Group>

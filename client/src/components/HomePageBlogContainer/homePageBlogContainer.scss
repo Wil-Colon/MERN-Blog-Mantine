@@ -3,14 +3,6 @@
     padding: 5rem 5rem;
     background-color: #d9d9d9;
 
-    &--alt {
-        background-color: inherit;
-
-        @include dark {
-            background-color: inherit !important;
-        }
-    }
-
     @media (max-width: $mantine-breakpoint-sm) {
         padding: 1rem 1rem;
     }

@@ -51,7 +51,12 @@ exports.createBlog = async (req, res) => {
     };
 
     try {
+        //Get author by ID
+
+        const author = await User.findById(id, 'username');
+
         const blog = new Blog({
+            userName: author.username,
             ...blogFields,
         });
 

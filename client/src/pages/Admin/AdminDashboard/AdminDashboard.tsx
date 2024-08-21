@@ -5,22 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import AdminHeader from '../../../components/AdminHeader/AdminHeader';
 import AdminBlogPage from '../AdminBlogPage/AdminBlogPage';
 import AdminStatsPage from '../AdminStatsPage/AdminStatsPage';
-import AdminThoughtsPage from '../../../components/AdminThoughtsPage/AdminThoughtsPage';
 import AdminCommunityPage from '../AdminCommunityPage/AdminCommunityPage';
 import BodyContainer from '../../../components/BodyContainer/BodyContainer';
-import { getAllBlogs } from '../../../redux/actions/blog';
 
 export default function AdminDashboard() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user);
-    const blogs = useSelector((state: RootState) => state.blogs);
+    const blogs = useSelector((state: RootState) => state.blogs.blogs);
     const location = window.location.pathname.slice(6);
     const [activeLink, setActiveLink] = useState(location);
-
-    useEffect(() => {
-        dispatch(getAllBlogs());
-    }, []);
 
     return (
         <>

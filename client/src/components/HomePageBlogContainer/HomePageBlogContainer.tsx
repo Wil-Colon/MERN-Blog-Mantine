@@ -5,20 +5,9 @@ import BlogCard from '../BlogCard/BlogCard';
 import ThoughtCard from '../ThoughtCard/ThoughtCard';
 import BodyContainer from '../BodyContainer/BodyContainer';
 
-interface HomePageBlogContainerProps {
-    alt: boolean;
-}
-
-export default function HomePageBlogContainer({
-    alt,
-}: HomePageBlogContainerProps) {
+export default function HomePageBlogContainer() {
     return (
-        <div
-            className={
-                !alt ? 'body-container' : 'body-container body-container--alt'
-            }
-        >
-            {/* <BodyContainer size="xxl"> */}
+        <div className="body-container">
             <Grid justify="center" grow>
                 {/* blogs.map, if not a 'thought' then blog.length number even then short card, if odd then long card. if thought is true then always set width */}
                 <Grid.Col
@@ -43,7 +32,6 @@ export default function HomePageBlogContainer({
                     <ThoughtCard id={'dsadaad'} />
                 </Grid.Col>
             </Grid>
-            {/* </BodyContainer> */}
         </div>
     );
 }
