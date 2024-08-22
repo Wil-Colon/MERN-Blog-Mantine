@@ -1,3 +1,6 @@
+.container {
+    position: relative;
+}
 .blogcard-container {
     position: relative;
     -webkit-user-select: none; /* Safari */
@@ -47,9 +50,10 @@
         transform: scale(1.02);
 
         p {
-            text-shadow: -1px -1px 0 rgb(5, 81, 66), 1px -1px 0 rgb(5, 81, 66),
-                -1px 1px 0 rgb(5, 81, 66), 1px 1px 0 rgb(5, 81, 66);
-            transition: all 0.5s;
+            scale: 1.02;
+            // text-shadow: -1px -1px 0 rgb(5, 81, 66), 1px -1px 0 rgb(5, 81, 66),
+            //     -1px 1px 0 rgb(5, 81, 66), 1px 1px 0 rgb(5, 81, 66);
+            transition: all 0.2s;
         }
 
         & p::after {
@@ -61,24 +65,13 @@
         }
     }
 
-    & p::after {
-        content: '';
-        position: absolute;
-        bottom: -5px;
-        left: 0;
-        right: 0;
-        margin: auto;
-        width: 0%;
-        height: 5px;
-        transition: all 0.3s;
-        background: rgb(5, 81, 66);
-        clip-path: polygon(0 0, 100% 1%, 71% 100%, 0% 100%);
-        transition: all 0.5s;
-    }
-
     &__likes {
         position: absolute;
         bottom: 0.5rem;
         right: 1rem;
+        background-color: rgba(17, 16, 16, 0.39);
+
+        padding: 0.3rem;
+        border-radius: 10%;
     }
 }

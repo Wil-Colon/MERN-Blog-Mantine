@@ -2,12 +2,14 @@ import './blogcard.scss';
 import img1 from '../../assets/images/filler1.png';
 import { Group, Image, Stack, Text, rem } from '@mantine/core';
 import { IconThumbUpFilled } from '@tabler/icons-react';
+import moment from 'moment';
 
 interface BlogCardProps {
     blogData: any;
 }
 
 export default function BlogCard({ blogData }: BlogCardProps) {
+    let dateFormat;
     const {
         userName,
         body,
@@ -17,10 +19,13 @@ export default function BlogCard({ blogData }: BlogCardProps) {
         likes,
         title,
         type,
+        coverPhoto,
     } = blogData;
 
+    dateFormat = moment(date, moment.ISO_8601).format('YYYY-MM-DD');
+
     return (
-        <>
+        <div style={{ position: 'relative' }}>
             <div className="blogcard-container">
                 <Group justify="apart" className="blogcard-container__header">
                     <Stack>
@@ -35,15 +40,15 @@ export default function BlogCard({ blogData }: BlogCardProps) {
                             fw={300}
                             className="blogcard-container__header__author"
                         >
-                            {userName} - {'3/19/24'}
+                            {userName} - {dateFormat}
                         </Text>
                     </Stack>
                 </Group>
-                <Image radius="md" h={rem(200)} src={img1} />
+                <Image radius="md" h={rem(200)} src={coverPhoto} />
             </div>
             <Text className="blogcard-container__likes">
-                <IconThumbUpFilled /> {'2'}
+                <IconThumbUpFilled /> {likes.length}
             </Text>
-        </>
+        </div>
     );
 }

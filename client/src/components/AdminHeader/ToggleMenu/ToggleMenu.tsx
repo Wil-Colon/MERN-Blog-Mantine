@@ -34,7 +34,12 @@ export default function ToggleMenu({
     };
 
     return (
-        <Menu shadow="md" width={200} closeOnClickOutside={false}>
+        <Menu
+            shadow="md"
+            width={200}
+            closeOnClickOutside={false}
+            zIndex={'99999'}
+        >
             <Menu.Target>
                 <Burger opened={opened} onClick={setOpened} />
             </Menu.Target>
