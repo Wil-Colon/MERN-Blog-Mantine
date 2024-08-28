@@ -3,10 +3,10 @@ import { IconFishHook, IconThumbUpFilled } from '@tabler/icons-react';
 import './thoughtcard.scss';
 
 interface ThoughtCardProps {
-    id: string;
+    blogData: string;
 }
 
-export default function ThoughtCard({ id }: ThoughtCardProps) {
+export default function ThoughtCard({ blogData }: ThoughtCardProps) {
     const truncate = (str, n) => {
         return str?.length > n ? str.substr(0, n - 1) + '...' : str;
     };
