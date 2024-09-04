@@ -3,13 +3,14 @@ import img1 from '../../assets/images/filler1.png';
 import { Group, Image, Stack, Text, rem } from '@mantine/core';
 import { IconThumbUpFilled } from '@tabler/icons-react';
 import moment from 'moment';
+import { useMediaQuery } from '@mantine/hooks';
 
 interface BlogCardProps {
     blogData: any;
 }
 
 export default function BlogCard({ blogData }: BlogCardProps) {
-    let dateFormat;
+    const matches = useMediaQuery('(min-width: 36em)');
     const {
         userName,
         body,
@@ -21,8 +22,7 @@ export default function BlogCard({ blogData }: BlogCardProps) {
         type,
         coverPhoto,
     } = blogData;
-
-    dateFormat = moment(date, moment.ISO_8601).format('YYYY-MM-DD');
+    let dateFormat = moment(date, moment.ISO_8601).format('YYYY-MM-DD');
 
     return (
         <div style={{ position: 'relative' }}>
