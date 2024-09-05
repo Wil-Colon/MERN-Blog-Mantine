@@ -76,6 +76,10 @@ function App() {
                             path="/admin/blog"
                             element={<AdminDashboard />}
                         />
+                        <Route
+                            path="/admin/blog/edit/:id"
+                            element={<AdminDashboard />}
+                        />
                     </Route>
 
                     {/* <Route

@@ -1,12 +1,13 @@
-import BodyContainer from '../../../components/BodyContainer/BodyContainer';
 import './adminblogpage.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
 import type { RootState } from '../../../redux/store';
-import { getAllBlogs } from '../../../redux/actions/blog';
-import HomePageBlogContainer from '../../../components/HomePageBlogContainer/HomePageBlogContainer';
+import BodyContainer from '../../../components/BodyContainer/BodyContainer';
 import BlogCard from '../../../components/BlogCard/BlogCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getAllBlogs } from '../../../redux/actions/blog';
 import { SimpleGrid, Text } from '@mantine/core';
+import ThoughtCard from '../../../components/ThoughtCard/ThoughtCard';
+import { Link } from 'react-router-dom';
 
 export default function AdminBlogPage() {
     const dispatch = useDispatch();
@@ -25,9 +26,17 @@ export default function AdminBlogPage() {
                 spacing={{ base: 10, sm: 'xl' }}
                 verticalSpacing={{ base: 'md', sm: 'xl' }}
             >
-                {blogs.map((blog) => (
-                    <BlogCard key={blog._id} blogData={blog} />
-                ))}
+                {blogs.map((blog) =>
+                    blog.type === 'blog' ? (
+                        <Link key={blog._id} to={`edit/${blog._id}`}>
+                            <BlogCard blogData={blog} />
+                        </Link>
+                    ) : (
+                        <Link key={blog._id} to={`edit/${blog._id}`}>
+                            <ThoughtCard blogData={blog} />
+                        </Link>
+                    )
+                )}
             </SimpleGrid>
         </BodyContainer>
     ) : (
