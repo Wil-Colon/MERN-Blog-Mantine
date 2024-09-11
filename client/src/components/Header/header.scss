@@ -100,8 +100,10 @@
     }
 
     &__bottom {
-        border-bottom: 0.1px rgb(180, 180, 180) solid;
-        background: white;
+        // border-bottom: 0.1px rgb(180, 180, 180) solid;
+        // background: white;
+        border-bottom: 0.1px rgb(92, 92, 92) solid;
+        background: #e6e6e6;
 
         @include dark {
             border-bottom: none;

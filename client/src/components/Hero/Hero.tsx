@@ -1,7 +1,12 @@
 import classes from './hero.module.scss';
 import { Overlay, Container, Title, Button } from '@mantine/core';
 
-export default function Hero() {
+interface HeroProps {
+    selectedThought: any;
+}
+
+export default function Hero({ selectedThought }: HeroProps) {
+    console.log(selectedThought);
     return (
         <div className={classes.hero}>
             <Overlay

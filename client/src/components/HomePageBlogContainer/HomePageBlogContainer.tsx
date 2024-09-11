@@ -1,21 +1,19 @@
 import './homePageBlogContainer.scss';
-import type { RootState } from '../../redux/store';
 import { Center, Grid, Loader } from '@mantine/core';
-import { getAllBlogs } from '../../redux/actions/blog';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import BlogCard from '../BlogCard/BlogCard';
 import ThoughtCard from '../ThoughtCard/ThoughtCard';
-import { Link } from 'react-router-dom';
 
-export default function HomePageBlogContainer() {
-    const dispatch = useDispatch();
-    const blogs = useSelector((state: RootState) => state.blogs.blogs);
+interface HomePageBlogContainerProps {
+    blogs: any;
+    clickSelectedThought: any;
+}
+
+export default function HomePageBlogContainer({
+    blogs,
+    clickSelectedThought,
+}: HomePageBlogContainerProps) {
     const isEven = (number: number) => number % 2;
-
-    useEffect(() => {
-        dispatch(getAllBlogs());
-    }, [dispatch]);
 
     return blogs !== null ? (
         <div className="body-container">
@@ -42,6 +40,7 @@ export default function HomePageBlogContainer() {
                                   key={i}
                                   span={{ base: 11, md: 11, lg: 3 }}
                                   className="body-container__column"
+                                  onClick={() => clickSelectedThought(blog)}
                               >
                                   <ThoughtCard blogData={blog} />
                               </Grid.Col>
