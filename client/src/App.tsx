@@ -44,7 +44,9 @@ function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    {/* <Route path="/userProfile/:id" element={<UserProfile />} /> */}
+                    <Route path="/projects" element={<Projects />} />
+                    <Route path="/blogs" element={<Blogs />} />
+                    <Route path="/blogs/:id" element={<h1>derp</h1>} />
 
                     {/* private */}
                     <Route path="/userProfile" element={<PrivateRoute />}>
@@ -81,13 +83,7 @@ function App() {
                             element={<AdminDashboard />}
                         />
                     </Route>
-
-                    {/* <Route
-                        path="/admindashboard"
-                        element={<AdminDashboard />}
-                    /> */}
-                    <Route path="/projects" element={<Projects />} />
-                    <Route path="/blogs" element={<Blogs />} />
+                    {/* private */}
                 </Routes>
             </BrowserRouter>
         </MantineProvider>

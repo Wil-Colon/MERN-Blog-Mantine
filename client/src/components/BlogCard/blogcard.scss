@@ -67,10 +67,11 @@
 
     &__likes {
         position: absolute;
+        background-color: rgba(255, 255, 255, 0.7);
+        color: black;
+        font-weight: 800;
         bottom: 0.5rem;
         right: 1rem;
-        background-color: rgba(255, 255, 255, 0.518);
-        color: black;
         padding: 0.3rem;
         border-radius: 10%;
     }

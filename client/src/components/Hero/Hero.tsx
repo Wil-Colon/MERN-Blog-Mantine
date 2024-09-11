@@ -12,14 +12,9 @@ export default function Hero() {
             />
 
             <Container className={classes.container} size="md">
-                <Title className={classes.title}>
+                {/* <Title className={classes.title}>
                     A Rhode Island Fisherman's Blog
                 </Title>
-                {/* <Text className={classes.description} size="xl" mt="xl">
-          Build fully functional accessible web applications faster than ever –
-          Mantine includes more than 120 customizable components and hooks to
-          cover you in any situation
-        </Text> */}
 
                 <Button
                     variant="trasnparent"
@@ -28,7 +23,7 @@ export default function Hero() {
                     className={classes.control}
                 >
                     Blogs
-                </Button>
+                </Button> */}
             </Container>
             <div className={classes.divider}>
                 <svg

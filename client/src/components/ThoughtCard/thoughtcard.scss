@@ -1,55 +1,61 @@
-.thoughtcard-container {
-    position: relative;
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
-    cursor: pointer;
-    max-height: 10.5rem;
-    transition: all 0.2s;
+.thoughtcard {
+    &__container {
+        position: relative;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+        cursor: pointer;
+        max-height: 10.5rem;
+        transition: all 0.2s;
 
-    &__icon {
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
+        &__icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
 
-    &__section {
-        border-bottom: rem(1px) solid
-            light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
-        padding-left: var(--mantine-spacing-md);
-        padding-right: var(--mantine-spacing-md);
-        padding-bottom: var(--mantine-spacing-md);
-    }
+        &__section {
+            // border-bottom: rem(1px) solid
+            //     light-dark(
+            //         var(--mantine-color-gray-3),
+            //         var(--mantine-color-dark-4)
+            //     );
+            padding-left: var(--mantine-spacing-md);
+            padding-right: var(--mantine-spacing-md);
+            padding-bottom: var(--mantine-spacing-md);
+        }
 
-    &:hover {
-        transform: scale(1.01);
-    }
-    &:active {
-        transform: scale(0.98);
-    }
+        &:hover {
+            transform: scale(1.01);
+        }
+        &:active {
+            transform: scale(0.98);
+        }
 
-    &__title p {
-        font-size: 2rem;
-        margin-bottom: -15px;
-        font-family: 'Fuzzy Bubbles', sans-serif;
-    }
+        &__title p {
+            font-size: 2rem;
+            margin-bottom: -15px;
+            font-family: 'Fuzzy Bubbles', sans-serif;
+        }
 
-    &__author {
-        font-style: italic;
-        font-size: 0.8rem;
-        text-decoration: underline;
-    }
+        &__author {
+            font-style: italic;
+            font-size: 0.8rem;
+            text-decoration: underline;
+        }
 
-    @include light {
-        background-color: #d9d9d9;
-    }
-    @include dark {
-        background-color: rgb(34, 33, 33);
-    }
+        @include light {
+            background-color: #d9d9d9;
+        }
+        @include dark {
+            background-color: rgb(34, 33, 33);
+        }
 
-    &__likes {
-        position: absolute;
-        bottom: 0.5rem;
-        right: 1rem;
+        &__likes {
+            position: absolute;
+            font-weight: 800;
+            bottom: 0rem;
+            right: 1rem;
+        }
     }
 }

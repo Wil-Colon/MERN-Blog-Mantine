@@ -18,7 +18,7 @@ export default function AdminBlogPage() {
     }, [dispatch]);
 
     return blogs !== null ? (
-        <BodyContainer size={'xxl'}>
+        <BodyContainer size={'xl'}>
             <Text>Current Blogs</Text>
 
             <SimpleGrid

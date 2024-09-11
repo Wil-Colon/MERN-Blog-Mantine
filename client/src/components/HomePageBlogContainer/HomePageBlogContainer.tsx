@@ -1,11 +1,12 @@
 import './homePageBlogContainer.scss';
+import type { RootState } from '../../redux/store';
 import { Center, Grid, Loader } from '@mantine/core';
-import BlogCard from '../BlogCard/BlogCard';
-import ThoughtCard from '../ThoughtCard/ThoughtCard';
 import { getAllBlogs } from '../../redux/actions/blog';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import type { RootState } from '../../redux/store';
+import BlogCard from '../BlogCard/BlogCard';
+import ThoughtCard from '../ThoughtCard/ThoughtCard';
+import { Link } from 'react-router-dom';
 
 export default function HomePageBlogContainer() {
     const dispatch = useDispatch();
@@ -20,26 +21,31 @@ export default function HomePageBlogContainer() {
         <div className="body-container">
             <Grid justify="center" grow>
                 {blogs.map((blog, i) =>
-                    blog.type === 'blog' ? (
-                        <Grid.Col
-                            span={
-                                isEven(i)
-                                    ? { base: 11, md: 6, lg: 5 }
-                                    : { base: 11, md: 6, lg: 3 }
-                            }
-                            className="body-container__column"
-                        >
-                            {/* link to /blogs/id */}
-                            <BlogCard blogData={blog} />
-                        </Grid.Col>
-                    ) : (
-                        <Grid.Col
-                            span={{ base: 11, md: 11, lg: 3 }}
-                            className="body-container__column"
-                        >
-                            <ThoughtCard blogData={blog} />
-                        </Grid.Col>
-                    )
+                    blog.type === 'blog'
+                        ? i < 6 && (
+                              <Grid.Col
+                                  key={i}
+                                  span={
+                                      isEven(i)
+                                          ? { base: 11, md: 6, lg: 5 }
+                                          : { base: 11, md: 6, lg: 3 }
+                                  }
+                                  className="body-container__column"
+                              >
+                                  <Link to={`/blogs/${blog._id}`}>
+                                      <BlogCard blogData={blog} />
+                                  </Link>
+                              </Grid.Col>
+                          )
+                        : i < 6 && (
+                              <Grid.Col
+                                  key={i}
+                                  span={{ base: 11, md: 11, lg: 3 }}
+                                  className="body-container__column"
+                              >
+                                  <ThoughtCard blogData={blog} />
+                              </Grid.Col>
+                          )
                 )}
             </Grid>
         </div>

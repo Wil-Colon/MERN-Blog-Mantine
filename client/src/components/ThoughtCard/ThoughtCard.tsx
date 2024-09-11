@@ -39,16 +39,16 @@ export default function ThoughtCard({ blogData }: ThoughtCardProps) {
 
     const blogLayout = (
         <>
-            <Group justify="apart" className="thoughtcard-container__title">
+            <Group justify="apart" className="thoughtcard__container__title">
                 <Text fw={500}>{title}</Text>
             </Group>
 
             <Group mt="xs">
-                <Text fw={300} className="thoughtcard-container__author">
+                <Text fw={300} className="thoughtcard__container__author">
                     {userName} - {dateFormat}
                 </Text>
             </Group>
-            <Text className="thoughtcard-container__text" fz="sm" mt="xs">
+            <Text className="thoughtcard__container__text" fz="sm" mt="xs">
                 {truncate(body, 145)}
             </Text>
         </>
@@ -56,42 +56,38 @@ export default function ThoughtCard({ blogData }: ThoughtCardProps) {
 
     const dialogLayout = (
         <>
-            <Group justify="apart" className="thoughtcard-container__title">
+            <Group justify="apart" className="thoughtcard__container__title">
                 <Text fw={500}>{'Random Thought'}</Text>
                 <Avatar src={avatar} alt="it's me" />
             </Group>
 
             <Group mt="xs">
-                <Text fw={300} className="thoughtcard-container__author">
-                    {'Berto Agulilar'} - {'3/19/24'}
+                <Text fw={300} className="thoughtcard__container__author">
+                    {userName} - {dateFormat}
                 </Text>
             </Group>
-            <Text className="thoughtcard-container__text" fz="sm" mt="xs">
-                Lorem Ipsum to the maxisum mor moe ini Lorem Ipsum to the
-                maxisum mor moe ini Lorem Ipsum to the maxisum mor moe ini Lorem
-                Ipsum to the maxisum mor moe iniLorem Ipsum to the maxisum mor
-                moe ini Lorem Ipsum to the maxisum mor moe ini Lorem Ipsum to t
-                the maxisum mor moe ini Lorem
+            <Text className="thoughtcard__container__text" fz="sm" mt="xs">
+                {body}
             </Text>
         </>
     );
 
     return (
-        <>
+        <div className="thoughtcard">
             <Card
                 onClick={toggle}
                 radius="md"
                 p="md"
-                className="thoughtcard-container"
+                className="thoughtcard__container"
             >
-                <IconFishHook className="thoughtcard-container__icon" />
-                <Card.Section className="thoughtcard-container__section">
+                <IconFishHook className="thoughtcard__container__icon" />
+                <Card.Section className="thoughtcard__container__section">
                     {blogLayout}
                 </Card.Section>
+                <div className="thoughtcard__container__likes">
+                    <IconThumbUpFilled /> {likes.length}
+                </div>
             </Card>
-            <Text className="thoughtcard-container__likes">
-                <IconThumbUpFilled /> {'2'}
-            </Text>
 
             <Dialog
                 opened={opened}
@@ -109,6 +105,6 @@ export default function ThoughtCard({ blogData }: ThoughtCardProps) {
             >
                 {dialogLayout}
             </Dialog>
-        </>
+        </div>
     );
 }
