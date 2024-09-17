@@ -1,5 +1,5 @@
 import classes from './hero.module.scss';
-import { Overlay, Container, Title, Button } from '@mantine/core';
+import { Overlay, Container, Title, Button, Avatar } from '@mantine/core';
 
 interface HeroProps {
     selectedThought: any;
@@ -9,27 +9,24 @@ export default function Hero({ selectedThought }: HeroProps) {
     console.log(selectedThought);
     return (
         <div className={classes.hero}>
-            <Overlay
-                className={classes.root}
-                // gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, .65) 40%)"
-                opacity={1}
-                zIndex={0}
-            />
-
+            <Overlay className={classes.root} opacity={1} zIndex={0} />
             <Container className={classes.container} size="md">
-                {/* <Title className={classes.title}>
-                    A Rhode Island Fisherman's Blog
-                </Title>
-
-                <Button
-                    variant="trasnparent"
-                    size="md"
-                    radius="sm"
-                    className={classes.control}
-                >
-                    Blogs
-                </Button> */}
+                {selectedThought !== null ? (
+                    <>
+                        <p>{selectedThought.body}</p>
+                    </>
+                ) : (
+                    <p>Loading Thought...</p>
+                )}
             </Container>
+            {selectedThought !== null ? (
+                <Avatar
+                    className={classes.avatar}
+                    src={selectedThought.Avatar}
+                />
+            ) : (
+                <p>loading...</p>
+            )}
             <div className={classes.divider}>
                 <svg
                     data-name="Layer 1"
