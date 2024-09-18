@@ -6,12 +6,12 @@ import ThoughtCard from '../ThoughtCard/ThoughtCard';
 
 interface HomePageBlogContainerProps {
     blogs: any;
-    clickSelectedThought: any;
+    setSelectedThought: any;
 }
 
 export default function HomePageBlogContainer({
     blogs,
-    clickSelectedThought,
+    setSelectedThought,
 }: HomePageBlogContainerProps) {
     const isEven = (number: number) => number % 2;
 
@@ -40,7 +40,7 @@ export default function HomePageBlogContainer({
                                   key={i}
                                   span={{ base: 11, md: 11, lg: 3 }}
                                   className="body-container__column"
-                                  onClick={() => clickSelectedThought(blog)}
+                                  onClick={() => setSelectedThought(blog)}
                               >
                                   <ThoughtCard blogData={blog} />
                               </Grid.Col>

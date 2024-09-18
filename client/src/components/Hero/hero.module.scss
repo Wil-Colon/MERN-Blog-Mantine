@@ -1,16 +1,19 @@
-$color-blue: #83af9b;
-$color-green: #c8c8a9;
-$color-brown: #774f38;
-$color-beige: #ece5ce;
-$color-yellow: #f9cdad;
-$color-pink: #fe4365;
+.root {
+    @include light {
+        background: transparent;
+        animation: fadeIn-light 0.4s linear forwards;
+    }
+
+    @include dark {
+        animation: fadeIn-dark 0.4s linear forwards;
+    }
+}
 
 .hero {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    // align-items: center;
-    padding: 10rem;
+    padding: 10rem 5rem 12rem 5rem;
     position: relative;
     background-image: url('../../assets//images/hero-bg.png');
     background-attachment: fixed;
@@ -19,39 +22,11 @@ $color-pink: #fe4365;
     background-size: cover;
 
     @media (max-width: $mantine-breakpoint-md) {
-        padding: 5rem 3rem 8rem;
+        padding: 5rem 4rem 10rem;
     }
 
     @media (max-width: $mantine-breakpoint-sm) {
-        padding: 5rem 1.5rem 7rem;
-    }
-
-    .divider {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        overflow: hidden;
-        line-height: 0;
-        transform: rotate(180deg);
-    }
-
-    .divider svg {
-        position: relative;
-        display: block;
-        width: calc(100% + 1.3px);
-        height: 5rem;
-
-        @media (max-width: $mantine-breakpoint-sm) {
-            height: 2rem;
-        }
-    }
-
-    .divider {
-        fill: #d9d9d9;
-        @include dark {
-            fill: rgb(34, 33, 33);
-        }
+        padding: 5rem 2.5rem 10rem 1.5rem;
     }
 }
 
@@ -66,15 +41,8 @@ $color-pink: #fe4365;
     font-weight: bold;
     letter-spacing: 3px;
     box-shadow: 20px 20px #83af9b86;
+    background-color: #d9d9d9;
     animation: float 5s ease-in-out infinite;
-
-    @media (max-width: $mantine-breakpoint-sm) {
-        padding: 1rem;
-    }
-
-    @include light {
-        background-color: #d9d9d9;
-    }
 
     @include dark {
         box-shadow: 20px 20px rgba(89, 89, 89, 0.422);
@@ -83,73 +51,32 @@ $color-pink: #fe4365;
     }
 
     @media (max-width: $mantine-breakpoint-sm) {
-        font-size: 12px;
-        // height: rem(100px);
-        // padding: 1rem 2rem 2rem;
+        padding: 1rem;
+    }
+
+    @media (max-width: $mantine-breakpoint-sm) {
+        font-size: 11px;
     }
 }
 
 .avatar {
     display: block;
-    text-shadow: 22px 22px $color-blue;
+    text-shadow: 22px 22px blue;
     box-shadow: 20px 20px #83af9b86;
+    background-color: #d9d9d9;
     padding: 0 2px 2px 0;
     border-radius: 2rem;
     font-weight: bold;
-
     width: 55px;
     height: 2rem;
-    bottom: -2.5rem;
-    left: 0;
+    top: 6rem;
     transform: translatey(0px);
     animation: float2 5s ease-in-out infinite;
 
-    @include light {
-        background-color: #d9d9d9;
-    }
     @include dark {
         background-color: #959595;
         text-shadow: 22px 22px rgba(89, 89, 89, 0.422);
         box-shadow: 22px 22px rgba(89, 89, 89, 0.422);
-    }
-}
-
-// .title {
-//     @include light {
-//         color: var(--mantine-color-white);
-//     }
-
-//     @include dark {
-//         color: var(--mantine-color-gray-text);
-//     }
-
-//     // font-family: 'Fuzzy Bubbles', sans-serif;
-//     // font-weight: 400;
-//     // font-style: normal;
-//     // transform: rotate(10deg);
-//     // font-size: rem(60px);
-//     // font-weight: 900;
-//     // line-height: 1.1;
-
-//     @media (max-width: $mantine-breakpoint-sm) {
-//         font-size: rem(20px);
-//         line-height: 1.2;
-//     }
-
-//     @media (max-width: $mantine-breakpoint-xs) {
-//         font-size: rem(28px);
-//         line-height: 1.3;
-//     }
-// }
-
-.root {
-    @include light {
-        background: transparent;
-        animation: fadeIn-light 0.4s linear forwards;
-    }
-
-    @include dark {
-        animation: fadeIn-dark 0.4s linear forwards;
     }
 }
 

@@ -1,4 +1,4 @@
-import Body from '../components/HomePageBlogContainer/HomePageBlogContainer';
+import HomePageBlogContainer from '../components/HomePageBlogContainer/HomePageBlogContainer';
 import Hero from '../components/Hero/Hero';
 import type { RootState } from '../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,7 +19,10 @@ export default function Home() {
     return (
         <>
             <Hero selectedThought={selectedThought} />
-            <Body blogs={blogs} clickSelectedThought={setSelectedThought} />
+            <HomePageBlogContainer
+                blogs={blogs}
+                setSelectedThought={setSelectedThought}
+            />
         </>
     );
 }

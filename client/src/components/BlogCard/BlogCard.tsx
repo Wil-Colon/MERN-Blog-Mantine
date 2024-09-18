@@ -1,9 +1,8 @@
 import './blogcard.scss';
-import img1 from '../../assets/images/filler1.png';
 import { Group, Image, Stack, Text, rem } from '@mantine/core';
 import { IconThumbUpFilled } from '@tabler/icons-react';
-import moment from 'moment';
 import { useMediaQuery } from '@mantine/hooks';
+import moment from 'moment';
 
 interface BlogCardProps {
     blogData: any;

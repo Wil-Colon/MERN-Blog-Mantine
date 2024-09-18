@@ -1,0 +1,27 @@
+.divider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.divider svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 5rem;
+
+    @media (max-width: $mantine-breakpoint-sm) {
+        height: 2rem;
+    }
+}
+
+.divider {
+    fill: #d9d9d9;
+    @include dark {
+        fill: rgb(34, 33, 33);
+    }
+}
