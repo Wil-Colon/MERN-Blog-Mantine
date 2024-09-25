@@ -34,7 +34,7 @@
 .container {
     position: relative;
     z-index: 1;
-    padding: 2rem;
+    padding: 2rem 2rem 0 2rem;
     border-radius: 11px;
     text-transform: uppercase;
     font-family: 'Baloo 2', cursive;
@@ -52,7 +52,7 @@
     }
 
     @media (max-width: $mantine-breakpoint-sm) {
-        padding: 1rem;
+        padding: 1rem 1rem 0 1rem;
     }
 
     @media (max-width: $mantine-breakpoint-sm) {

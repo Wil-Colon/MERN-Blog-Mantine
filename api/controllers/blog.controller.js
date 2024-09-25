@@ -276,3 +276,28 @@ exports.unlikeblog = async (req, res) => {
         });
     }
 };
+
+//PRIVATE AUTH
+//check if user has a like/unlike in this blog
+//PUT /api/blog/checklike/:blogID
+exports.checklike = async (req, res) => {
+    let userId = req.user.id;
+    let blogId = req.params.blogid;
+
+    try {
+        let blog = await Blog.findById(blogId);
+
+        //check if current user already has a like in this blog
+        const like = blog.likes.find((like) => like.user.toString() === userId);
+
+        if (!like) {
+            return res.status(200).send(false);
+        }
+
+        return res.status(200).send(true);
+    } catch (err) {
+        return res.status(400).json({
+            errors: [{ msg: 'Like blog server error.' }],
+        });
+    }
+};

@@ -10,6 +10,7 @@ const {
     deleteComment,
     likeBlog,
     unlikeblog,
+    checklike,
 } = require('../controllers/blog.controller');
 
 //GET All blogs
@@ -51,7 +52,12 @@ router.put('/likeblog/:blogid', auth, likeBlog);
 
 //PRIVATE AUTH
 //Delete a 'Like' to a Blog
-//Delete /api/blog/unlike/:blogid
-router.delete('/unlikeblog/:blogid', auth, unlikeblog);
+//PUT /api/blog/unlike/:blogid
+router.put('/unlikeblog/:blogid', auth, unlikeblog);
+
+//PRIVATE AUTH
+//check if user has a like/unlike in this blog
+//PUT /api/blog/checklike/:blogID
+router.get('/checklike/:blogid', auth, checklike);
 
 module.exports = router;
