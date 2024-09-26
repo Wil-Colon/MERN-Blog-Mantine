@@ -9,7 +9,7 @@ interface HeroProps {
 }
 
 export default function Hero({ selectedThought }: HeroProps) {
-    const [thought, setThought] = useState(selectedThought);
+    const [thought, setThought] = useState(null);
 
     useEffect(() => {
         selectedThought !== null && setThought(selectedThought);
@@ -24,11 +24,11 @@ export default function Hero({ selectedThought }: HeroProps) {
                         <HeroThought selectedThought={selectedThought} />
                         <Avatar
                             className={classes.avatar}
-                            src={thought.Avatar}
+                            src={thought.avatar}
                         />
                     </>
                 ) : (
-                    <p>Loading Thought...</p>
+                    <p>loading</p>
                 )}
             </Container>
             <Divider />

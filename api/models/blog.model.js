@@ -34,6 +34,7 @@ const BlogSchema = new mongoose.Schema(
                     type: mongoose.Schema.Types.ObjectId,
                     ref: 'users',
                 },
+                selection: String,
             },
         ],
         comments: [

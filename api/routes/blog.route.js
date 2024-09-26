@@ -48,12 +48,12 @@ router.delete('/deletecomment/:blogid/:commentid', auth, deleteComment);
 //PRIVATE AUTH
 //Add a 'Like' to a Blog
 //PUT /api/blog/likeblog/:blogid
-router.put('/likeblog/:blogid', auth, likeBlog);
+router.put('/likeblog/:blogid/:selection', auth, likeBlog);
 
 //PRIVATE AUTH
 //Delete a 'Like' to a Blog
 //PUT /api/blog/unlike/:blogid
-router.put('/unlikeblog/:blogid', auth, unlikeblog);
+// router.put('/unlikeblog/:blogid', auth, unlikeblog);
 
 //PRIVATE AUTH
 //check if user has a like/unlike in this blog

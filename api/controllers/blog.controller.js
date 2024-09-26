@@ -214,11 +214,12 @@ exports.deleteComment = async (req, res) => {
 };
 
 //PRIVATE AUTH
-//Add a 'Like' to a Blog
-//PUT /api/blog/likeblog/:blogid
+//Add a 'Like' or 'unlike' to a Blog
+//PUT /api/blog/likeblog/:blogid/:selection
 exports.likeBlog = async (req, res) => {
     let userId = req.user.id;
     let blogId = req.params.blogid;
+    let selection = req.params.selection;
 
     try {
         let blog = await Blog.findById(blogId);
@@ -226,15 +227,32 @@ exports.likeBlog = async (req, res) => {
         //check if current user already has a like in this blog
         const like = blog.likes.find((like) => like.user.toString() === userId);
 
+        //if user does not have a like/unlike, allow like/unlike
         if (!like) {
-            blog.likes.push({ user: userId });
+            blog.likes.push({ user: userId, selection: selection });
             await blog.save();
             return res.status(200).json(blog.likes);
         }
 
-        return res.status(400).json({
-            errors: [{ msg: 'Unable to like more then once.' }],
-        });
+        //if user does have something, check if like/unlike and switch user selection
+        if (like.selection !== selection) {
+            await Blog.findOneAndUpdate(
+                { _id: blogId },
+                { $pull: { likes: { _id: like.id } } },
+                { safe: true, multi: false }
+            );
+
+            let blog = await Blog.findById(blogId);
+
+            blog.likes.push({ user: userId, selection: selection });
+            await blog.save();
+
+            return res.status(200).json(blog.likes);
+        } else {
+            return res.status(400).json({
+                errors: [{ msg: `Unable to ${selection} more then once.` }],
+            });
+        }
     } catch (err) {
         return res.status(400).json({
             errors: [{ msg: 'Like blog server error.' }],
@@ -245,37 +263,37 @@ exports.likeBlog = async (req, res) => {
 //PRIVATE AUTH
 //Delete a 'Like' to a Blog
 //Delete /api/blog/unlike/:blogid
-exports.unlikeblog = async (req, res) => {
-    let userId = req.user.id;
-    let blogId = req.params.blogid;
+// exports.unlikeblog = async (req, res) => {
+//     let userId = req.user.id;
+//     let blogId = req.params.blogid;
 
-    try {
-        let blog = await Blog.findById(blogId);
+//     try {
+//         let blog = await Blog.findById(blogId);
 
-        //check if current user is user attempting to unlike
-        const checkUser = blog.likes.find(
-            (like) => like.user.toString() === userId
-        );
+//         //check if current user is user attempting to unlike
+//         const checkUser = blog.likes.find(
+//             (like) => like.user.toString() === userId
+//         );
 
-        if (checkUser) {
-            //return all likes not from the user and save
-            const likes = blog.likes.filter(
-                (like) => like.user.toString() !== userId
-            );
+//         if (checkUser) {
+//             //return all likes not from the user and save
+//             const likes = blog.likes.filter(
+//                 (like) => like.user.toString() !== userId
+//             );
 
-            blog.likes = likes;
-            await blog.save();
-            return res.status(200).json(blog.likes);
-        }
-        return res.status(400).json({
-            errors: [{ msg: 'Unable to unlike.' }],
-        });
-    } catch (err) {
-        return res.status(400).json({
-            errors: [{ msg: 'Like blog server error.' }],
-        });
-    }
-};
+//             blog.likes = likes;
+//             await blog.save();
+//             return res.status(200).json(blog.likes);
+//         }
+//         return res.status(400).json({
+//             errors: [{ msg: 'Unable to unlike.' }],
+//         });
+//     } catch (err) {
+//         return res.status(400).json({
+//             errors: [{ msg: 'Like blog server error.' }],
+//         });
+//     }
+// };
 
 //PRIVATE AUTH
 //check if user has a like/unlike in this blog
@@ -290,11 +308,11 @@ exports.checklike = async (req, res) => {
         //check if current user already has a like in this blog
         const like = blog.likes.find((like) => like.user.toString() === userId);
 
-        if (!like) {
-            return res.status(200).send(false);
+        if (like) {
+            return res.status(200).json(like.selection);
         }
 
-        return res.status(200).send(true);
+        return res.status(200).json(null);
     } catch (err) {
         return res.status(400).json({
             errors: [{ msg: 'Like blog server error.' }],

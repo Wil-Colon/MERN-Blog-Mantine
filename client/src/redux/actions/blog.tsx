@@ -40,15 +40,15 @@ export const checkLikes = async (blogId) => {
     }
 };
 
-//Like blog
-export const likeButton = async (blogId) => {
+//Like/unlike blog
+export const likeButton = async (blogId, selection) => {
     let errors;
     if (localStorage.token) {
         setAuthToken(localStorage.token);
     }
     try {
         const res = await axios.put(
-            `http://localhost:3000/api/blog/likeblog/${blogId}`
+            `http://localhost:3000/api/blog/likeblog/${blogId}/${selection}`
         );
 
         return res.data;
@@ -58,20 +58,20 @@ export const likeButton = async (blogId) => {
     }
 };
 
-//unLike blog
-export const unLikeButton = async (blogId) => {
-    let errors;
-    if (localStorage.token) {
-        setAuthToken(localStorage.token);
-    }
-    try {
-        const res = await axios.put(
-            `http://localhost:3000/api/blog/unlikeblog/${blogId}`
-        );
+// //unLike blog
+// export const unLikeButton = async (blogId) => {
+//     let errors;
+//     if (localStorage.token) {
+//         setAuthToken(localStorage.token);
+//     }
+//     try {
+//         const res = await axios.put(
+//             `http://localhost:3000/api/blog/unlikeblog/${blogId}`
+//         );
 
-        return res.data;
-    } catch (err) {
-        errors = err.response.data.errors;
-        return errors;
-    }
-};
+//         return res.data;
+//     } catch (err) {
+//         errors = err.response.data.errors;
+//         return errors;
+//     }
+// };
