@@ -43,6 +43,7 @@ export const checkLikes = async (blogId) => {
 //Like/unlike blog
 export const likeButton = async (blogId, selection) => {
     let errors;
+
     if (localStorage.token) {
         setAuthToken(localStorage.token);
     }

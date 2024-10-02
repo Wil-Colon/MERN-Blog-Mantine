@@ -8,84 +8,128 @@ import {
 } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { checkLikes, likeButton, unLikeButton } from '../../redux/actions/blog';
-import { Loader } from '@mantine/core';
+import { Loader, Popover, Text } from '@mantine/core';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
 
 interface HeroThoughtProps {
     selectedThought: any;
 }
 
 export default function HeroThought({ selectedThought }: HeroThoughtProps) {
-    const [totalLikes, setTotalLikes] = useState(selectedThought.likes.length);
-    const [liked, setLiked] = useState(null);
-    const [unLiked, setUnLiked] = useState(null);
+    const user = useSelector((state: RootState) => state.user.currentUser);
     const [isLoading, setIsLoading] = useState(true);
-    let dateFormat = moment(selectedThought.date, moment.ISO_8601).format(
+    const dateFormat = moment(selectedThought.date, moment.ISO_8601).format(
         'YYYY-MM-DD'
     );
+    const [totalLikes, setTotalLikes] = useState(
+        selectedThought.likes.filter((like) => like.selection === 'liked')
+            .length
+    );
+    const [liked, setLiked] = useState('');
 
     useEffect(() => {
-        const getLikes = async () => {
-            const res = await checkLikes(selectedThought._id);
-            setLiked(res);
-            setIsLoading(false);
-        };
-        getLikes();
-    }, [selectedThought._id]);
+        if (user !== null) {
+            const getLikes = async () => {
+                const res = await checkLikes(selectedThought._id);
+                setLiked(res);
+            };
+            getLikes();
+        }
 
-    useEffect(() => {
-        setLiked(
-            selectedThought.likes.filter((like) => like.selection === 'like')
-        );
+        setIsLoading(false);
+    }, [selectedThought._id, selectedThought.likes, user]);
 
-        setUnLiked(
-            selectedThought.likes.filter((like) => like.selection === 'unlike')
-        );
-    }, [selectedThought.likes]);
+    const popoverLike = (
+        <Popover position="bottom" withArrow shadow="md">
+            <Popover.Target>
+                <IconThumbUp />
+            </Popover.Target>
+            <Popover.Dropdown>
+                <Text size="xs">Login to like!</Text>
+            </Popover.Dropdown>
+        </Popover>
+    );
 
-    const likeButtons =
-        liked === 'like' ? (
-            <div className="likeButton">
-                <IconThumbUpFilled />
-                {/* <span>{totalLikes}</span> */}
-                <IconThumbDown
-                    onClick={() => {
-                        likeButton(selectedThought._id, 'unlike');
-                        setLiked('unlike');
-                        setTotalLikes(totalLikes - 1);
-                    }}
-                />
-            </div>
-        ) : liked === 'unlike' ? (
-            <div className="likeButton">
-                <IconThumbUp
-                    onClick={() => {
-                        likeButton(selectedThought._id, 'like');
-                        setLiked('like');
-                        setTotalLikes(totalLikes + 1);
-                    }}
-                />
-                <IconThumbDownFilled />
-                {/* <span>{totalLikes}</span> */}
-            </div>
-        ) : (
-            <div className="likeButton">
-                <IconThumbUp
-                    onClick={() => {
-                        likeButton(selectedThought._id, 'like');
-                        setLiked('like');
-                        setTotalLikes(totalLikes - 1);
-                    }}
-                />
-                {/* <span>{totalLikes}</span> */}
-                <IconThumbDown
-                    onClick={() => {
-                        likeButton(selectedThought._id, 'unlike');
-                        setLiked('unlike');
-                        setTotalLikes(totalLikes - 1);
-                    }}
-                />
-            </div>
-        );
+    const popoverUnLike = (
+        <Popover position="bottom" withArrow shadow="md">
+            <Popover.Target>
+                <IconThumbDown />
+            </Popover.Target>
+            <Popover.Dropdown>
+                <Text size="xs">Login to unlike!</Text>
+            </Popover.Dropdown>
+        </Popover>
+    );
+
+    const likeButtonsNonUser = (
+        <div className="likeButton">
+            {popoverLike}
+            <span>{totalLikes}</span>
+            {popoverUnLike}
+        </div>
+    );
+
+    const likeButtonsUser = (
+        <div className="likeButton">
+            {liked === 'liked' && (
+                <>
+                    <IconThumbUpFilled
+                        onClick={() => {
+                            likeButton(selectedThought._id, 'non');
+                            setLiked(null);
+                            setTotalLikes(totalLikes - 1);
+                        }}
+                    />
+                    <span>{totalLikes}</span>
+                    <IconThumbDown
+                        onClick={() => {
+                            likeButton(selectedThought._id, 'unliked');
+                            setLiked('unliked');
+                            setTotalLikes(totalLikes - 1);
+                        }}
+                    />
+                </>
+            )}
+            {liked === 'unliked' && (
+                <>
+                    <IconThumbUp
+                        onClick={() => {
+                            likeButton(selectedThought._id, 'liked');
+                            setLiked('liked');
+                            setTotalLikes(totalLikes + 1);
+                        }}
+                    />
+                    <span>{totalLikes}</span>
+                    <IconThumbDownFilled
+                        onClick={() => {
+                            likeButton(selectedThought._id, 'non');
+                            setLiked(null);
+                        }}
+                    />
+                </>
+            )}
+            {liked === null && (
+                <>
+                    {' '}
+                    <IconThumbUp
+                        onClick={() => {
+                            likeButton(selectedThought._id, 'liked');
+                            setLiked('liked');
+                            setTotalLikes(totalLikes + 1);
+                        }}
+                    />
+                    <span>{totalLikes}</span>
+                    <IconThumbDown
+                        onClick={() => {
+                            likeButton(selectedThought._id, 'unliked');
+                            setLiked('unliked');
+                        }}
+                    />{' '}
+                </>
+            )}
+        </div>
+    );
 
     return (
         <>
@@ -94,12 +138,14 @@ export default function HeroThought({ selectedThought }: HeroThoughtProps) {
             <p>{selectedThought.body}</p>
             <br />
             <small style={{ fontStyle: 'italic' }}>{dateFormat}</small>
-            {!isLoading ? (
-                likeButtons
-            ) : (
+            {isLoading ? (
                 <div className="likebutton">
                     <Loader />
                 </div>
+            ) : user ? (
+                likeButtonsUser
+            ) : (
+                likeButtonsNonUser
             )}
         </>
     );

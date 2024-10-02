@@ -244,7 +244,10 @@ exports.likeBlog = async (req, res) => {
 
             let blog = await Blog.findById(blogId);
 
-            blog.likes.push({ user: userId, selection: selection });
+            blog.likes.push({
+                user: userId,
+                selection: selection !== 'non' ? selection : null,
+            });
             await blog.save();
 
             return res.status(200).json(blog.likes);

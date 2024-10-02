@@ -2,12 +2,23 @@ import { Card, Group, Text } from '@mantine/core';
 import { IconFishHook, IconThumbUpFilled } from '@tabler/icons-react';
 import './thoughtcard.scss';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
 
 interface ThoughtCardProps {
     blogData: string;
 }
 
 export default function ThoughtCard({ blogData }: ThoughtCardProps) {
+    const [totalLikes, setTotalLikes] = useState(
+        blogData.likes.filter((like) => like.selection === 'liked').length
+    );
+
+    useEffect(() => {
+        setTotalLikes(
+            blogData.likes.filter((like) => like.selection === 'liked').length
+        );
+    }, [blogData.likes]);
+
     const truncate = (str, n) => {
         return str?.length > n ? str.substr(0, n - 1) + '...' : str;
     };
@@ -51,7 +62,7 @@ export default function ThoughtCard({ blogData }: ThoughtCardProps) {
                     {blogLayout}
                 </Card.Section>
                 <div className="thoughtcard__container__likes">
-                    <IconThumbUpFilled /> {likes.length}
+                    <IconThumbUpFilled /> {totalLikes}
                 </div>
             </Card>
         </div>
