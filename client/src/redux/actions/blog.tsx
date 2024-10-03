@@ -3,6 +3,9 @@ import {
     getBlogsError,
     getBlogsStart,
     getBlogsSuccess,
+    likeBlogStart,
+    likeBlogSuccess,
+    likeBlogFailure,
 } from '../blog/blogSlice';
 import setAuthToken from '../../utils/setAuthToken';
 
@@ -41,20 +44,24 @@ export const checkLikes = async (blogId) => {
 };
 
 //Like/unlike blog
-export const likeButton = async (blogId, selection) => {
+export const likeButton = (blogId, selection) => async (dispatch) => {
     let errors;
 
     if (localStorage.token) {
         setAuthToken(localStorage.token);
     }
+
+    dispatch(likeBlogStart());
     try {
         const res = await axios.put(
             `http://localhost:3000/api/blog/likeblog/${blogId}/${selection}`
         );
 
+        dispatch(likeBlogSuccess(res.data));
         return res.data;
     } catch (err) {
         errors = err.response.data.errors;
+        dispatch(likeBlogFailure(errors[0]));
         return errors;
     }
 };

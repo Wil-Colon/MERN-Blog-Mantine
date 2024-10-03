@@ -25,6 +25,25 @@ const blogSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        likeBlogStart: (state) => {
+            state.blogs = state.blogs;
+            state.loading = true;
+            state.error = false;
+        },
+        likeBlogSuccess: (state, action) => {
+            let blogIndex = state.blogs.findIndex(
+                (blog) => blog._id === action.payload._id
+            );
+
+            state.blogs[blogIndex] = action.payload;
+            state.loading = false;
+            state.error = false;
+        },
+        likeBlogFailure: (state, action) => {
+            state.blogs = null;
+            state.loading = false;
+            state.error = action.payload;
+        },
 
         resetErrors: (state) => {
             state.error = false;
@@ -32,6 +51,12 @@ const blogSlice = createSlice({
     },
 });
 
-export const { getBlogsStart, getBlogsSuccess, getBlogsError } =
-    blogSlice.actions;
+export const {
+    getBlogsStart,
+    getBlogsSuccess,
+    getBlogsError,
+    likeBlogStart,
+    likeBlogSuccess,
+    likeBlogFailure,
+} = blogSlice.actions;
 export default blogSlice.reducer;

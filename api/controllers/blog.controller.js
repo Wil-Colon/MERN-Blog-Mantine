@@ -250,7 +250,7 @@ exports.likeBlog = async (req, res) => {
             });
             await blog.save();
 
-            return res.status(200).json(blog.likes);
+            return res.status(200).json(blog);
         } else {
             return res.status(400).json({
                 errors: [{ msg: `Unable to ${selection} more then once.` }],

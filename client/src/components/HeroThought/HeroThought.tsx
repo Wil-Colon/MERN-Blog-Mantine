@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from 'react';
 import { checkLikes, likeButton, unLikeButton } from '../../redux/actions/blog';
 import { Loader, Popover, Text } from '@mantine/core';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 
 interface HeroThoughtProps {
@@ -17,28 +17,37 @@ interface HeroThoughtProps {
 }
 
 export default function HeroThought({ selectedThought }: HeroThoughtProps) {
-    const user = useSelector((state: RootState) => state.user.currentUser);
-    const [isLoading, setIsLoading] = useState(true);
     const dateFormat = moment(selectedThought.date, moment.ISO_8601).format(
         'YYYY-MM-DD'
     );
-    const [totalLikes, setTotalLikes] = useState(
-        selectedThought.likes.filter((like) => like.selection === 'liked')
-            .length
-    );
+    const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.user.currentUser);
+    const blogs = useSelector((state: RootState) => state.blogs.blogs);
+    const [isLoading, setIsLoading] = useState(true);
+    const [totalLikes, setTotalLikes] = useState(0);
     const [liked, setLiked] = useState('');
+    const currentBlog = blogs.filter(
+        (blog) => blog._id === selectedThought._id
+    );
+    let likes = currentBlog[0].likes.filter(
+        (likes) => likes.selection === 'liked'
+    ).length;
+
+    useEffect(() => {
+        setTotalLikes(likes);
+    }, [likes]);
 
     useEffect(() => {
         if (user !== null) {
-            const getLikes = async () => {
+            const getUserLikedThoughts = async () => {
                 const res = await checkLikes(selectedThought._id);
                 setLiked(res);
             };
-            getLikes();
+            getUserLikedThoughts();
         }
 
         setIsLoading(false);
-    }, [selectedThought._id, selectedThought.likes, user]);
+    }, [user]);
 
     const popoverLike = (
         <Popover position="bottom" withArrow shadow="md">
@@ -76,17 +85,18 @@ export default function HeroThought({ selectedThought }: HeroThoughtProps) {
                 <>
                     <IconThumbUpFilled
                         onClick={() => {
-                            likeButton(selectedThought._id, 'non');
+                            dispatch(likeButton(selectedThought._id, 'non'));
                             setLiked(null);
-                            setTotalLikes(totalLikes - 1);
                         }}
                     />
                     <span>{totalLikes}</span>
                     <IconThumbDown
                         onClick={() => {
-                            likeButton(selectedThought._id, 'unliked');
+                            dispatch(
+                                likeButton(selectedThought._id, 'unliked')
+                            );
+
                             setLiked('unliked');
-                            setTotalLikes(totalLikes - 1);
                         }}
                     />
                 </>
@@ -95,15 +105,15 @@ export default function HeroThought({ selectedThought }: HeroThoughtProps) {
                 <>
                     <IconThumbUp
                         onClick={() => {
-                            likeButton(selectedThought._id, 'liked');
+                            dispatch(likeButton(selectedThought._id, 'liked'));
+
                             setLiked('liked');
-                            setTotalLikes(totalLikes + 1);
                         }}
                     />
                     <span>{totalLikes}</span>
                     <IconThumbDownFilled
                         onClick={() => {
-                            likeButton(selectedThought._id, 'non');
+                            dispatch(likeButton(selectedThought._id, 'non'));
                             setLiked(null);
                         }}
                     />
@@ -114,15 +124,17 @@ export default function HeroThought({ selectedThought }: HeroThoughtProps) {
                     {' '}
                     <IconThumbUp
                         onClick={() => {
-                            likeButton(selectedThought._id, 'liked');
+                            dispatch(likeButton(selectedThought._id, 'liked'));
                             setLiked('liked');
-                            setTotalLikes(totalLikes + 1);
                         }}
                     />
                     <span>{totalLikes}</span>
                     <IconThumbDown
                         onClick={() => {
-                            likeButton(selectedThought._id, 'unliked');
+                            dispatch(
+                                likeButton(selectedThought._id, 'unliked')
+                            );
+
                             setLiked('unliked');
                         }}
                     />{' '}
