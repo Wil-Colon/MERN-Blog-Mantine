@@ -246,7 +246,7 @@ exports.likeBlog = async (req, res) => {
 
             blog.likes.push({
                 user: userId,
-                selection: selection !== 'non' ? selection : null,
+                selection: selection !== 'non' ? selection : 'non',
             });
             await blog.save();
 
@@ -315,7 +315,7 @@ exports.checklike = async (req, res) => {
             return res.status(200).json(like.selection);
         }
 
-        return res.status(200).json(null);
+        return res.status(200).json('non');
     } catch (err) {
         return res.status(400).json({
             errors: [{ msg: 'Like blog server error.' }],

@@ -32,6 +32,7 @@ export default function HeroThought({ selectedThought }: HeroThoughtProps) {
     let likes = currentBlog[0].likes.filter(
         (likes) => likes.selection === 'liked'
     ).length;
+    console.log(liked);
 
     useEffect(() => {
         setTotalLikes(likes);
@@ -47,7 +48,7 @@ export default function HeroThought({ selectedThought }: HeroThoughtProps) {
         }
 
         setIsLoading(false);
-    }, [user]);
+    }, [user, selectedThought]);
 
     const popoverLike = (
         <Popover position="bottom" withArrow shadow="md">
@@ -86,7 +87,7 @@ export default function HeroThought({ selectedThought }: HeroThoughtProps) {
                     <IconThumbUpFilled
                         onClick={() => {
                             dispatch(likeButton(selectedThought._id, 'non'));
-                            setLiked(null);
+                            setLiked('non');
                         }}
                     />
                     <span>{totalLikes}</span>
@@ -114,12 +115,12 @@ export default function HeroThought({ selectedThought }: HeroThoughtProps) {
                     <IconThumbDownFilled
                         onClick={() => {
                             dispatch(likeButton(selectedThought._id, 'non'));
-                            setLiked(null);
+                            setLiked('non');
                         }}
                     />
                 </>
             )}
-            {liked === null && (
+            {liked === 'non' && (
                 <>
                     {' '}
                     <IconThumbUp
