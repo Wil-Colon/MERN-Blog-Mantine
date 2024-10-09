@@ -16,6 +16,13 @@ export default function Home() {
             : setSelectedThought(blogs.find((blog) => blog.type === 'thought'));
     }, [blogs, dispatch]);
 
+    useEffect(() => {
+        selectedThought !== null &&
+            setSelectedThought(
+                blogs.find((blog) => blog._id === selectedThought._id)
+            );
+    }, [selectedThought, blogs]);
+
     return (
         <>
             <Hero selectedThought={selectedThought} />

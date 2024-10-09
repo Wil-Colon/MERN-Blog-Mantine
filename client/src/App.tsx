@@ -14,7 +14,6 @@ import Header from './components/Header/Header';
 import Blogs from './pages/Blogs';
 import Register from './pages/Register';
 import Login from './pages/Login';
-
 import AdminDashboard from './pages/Admin/AdminDashboard/AdminDashboard';
 import UserProfile from './pages/UserProfile';
 import PrivateRoute from './utils/PrivateRoute';
