@@ -14,14 +14,16 @@ export default function Home() {
         blogs === null
             ? dispatch(getAllBlogs())
             : setSelectedThought(blogs.find((blog) => blog.type === 'thought'));
-    }, [blogs, dispatch]);
 
-    useEffect(() => {
         selectedThought !== null &&
             setSelectedThought(
                 blogs.find((blog) => blog._id === selectedThought._id)
             );
-    }, [selectedThought, blogs]);
+    }, [blogs, dispatch]);
+
+    // useEffect(() => {
+
+    // }, [selectedThought, blogs]);
 
     return (
         <>

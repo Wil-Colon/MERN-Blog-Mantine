@@ -11,7 +11,6 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
 import Header from './components/Header/Header';
-import Blogs from './pages/Blogs';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import AdminDashboard from './pages/Admin/AdminDashboard/AdminDashboard';
@@ -19,6 +18,8 @@ import UserProfile from './pages/UserProfile';
 import PrivateRoute from './utils/PrivateRoute';
 import PageNotFound from './pages/PageNotFound';
 import UserDashBoard from './pages/UserDashboard/UserDashboard';
+import BlogsList from './pages/BlogsList';
+import BlogLayout from './components/BlogLayout/BlogLayout';
 
 // import PrivateRoute from './components/routing/privateRoute';
 
@@ -44,8 +45,8 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/projects" element={<Projects />} />
-                    <Route path="/blogs" element={<Blogs />} />
-                    <Route path="/blogs/:id" element={<h1>derp</h1>} />
+                    <Route path="/blogs" element={<BlogsList />} />
+                    <Route path="/blogs/:id" element={<BlogLayout />} />
 
                     {/* private */}
                     <Route path="/userProfile" element={<PrivateRoute />}>

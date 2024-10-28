@@ -1,8 +1,5 @@
 import './herothought.scss';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
-import { checkLikes } from '../../redux/actions/blog';
-import { Loader } from '@mantine/core';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import LikeButton, { LikeButtonsNonUser } from '../LikeButton/LikeButton';

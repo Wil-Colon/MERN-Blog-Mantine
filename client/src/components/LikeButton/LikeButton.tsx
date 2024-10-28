@@ -19,12 +19,12 @@ interface LikeButtonNonUserProps {
 }
 
 export default function LikeButton({ selectedThought }: LikeButtonUserProps) {
-    const blogs = useSelector((state: RootState) => state.blogs.blogs);
     const dispatch = useDispatch();
+    const blogs = useSelector((state: RootState) => state.blogs.blogs);
+    const user = useSelector((state: RootState) => state.user.currentUser);
     const [isLoading, setIsLoading] = useState(true);
     const [liked, setLiked] = useState('');
     const [totalLikes, setTotalLikes] = useState(0);
-    const user = useSelector((state: RootState) => state.user.currentUser);
 
     useEffect(() => {
         setTotalLikes(
@@ -45,7 +45,6 @@ export default function LikeButton({ selectedThought }: LikeButtonUserProps) {
             };
             getUserLikedThoughts();
         }
-
         setIsLoading(false);
     }, [user, selectedThought]);
 
@@ -155,6 +154,7 @@ export function LikeButtonsNonUser({
             </Popover.Dropdown>
         </Popover>
     );
+
     return (
         <div className="likeButton">
             {popoverLike}
