@@ -3,14 +3,10 @@ import './headerButtons.scss';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/rootReducer';
-import { useEffect } from 'react';
 
 export default function HeaderButtons() {
     const user = useSelector((state: RootState) => state.user);
     const path = useLocation().pathname;
-    // console.log(path);
-
-    // console.log(user.currentUser.isAdmin);
 
     return (
         <div className="button">

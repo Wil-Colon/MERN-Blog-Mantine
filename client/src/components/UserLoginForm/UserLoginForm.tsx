@@ -19,7 +19,11 @@ import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
-export function UserLoginForm() {
+interface UserLoginProps {
+    location: string;
+}
+
+export function UserLoginForm({ location }: UserLoginProps) {
     const navigate = useNavigate();
     const error = useSelector((state: RootState) => state?.user?.error);
     const token = useSelector((state: RootState) => state?.user?.token);
@@ -32,10 +36,16 @@ export function UserLoginForm() {
         }
     }, [dispatch, token]);
 
-    // navigate('/other-page', { state: { id: 7, color: 'green' } });
+    console.log(location);
 
     useEffect(() => {
-        if (user !== null) navigate(`/dashboard`);
+        if (user !== null) {
+            if (location === '/' || location === null) {
+                navigate(`/dashboard`);
+            } else {
+                navigate(location);
+            }
+        }
     }, [navigate, user]);
 
     const form = useForm({

@@ -83,6 +83,10 @@ exports.updateBlog = async (req, res) => {
         // Check of blog exists
         let blog = await Blog.findById(blogId);
 
+        let user = await User.findById(userId);
+
+        console.log(user);
+
         if (!blog) {
             return res
                 .status(400)
@@ -90,7 +94,7 @@ exports.updateBlog = async (req, res) => {
         }
 
         //check if blog belongs to currently logged in user
-        if (userId === blog.author.toString()) {
+        if (userId === blog.author.toString() || user.isAdmin === true) {
             // let blog = await Blog.findById(blogId);
 
             let updatedBlog = await Blog.findByIdAndUpdate(
@@ -100,6 +104,14 @@ exports.updateBlog = async (req, res) => {
             );
 
             return res.status(200).json(updatedBlog);
+        } else {
+            return res.status(400).json({
+                errors: [
+                    {
+                        msg: 'Blog does not belong to current user or user is not admin.',
+                    },
+                ],
+            });
         }
     } catch (err) {
         return res.status(400).json({

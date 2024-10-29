@@ -37,7 +37,7 @@ export default function ThoughtCard({ blogData }: ThoughtCardProps) {
     const dateFormat = moment(date, moment.ISO_8601).format('YYYY-MM-DD');
     const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    const blogLayout = (
+    const cardLayout = (
         <>
             <Group justify="apart" className="thoughtcard__container__title">
                 <Text fw={500}>{title}</Text>
@@ -59,7 +59,7 @@ export default function ThoughtCard({ blogData }: ThoughtCardProps) {
             <Card radius="md" p="md" className="thoughtcard__container">
                 <IconFishHook className="thoughtcard__container__icon" />
                 <Card.Section className="thoughtcard__container__section">
-                    {blogLayout}
+                    {cardLayout}
                 </Card.Section>
                 <div className="thoughtcard__container__likes">
                     <IconThumbUpFilled /> {totalLikes}

@@ -21,10 +21,6 @@ export default function Home() {
             );
     }, [blogs, dispatch]);
 
-    // useEffect(() => {
-
-    // }, [selectedThought, blogs]);
-
     return (
         <>
             <Hero selectedThought={selectedThought} />

@@ -30,7 +30,7 @@ export default function HomePageBlogContainer({
                                   }
                                   className="body-container__column"
                               >
-                                  <Link to={`/blogs/${blog._id}`}>
+                                  <Link to={`/blogs/${blog._id}`} state={blog}>
                                       <BlogCard blogData={blog} />
                                   </Link>
                               </Grid.Col>

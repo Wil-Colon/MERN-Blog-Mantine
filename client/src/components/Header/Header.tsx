@@ -2,15 +2,14 @@ import './header.scss';
 import { Flex, Image } from '@mantine/core';
 import DarkModeBtn from '../Buttons/DarkModeBtn/DarkModeBtn';
 import HeaderButtons from '../Buttons/HeaderButtons/HeaderButtons';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../redux/store';
 import { Fragment } from 'react';
-import { logOutUser } from '../../redux/user/userSlice';
-import { resetProfileData } from '../../redux/profile/profileSlice';
 import { logOut } from '../../redux/actions/auth';
 
 export default function Header() {
+    const path = useLocation().pathname;
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(
         (state: RootState) => state.user.currentUser
@@ -27,7 +26,7 @@ export default function Header() {
     );
 
     const login = (
-        <Link to="/login" className="btn">
+        <Link to="/login" state={path} className="btn">
             <p>Login</p>
         </Link>
     );

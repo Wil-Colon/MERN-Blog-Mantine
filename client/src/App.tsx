@@ -20,8 +20,7 @@ import PageNotFound from './pages/PageNotFound';
 import UserDashBoard from './pages/UserDashboard/UserDashboard';
 import BlogsList from './pages/BlogsList';
 import BlogLayout from './components/BlogLayout/BlogLayout';
-
-// import PrivateRoute from './components/routing/privateRoute';
+import '@mantine/carousel/styles.css';
 
 function App() {
     const dispatch = useDispatch();

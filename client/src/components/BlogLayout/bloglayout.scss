@@ -1,0 +1,39 @@
+.blogcontainer {
+    margin-bottom: 2rem;
+    &__body {
+        flex-direction: column;
+        font-size: 1.2rem;
+        flex-basis: 80%;
+        border-right: 2px solid #d4d5d5;
+        padding-right: 1rem;
+
+        @media (max-width: $mantine-breakpoint-sm) {
+            // margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #d4d5d5;
+            border-right: none;
+        }
+
+        &--thumbs {
+            margin-top: 1rem;
+        }
+    }
+
+    &__avatar {
+        margin-left: 1rem;
+        align-items: center;
+        gap: 1rem;
+
+        @media (max-width: $mantine-breakpoint-sm) {
+            padding-top: 1rem;
+        }
+        &--photo {
+            height: 8rem;
+            width: 8.5rem;
+        }
+        &--name {
+            font-weight: 700;
+            line-height: 1rem;
+        }
+    }
+}
