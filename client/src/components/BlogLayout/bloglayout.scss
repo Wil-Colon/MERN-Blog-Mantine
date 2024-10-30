@@ -1,3 +1,11 @@
+.image {
+    @include dark {
+        -webkit-filter: brightness(80%);
+        -moz-filter: brightness(80%);
+        filter: url(#brightness); /* required for FF */
+        filter: brightness(80%);
+    }
+}
 .blogcontainer {
     margin-bottom: 2rem;
     &__body {

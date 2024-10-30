@@ -1,9 +1,9 @@
 import HomePageBlogContainer from '../components/HomePageBlogContainer/HomePageBlogContainer';
 import Hero from '../components/Hero/Hero';
-import type { RootState } from '../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getAllBlogs } from '../redux/actions/blog';
+import type { RootState } from '../redux/rootReducer';
 
 export default function Home() {
     const dispatch = useDispatch();

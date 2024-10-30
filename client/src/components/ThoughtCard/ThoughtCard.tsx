@@ -22,18 +22,7 @@ export default function ThoughtCard({ blogData }: ThoughtCardProps) {
     const truncate = (str, n) => {
         return str?.length > n ? str.substr(0, n - 1) + '...' : str;
     };
-    const {
-        avatar,
-        userName,
-        body,
-        comments,
-        date,
-        galleryPhotos,
-        likes,
-        title,
-        type,
-        coverPhoto,
-    } = blogData;
+    const { userName, body, date, title } = blogData;
     const dateFormat = moment(date, moment.ISO_8601).format('YYYY-MM-DD');
     const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 

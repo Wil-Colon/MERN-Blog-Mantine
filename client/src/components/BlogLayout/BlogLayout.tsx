@@ -1,74 +1,53 @@
 import './bloglayout.scss';
+import moment from 'moment';
+import BodyContainer from '../BodyContainer/BodyContainer';
+import LikeButton, { LikeButtonsNonUser } from '../LikeButton/LikeButton';
+import { useEffect, useState } from 'react';
+import { Carousel } from '@mantine/carousel';
 import {
     Avatar,
-    Button,
+    Center,
     Flex,
-    Grid,
     Image,
     Loader,
     Text,
     Title,
 } from '@mantine/core';
-import BodyContainer from '../BodyContainer/BodyContainer';
-import { Carousel } from '@mantine/carousel';
-import { Container } from '@mantine/core';
-import { IconThumbDown, IconThumbUp } from '@tabler/icons-react';
 import { useLocation } from 'react-router-dom';
-import moment from 'moment';
-import { useEffect, useState } from 'react';
-import LikeButton, { LikeButtonsNonUser } from '../LikeButton/LikeButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllBlogs } from '../../redux/actions/blog';
 import { RootState } from '../../redux/rootReducer';
+import BlogCarousel from '../BlogCarousel/BlogCarousel';
 
 export default function BlogLayout() {
-    let { state } = useLocation();
-    const path = useLocation().pathname;
+    const path = useLocation().pathname.slice(7);
     const dispatch = useDispatch();
     const blogs = useSelector((state: RootState) => state.blogs.blogs);
     const user = useSelector((state: RootState) => state.user.currentUser);
-
-    const [currentBlog, setCurrentBlog] = useState(state);
-    const [currentBlog2, setCurrentBlog2] = useState(state);
-    const [totalLikes, setTotalLikes] = useState(
-        currentBlog.likes.filter((like) => like.selection === 'liked').length
-    );
+    const [currentBlog, setCurrentBlog] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        state === null && dispatch(getAllBlogs());
-    }, [blogs, dispatch]);
+        blogs === null && dispatch(getAllBlogs());
 
-    useEffect(() => {
-        currentBlog === null &&
-            setCurrentBlog(blogs.filter((blog) => blog.id === path.slice(5)));
-    }, [blogs, dispatch, state, path, currentBlog]);
+        blogs !== null &&
+            setCurrentBlog(blogs.filter((blog) => blog._id === path)[0]);
 
-    console.log(currentBlog);
-
-    const {
-        avatar,
-        userName,
-        body,
-        comments,
-        date,
-        galleryPhotos,
-        likes,
-        title,
-        type,
-        coverPhoto,
-    } = currentBlog;
-    const dateFormat = moment(date, moment.ISO_8601).format('YYYY-MM-DD');
+        currentBlog !== null && setIsLoading(false);
+    }, [dispatch, blogs, path, currentBlog]);
 
     const loadingContainer = (
-        <BodyContainer>
-            <Loader />
+        <BodyContainer fluid={false} size="lg">
+            <Center h={800}>
+                <Loader />
+            </Center>
         </BodyContainer>
     );
 
-    return blogs === null ? (
+    return isLoading ? (
         loadingContainer
     ) : (
-        <BodyContainer size="lg">
+        <BodyContainer fluid={false} size="lg" pb={80}>
             <Flex
                 mih={50}
                 mt={50}
@@ -78,14 +57,18 @@ export default function BlogLayout() {
                 wrap="wrap"
             >
                 <Title mt={10} mb={10} fw={400}>
-                    {title}
+                    {currentBlog.title}
                 </Title>
-                <small>{dateFormat}</small>
+                <small>
+                    {moment(currentBlog.date, moment.ISO_8601).format(
+                        'YYYY-MM-DD'
+                    )}
+                </small>
                 <Carousel mb={10} withIndicators height="100%">
                     <Carousel.Slide>
-                        <Image src={coverPhoto}></Image>
+                        <Image className="image" src={currentBlog.coverPhoto} />
                     </Carousel.Slide>
-                    {galleryPhotos.map((photo, i) => (
+                    {currentBlog.galleryPhotos.map((photo, i) => (
                         <Carousel.Slide key={i}>
                             <Image src={photo}></Image>
                         </Carousel.Slide>
@@ -96,26 +79,30 @@ export default function BlogLayout() {
                     direction={{ base: 'column', sm: 'row' }}
                 >
                     <Flex className="blogcontainer__body">
-                        <Text>{body}</Text>
+                        <Text>{currentBlog.body}</Text>
 
                         {user ? (
-                            <LikeButton selectedThought={state} />
+                            <LikeButton selectedThought={currentBlog} />
                         ) : (
-                            <LikeButtonsNonUser selectedThought={state} />
+                            <LikeButtonsNonUser selectedThought={currentBlog} />
                         )}
                     </Flex>
                     <Flex className="blogcontainer__avatar">
                         <Avatar
-                            src={avatar}
+                            src={currentBlog.avatar}
                             alt="it's me"
-                            className="blogcontainer__avatar--photo"
+                            className="blogcontainer__avatar--photo image"
                         />
                         <Text className="blogcontainer__avatar--name">
-                            {userName}
+                            {currentBlog.userName}
                         </Text>
                     </Flex>
                 </Flex>
             </Flex>
+            <Text size="xl" fw={700} style={{ textDecoration: 'underline' }}>
+                Other great blogs to checkout!
+            </Text>
+            <BlogCarousel currentBlogId={path} />
         </BodyContainer>
     );
 }

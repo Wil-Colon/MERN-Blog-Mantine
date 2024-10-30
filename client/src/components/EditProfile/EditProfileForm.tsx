@@ -1,5 +1,4 @@
 import { Box, Button, Fieldset, Group, Text, TextInput } from '@mantine/core';
-import './EditProfileForm.scss';
 import { useForm } from '@mantine/form';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';

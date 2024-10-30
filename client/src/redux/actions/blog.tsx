@@ -9,21 +9,6 @@ import {
 } from '../blog/blogSlice';
 import setAuthToken from '../../utils/setAuthToken';
 
-// //Get single Blog by ID
-// export const getSingleBlog = () => async (dispatch) => {
-//     dispatch(getBlogsStart());
-
-//     try {
-//         const res = await axios.get('http://localhost:3000/api/blog/');
-
-//         dispatch(getBlogsSuccess(res.data));
-
-//         return res.data;
-//     } catch (err) {
-//         const errors = err.response.data.errors;
-//         dispatch(getBlogsError(errors[0]));
-//     }
-// };
 //Get all blogs
 export const getAllBlogs = () => async (dispatch) => {
     dispatch(getBlogsStart());
