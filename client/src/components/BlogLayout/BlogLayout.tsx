@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllBlogs } from '../../redux/actions/blog';
 import { RootState } from '../../redux/rootReducer';
 import BlogCarousel from '../BlogCarousel/BlogCarousel';
+import AddComment from '../AddComment/AddComment';
 
 export default function BlogLayout() {
     const path = useLocation().pathname.slice(7);
@@ -56,19 +57,20 @@ export default function BlogLayout() {
                 direction="column"
                 wrap="wrap"
             >
-                <Title mt={10} mb={10} fw={400}>
-                    {currentBlog.title}
-                </Title>
-                <small>
+                <Title fw={400}>{currentBlog?.title}</Title>
+                <small style={{ marginTop: '-1rem' }}>
                     {moment(currentBlog.date, moment.ISO_8601).format(
                         'YYYY-MM-DD'
                     )}
                 </small>
                 <Carousel mb={10} withIndicators height="100%">
                     <Carousel.Slide>
-                        <Image className="image" src={currentBlog.coverPhoto} />
+                        <Image
+                            className="image"
+                            src={currentBlog?.coverPhoto}
+                        />
                     </Carousel.Slide>
-                    {currentBlog.galleryPhotos.map((photo, i) => (
+                    {currentBlog?.galleryPhotos.map((photo, i) => (
                         <Carousel.Slide key={i}>
                             <Image src={photo}></Image>
                         </Carousel.Slide>
@@ -79,7 +81,7 @@ export default function BlogLayout() {
                     direction={{ base: 'column', sm: 'row' }}
                 >
                     <Flex className="blogcontainer__body">
-                        <Text>{currentBlog.body}</Text>
+                        <Text>{currentBlog?.body}</Text>
 
                         {user ? (
                             <LikeButton selectedThought={currentBlog} />
@@ -89,16 +91,17 @@ export default function BlogLayout() {
                     </Flex>
                     <Flex className="blogcontainer__avatar">
                         <Avatar
-                            src={currentBlog.avatar}
+                            src={currentBlog?.avatar}
                             alt="it's me"
                             className="blogcontainer__avatar--photo image"
                         />
                         <Text className="blogcontainer__avatar--name">
-                            {currentBlog.userName}
+                            {currentBlog?.userName}
                         </Text>
                     </Flex>
                 </Flex>
             </Flex>
+            <AddComment />
             <Text size="xl" fw={700} style={{ textDecoration: 'underline' }}>
                 Other great blogs to checkout!
             </Text>

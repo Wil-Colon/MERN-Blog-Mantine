@@ -1,0 +1,25 @@
+.add-comment {
+    width: 50%;
+    border-bottom: 2px solid #f51c40;
+    transition: all 0.3s ease-in-out;
+
+    &--selected {
+        border-bottom: 3px solid #f51c40;
+        width: 65%;
+        transition: all 0.3s ease-in-out;
+    }
+}
+
+.buttons {
+    padding-top: 1rem;
+    justify-items: center;
+    align-self: flex-end;
+    &:disabled,
+    &[data-disabled] {
+        border-color: light-dark(
+            var(--mantine-color-gray-3),
+            var(--mantine-color-dark-4)
+        );
+        background-color: transparent;
+    }
+}
