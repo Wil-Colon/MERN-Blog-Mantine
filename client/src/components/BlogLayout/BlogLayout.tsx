@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllBlogs } from '../../redux/actions/blog';
 import { RootState } from '../../redux/rootReducer';
 import BlogCarousel from '../BlogCarousel/BlogCarousel';
-import AddComment from '../AddComment/AddComment';
+import AddComment, { CommentSimple } from '../AddComment/AddComment';
 
 export default function BlogLayout() {
     const path = useLocation().pathname.slice(7);
@@ -101,11 +101,28 @@ export default function BlogLayout() {
                     </Flex>
                 </Flex>
             </Flex>
-            <AddComment />
-            <Text size="xl" fw={700} style={{ textDecoration: 'underline' }}>
+            <AddComment currentBlogId={path} />
+            {currentBlog.comments.length <= 0 ? (
+                <p>No comments</p>
+            ) : (
+                currentBlog.comments.map((blog) => (
+                    <CommentSimple commentData={blog} />
+                ))
+            )}
+
+            <Text
+                size="xl"
+                fw={700}
+                mt={'2rem'}
+                style={{ textDecoration: 'underline' }}
+            >
                 Other great blogs to checkout!
             </Text>
-            <BlogCarousel currentBlogId={path} />
+            {blogs.length <= 1 ? (
+                <p>no blogs available</p>
+            ) : (
+                <BlogCarousel currentBlogId={path} />
+            )}
         </BodyContainer>
     );
 }

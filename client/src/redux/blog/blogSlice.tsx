@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { addComment } from '../actions/blog';
 
 const initialState = {
     blogs: null as any,
@@ -26,7 +27,7 @@ const blogSlice = createSlice({
             state.error = action.payload;
         },
         likeBlogStart: (state) => {
-            state.blogs = state.blogs;
+            // state.blogs = state.blogs;
             state.loading = true;
             state.error = false;
         },
@@ -40,6 +41,25 @@ const blogSlice = createSlice({
             state.error = false;
         },
         likeBlogFailure: (state, action) => {
+            state.blogs = null;
+            state.loading = false;
+            state.error = action.payload;
+        },
+        addCommentStart: (state) => {
+            // state.blogs = state.blogs;
+            state.loading = true;
+            state.error = false;
+        },
+        addCommentSuccess: (state, action) => {
+            let blogIndex = state.blogs.findIndex(
+                (blog) => blog._id === action.payload._id
+            );
+
+            state.blogs[blogIndex] = action.payload;
+            state.loading = false;
+            state.error = false;
+        },
+        addCommentFailure: (state, action) => {
             state.blogs = null;
             state.loading = false;
             state.error = action.payload;
@@ -58,5 +78,8 @@ export const {
     likeBlogStart,
     likeBlogSuccess,
     likeBlogFailure,
+    addCommentStart,
+    addCommentSuccess,
+    addCommentFailure,
 } = blogSlice.actions;
 export default blogSlice.reducer;

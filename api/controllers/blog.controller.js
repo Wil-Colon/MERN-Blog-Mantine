@@ -145,6 +145,7 @@ exports.commentBlog = async (req, res) => {
     let userId = req.user.id;
     let blogId = req.params.blogid;
 
+    console.log(req.body);
     try {
         // Check of blog exists
         let user = await User.findById(userId).select('-password');
@@ -160,7 +161,7 @@ exports.commentBlog = async (req, res) => {
             userId: userId,
             name: user.username,
             avatar: user.avatar,
-            text: req.body.text,
+            text: req.body.commentData,
         };
 
         //add the comment with unshift to keep most recently added comment at the top of the array.
@@ -168,7 +169,7 @@ exports.commentBlog = async (req, res) => {
 
         await blog.save();
 
-        return res.status(200).json(blog.comments);
+        return res.status(200).json(blog);
     } catch (err) {
         return res.status(400).json({
             errors: [{ msg: 'Error in commentBlog' }],

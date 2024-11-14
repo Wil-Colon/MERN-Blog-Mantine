@@ -17,9 +17,13 @@ import { Link } from 'react-router-dom';
 interface CardProps {
     title: string;
     type: string;
-    currentBlogId: string;
+
     coverPhoto: string;
     _id: any;
+}
+
+interface BlogCarouselProps {
+    currentBlogId: string;
 }
 
 function Card({ coverPhoto, title, type, _id }: CardProps) {
@@ -49,7 +53,7 @@ function Card({ coverPhoto, title, type, _id }: CardProps) {
     );
 }
 
-export default function BlogCarousel({ currentBlogId }: CardProps) {
+export default function BlogCarousel({ currentBlogId }: BlogCarouselProps) {
     const blogs = useSelector((state: RootState) => state.blogs.blogs);
     const [blogList, setBlogList] = useState(
         blogs.filter((blog) => blog._id !== currentBlogId)

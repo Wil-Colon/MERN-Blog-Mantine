@@ -1,76 +1,108 @@
 import './addcomment.scss';
 import { useState } from 'react';
 import { Flex, Input, Text, Avatar, Group, Button } from '@mantine/core';
+import { RootState } from '../../redux/rootReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { addComment } from '../../redux/actions/blog';
+import moment from 'moment';
 
-function CommentSimple() {
+interface CommentSimpleProps {
+    commentData: string;
+}
+
+interface AddCommentProps {
+    currentBlogId: string;
+}
+
+export function CommentSimple({ commentData }: CommentSimpleProps) {
+    const dateFormat = moment(commentData.date, moment.ISO_8601).format(
+        'YYYY-MM-DD'
+    );
+
     return (
-        <div>
+        <div className="comments">
             <Group>
                 <Avatar
-                    src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
-                    alt="Jacob Warnhalter"
+                    src={commentData.avatar}
+                    alt="Users avatar"
                     radius="xl"
                 />
                 <div>
-                    <Text size="sm">Jacob Warnhalter</Text>
+                    <Text size="sm">{commentData.name}</Text>
                     <Text size="xs" c="dimmed">
-                        10 minutes ago
+                        {dateFormat}
                     </Text>
                 </div>
             </Group>
             <Text pl={54} pt="sm" size="sm">
-                This Pokémon likes to lick its palms that are sweetened by being
-                soaked in honey. Teddiursa concocts its own honey by blending
-                fruits and pollen collected by Beedrill. Blastoise has water
-                spouts that protrude from its shell. The water spouts are very
-                accurate.
+                {commentData.text}
             </Text>
         </div>
     );
 }
 
-export default function AddComment() {
-    const [clicked, isClicked] = useState(false);
+export default function AddComment({ currentBlogId }: AddCommentProps) {
+    const dispatch = useDispatch();
+    const [clicked, setIsClicked] = useState(false);
     const [commentValue, setCommentValue] = useState('');
-    console.log(commentValue);
+    const user = useSelector((state: RootState) => state.user.currentUser);
+    const blogs = useSelector((state: RootState) => state.blogs.blogs);
+
+    const submitComment = (commentData) => {
+        dispatch(addComment(currentBlogId, commentData));
+        setIsClicked(false);
+        setCommentValue('');
+    };
+
     return (
         <Flex direction="column" mb={'5rem'}>
-            <div
-                className={clicked ? `add-comment--selected` : 'add-comment'}
-                onClick={() => isClicked(true)}
-                style={{ paddingBottom: '1rem' }}
-            >
-                <Input
-                    variant="unstyled"
-                    size="md"
-                    placeholder="Add a comment"
-                    onChange={(event) =>
-                        setCommentValue(event.currentTarget.value)
-                    }
-                    value={commentValue}
-                />
-            </div>
-            <div className="buttons">
-                <Button
-                    variant="subtle"
-                    radius="xl"
-                    mr={'1rem'}
-                    onClick={() => {
-                        isClicked(false);
-                        setCommentValue('');
-                    }}
-                    disabled={!clicked}
-                >
-                    Cancel
-                </Button>
-                <Button variant="filled" radius="xl">
-                    Comment
-                </Button>
-            </div>
+            {!user ? (
+                <Text fw="600">Please log in to Comment!</Text>
+            ) : (
+                <>
+                    <div
+                        className={
+                            clicked ? `add-comment--selected` : 'add-comment'
+                        }
+                        onClick={() => setIsClicked(true)}
+                        style={{ paddingBottom: '1rem' }}
+                    >
+                        <Input
+                            variant="unstyled"
+                            size="md"
+                            placeholder="Add a comment"
+                            onChange={(event) =>
+                                setCommentValue(event.currentTarget.value)
+                            }
+                            value={commentValue}
+                        />
+                    </div>
+
+                    <div className="buttons">
+                        <Button
+                            variant="subtle"
+                            radius="xl"
+                            mr={'1rem'}
+                            onClick={() => {
+                                setIsClicked(false);
+                                setCommentValue('');
+                            }}
+                            disabled={!clicked}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="filled"
+                            radius="xl"
+                            onClick={() => submitComment(commentValue)}
+                        >
+                            Comment
+                        </Button>
+                    </div>
+                </>
+            )}
 
             <Text style={{ paddingTop: '1rem' }}>Comments:</Text>
-
-            <CommentSimple />
         </Flex>
     );
 }
