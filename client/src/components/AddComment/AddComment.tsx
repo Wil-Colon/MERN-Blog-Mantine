@@ -1,9 +1,18 @@
 import './addcomment.scss';
 import { useState } from 'react';
-import { Flex, Input, Text, Avatar, Group, Button } from '@mantine/core';
+import {
+    Flex,
+    Input,
+    Text,
+    Avatar,
+    Group,
+    Button,
+    TextInput,
+} from '@mantine/core';
 import { RootState } from '../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { addComment } from '../../redux/actions/blog';
+import { useForm } from '@mantine/form';
 import moment from 'moment';
 
 interface CommentSimpleProps {
@@ -43,19 +52,35 @@ export function CommentSimple({ commentData }: CommentSimpleProps) {
 
 export default function AddComment({ currentBlogId }: AddCommentProps) {
     const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.user.currentUser);
     const [clicked, setIsClicked] = useState(false);
     const [commentValue, setCommentValue] = useState('');
-    const user = useSelector((state: RootState) => state.user.currentUser);
-    const blogs = useSelector((state: RootState) => state.blogs.blogs);
 
     const submitComment = (commentData) => {
         dispatch(addComment(currentBlogId, commentData));
         setIsClicked(false);
-        setCommentValue('');
+        form.reset();
     };
 
+    const form = useForm({
+        mode: 'uncontrolled',
+        validateInputOnChange: true,
+        initialValues: {
+            comment: '',
+        },
+
+        validate: {
+            comment: (value) =>
+                value.length > 200
+                    ? 'Comment must not exceed 200 characters!'
+                    : value.length <= 1
+                    ? 'Comment must not be less then 1 character!'
+                    : null,
+        },
+    });
+
     return (
-        <Flex direction="column" mb={'5rem'}>
+        <Flex direction="column" mb={'2rem'}>
             {!user ? (
                 <Text fw="600">Please log in to Comment!</Text>
             ) : (
@@ -65,44 +90,50 @@ export default function AddComment({ currentBlogId }: AddCommentProps) {
                             clicked ? `add-comment--selected` : 'add-comment'
                         }
                         onClick={() => setIsClicked(true)}
-                        style={{ paddingBottom: '1rem' }}
+                        style={{ paddingBottom: '1rem', marginBottom: '1rem' }}
                     >
-                        <Input
-                            variant="unstyled"
-                            size="md"
-                            placeholder="Add a comment"
-                            onChange={(event) =>
-                                setCommentValue(event.currentTarget.value)
-                            }
-                            value={commentValue}
-                        />
-                    </div>
+                        <form
+                            onSubmit={form.onSubmit((values) =>
+                                submitComment(values.comment)
+                            )}
+                        >
+                            <TextInput
+                                variant="unstyled"
+                                size="md"
+                                label="Comment:"
+                                placeholder="Add a comment"
+                                key={form.key('comment')}
+                                {...form.getInputProps('comment')}
+                            />
 
-                    <div className="buttons">
-                        <Button
-                            variant="subtle"
-                            radius="xl"
-                            mr={'1rem'}
-                            onClick={() => {
-                                setIsClicked(false);
-                                setCommentValue('');
-                            }}
-                            disabled={!clicked}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            variant="filled"
-                            radius="xl"
-                            onClick={() => submitComment(commentValue)}
-                        >
-                            Comment
-                        </Button>
+                            <div className="buttons">
+                                <Button
+                                    variant="subtle"
+                                    radius="xl"
+                                    mr={'1rem'}
+                                    onFocus={() => {
+                                        setIsClicked(false);
+                                        form.reset();
+                                    }}
+                                    disabled={!clicked}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    type="submit"
+                                    variant="subtle"
+                                    radius="xl"
+                                    mr={'1rem'}
+                                    disabled={!clicked}
+                                >
+                                    Comment
+                                </Button>
+                            </div>
+                        </form>
                     </div>
+                    <Text style={{ paddingTop: '1rem' }}>Comments:</Text>
                 </>
             )}
-
-            <Text style={{ paddingTop: '1rem' }}>Comments:</Text>
         </Flex>
     );
 }

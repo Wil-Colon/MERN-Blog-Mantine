@@ -145,7 +145,6 @@ exports.commentBlog = async (req, res) => {
     let userId = req.user.id;
     let blogId = req.params.blogid;
 
-    console.log(req.body);
     try {
         // Check of blog exists
         let user = await User.findById(userId).select('-password');
