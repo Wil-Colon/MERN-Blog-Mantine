@@ -64,6 +64,25 @@ const blogSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        deleteCommentStart: (state) => {
+            // state.blogs = state.blogs;
+            state.loading = true;
+            state.error = false;
+        },
+        deleteCommentSuccess: (state, action) => {
+            let blogIndex = state.blogs.findIndex(
+                (blog) => blog._id === action.payload.id
+            );
+
+            state.blogs[blogIndex].comments = action.payload;
+            state.loading = false;
+            state.error = false;
+        },
+        deleteCommentFailure: (state, action) => {
+            state.blogs = null;
+            state.loading = false;
+            state.error = action.payload;
+        },
 
         resetErrors: (state) => {
             state.error = false;
@@ -81,5 +100,8 @@ export const {
     addCommentStart,
     addCommentSuccess,
     addCommentFailure,
+    deleteCommentStart,
+    deleteCommentSuccess,
+    deleteCommentFailure,
 } = blogSlice.actions;
 export default blogSlice.reducer;

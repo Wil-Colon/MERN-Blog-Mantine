@@ -199,13 +199,16 @@ exports.deleteComment = async (req, res) => {
 
         // check if user deleting comment is currently logged in user
         if (comment.userId.toString() === userId) {
-            await Blog.findOneAndUpdate(
+            let updatedBlog = await Blog.findOneAndUpdate(
                 { _id: blogId },
                 { $pull: { comments: { _id: commentId } } },
-                { safe: true, multi: false }
+                { safe: true, multi: false, new: true }
             );
 
-            return res.status(200).json({ msg: 'Comment deleted by user.' });
+            return res.status(200).json({
+                id: updatedBlog.id,
+                comments: updatedBlog.comments,
+            });
         }
 
         //Check user attempting to delete comment is admin
@@ -213,7 +216,7 @@ exports.deleteComment = async (req, res) => {
             await Blog.findOneAndUpdate(
                 { _id: blogId },
                 { $pull: { comments: { _id: commentId } } },
-                { safe: true, multi: false }
+                { safe: true, multi: false, new: true }
             );
 
             return res.status(200).json({ msg: 'Comment deleted by admin.' });

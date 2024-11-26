@@ -9,6 +9,8 @@ import {
     addCommentStart,
     addCommentSuccess,
     addCommentFailure,
+    deleteCommentStart,
+    deleteCommentSuccess,
 } from '../blog/blogSlice';
 import setAuthToken from '../../utils/setAuthToken';
 
@@ -85,6 +87,29 @@ export const addComment = (blogId, commentData) => async (dispatch) => {
         );
 
         dispatch(addCommentSuccess(res.data));
+        return res.data;
+    } catch (err) {
+        errors = err.response.data.errors;
+        dispatch(addCommentFailure(errors[0]));
+        return errors;
+    }
+};
+
+//Like/unlike blog
+export const deleteComment = (blogId, commentId) => async (dispatch) => {
+    let errors;
+
+    if (localStorage.token) {
+        setAuthToken(localStorage.token);
+    }
+
+    dispatch(deleteCommentStart());
+    try {
+        const res = await axios.delete(
+            `http://localhost:3000/api/blog/deletecomment/${blogId}/${commentId}`
+        );
+
+        dispatch(deleteCommentSuccess(res.data));
         return res.data;
     } catch (err) {
         errors = err.response.data.errors;

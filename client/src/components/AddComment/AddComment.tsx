@@ -2,18 +2,20 @@ import './addcomment.scss';
 import { useState } from 'react';
 import {
     Flex,
-    Input,
     Text,
     Avatar,
     Group,
     Button,
     TextInput,
+    Menu,
+    rem,
 } from '@mantine/core';
 import { RootState } from '../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { addComment } from '../../redux/actions/blog';
 import { useForm } from '@mantine/form';
 import moment from 'moment';
+import { IconTrash } from '@tabler/icons-react';
 
 interface CommentSimpleProps {
     commentData: string;
@@ -27,6 +29,10 @@ export function CommentSimple({ commentData }: CommentSimpleProps) {
     const dateFormat = moment(commentData.date, moment.ISO_8601).format(
         'YYYY-MM-DD'
     );
+    const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.user.currentUser);
+
+    //WRITE CODE TO CHECK IF USER IS THE CURRENT USER LOGGED IN, OR IS A ADMIN, THEN ALLOW DELETE COMMENT.
 
     return (
         <div className="comments">
@@ -46,6 +52,29 @@ export function CommentSimple({ commentData }: CommentSimpleProps) {
             <Text pl={54} pt="sm" size="sm">
                 {commentData.text}
             </Text>
+
+            <Menu shadow="md" width={200}>
+                <Menu.Target>
+                    <Button variant="subtle" color="red">
+                        <IconTrash stroke={2} />
+                    </Button>
+                </Menu.Target>
+
+                <Menu.Dropdown>
+                    <Menu.Label>Delete Comment?</Menu.Label>
+
+                    <Menu.Item
+                        color="red"
+                        leftSection={
+                            <IconTrash
+                                style={{ width: rem(14), height: rem(14) }}
+                            />
+                        }
+                    >
+                        Delete comment
+                    </Menu.Item>
+                </Menu.Dropdown>
+            </Menu>
         </div>
     );
 }
@@ -54,7 +83,6 @@ export default function AddComment({ currentBlogId }: AddCommentProps) {
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user.currentUser);
     const [clicked, setIsClicked] = useState(false);
-    const [commentValue, setCommentValue] = useState('');
 
     const submitComment = (commentData) => {
         dispatch(addComment(currentBlogId, commentData));

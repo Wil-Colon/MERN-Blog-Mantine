@@ -119,7 +119,7 @@ export default function BlogLayout() {
                 Other great blogs to checkout!
             </Text>
             {blogs.length <= 1 ? (
-                <p>no blogs available</p>
+                <p>No other blogs available!</p>
             ) : (
                 <BlogCarousel currentBlogId={path} />
             )}
