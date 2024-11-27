@@ -1,5 +1,5 @@
 import './addcomment.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Flex,
     Text,
@@ -12,27 +12,39 @@ import {
 } from '@mantine/core';
 import { RootState } from '../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { addComment } from '../../redux/actions/blog';
+import { addComment, deleteComment } from '../../redux/actions/blog';
 import { useForm } from '@mantine/form';
-import moment from 'moment';
 import { IconTrash } from '@tabler/icons-react';
+import moment from 'moment';
 
-interface CommentSimpleProps {
+interface UserCommentProps {
     commentData: string;
+    commentUserId: string;
+    currentBlogId: string;
 }
 
 interface AddCommentProps {
     currentBlogId: string;
 }
 
-export function CommentSimple({ commentData }: CommentSimpleProps) {
+export function UserComment({
+    commentData,
+    commentUserId,
+    currentBlogId,
+}: UserCommentProps) {
     const dateFormat = moment(commentData.date, moment.ISO_8601).format(
         'YYYY-MM-DD'
     );
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user.currentUser);
+    const [allowDeleteComment, setAllowDeleteComment] = useState(false);
 
-    //WRITE CODE TO CHECK IF USER IS THE CURRENT USER LOGGED IN, OR IS A ADMIN, THEN ALLOW DELETE COMMENT.
+    useEffect(() => {
+        if (user !== null) {
+            user._id === commentUserId && setAllowDeleteComment(true);
+            user.isAdmin === true && setAllowDeleteComment(true);
+        }
+    }, [user, commentUserId]);
 
     return (
         <div className="comments">
@@ -53,28 +65,42 @@ export function CommentSimple({ commentData }: CommentSimpleProps) {
                 {commentData.text}
             </Text>
 
-            <Menu shadow="md" width={200}>
-                <Menu.Target>
-                    <Button variant="subtle" color="red">
-                        <IconTrash stroke={2} />
-                    </Button>
-                </Menu.Target>
+            {allowDeleteComment && (
+                <Menu shadow="md" width={200}>
+                    <Menu.Target>
+                        <Button variant="subtle" color="red">
+                            <IconTrash stroke={2} />
+                        </Button>
+                    </Menu.Target>
 
-                <Menu.Dropdown>
-                    <Menu.Label>Delete Comment?</Menu.Label>
+                    <Menu.Dropdown>
+                        <Menu.Label>Delete Comment?</Menu.Label>
 
-                    <Menu.Item
-                        color="red"
-                        leftSection={
-                            <IconTrash
-                                style={{ width: rem(14), height: rem(14) }}
-                            />
-                        }
-                    >
-                        Delete comment
-                    </Menu.Item>
-                </Menu.Dropdown>
-            </Menu>
+                        <Menu.Item
+                            w={'88%'}
+                            onClick={() =>
+                                dispatch(
+                                    deleteComment(
+                                        currentBlogId,
+                                        commentData._id
+                                    )
+                                )
+                            }
+                            color="red"
+                            leftSection={
+                                <IconTrash
+                                    style={{
+                                        width: rem(14),
+                                        height: rem(14),
+                                    }}
+                                />
+                            }
+                        >
+                            Delete comment
+                        </Menu.Item>
+                    </Menu.Dropdown>
+                </Menu>
+            )}
         </div>
     );
 }

@@ -74,7 +74,7 @@ const blogSlice = createSlice({
                 (blog) => blog._id === action.payload.id
             );
 
-            state.blogs[blogIndex].comments = action.payload;
+            state.blogs[blogIndex].comments = action.payload.comments;
             state.loading = false;
             state.error = false;
         },

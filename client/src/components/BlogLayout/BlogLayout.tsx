@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllBlogs } from '../../redux/actions/blog';
 import { RootState } from '../../redux/rootReducer';
 import BlogCarousel from '../BlogCarousel/BlogCarousel';
-import AddComment, { CommentSimple } from '../AddComment/AddComment';
+import AddComment, { UserComment } from '../AddComment/AddComment';
 
 export default function BlogLayout() {
     const path = useLocation().pathname.slice(7);
@@ -106,7 +106,11 @@ export default function BlogLayout() {
                 <p>No comments</p>
             ) : (
                 currentBlog.comments.map((blog) => (
-                    <CommentSimple commentData={blog} />
+                    <UserComment
+                        commentData={blog}
+                        currentBlogId={path}
+                        commentUserId={blog.userId}
+                    />
                 ))
             )}
 
