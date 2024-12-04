@@ -30,7 +30,16 @@ export default function HomePageBlogContainer({
                                   }
                                   className="body-container__column"
                               >
-                                  <Link to={`/blogs/${blog._id}`} state={blog}>
+                                  <Link
+                                      to={`/blogs/${
+                                          blog !== null
+                                              ? blog?.title
+                                                    .replace(/ /g, '-')
+                                                    .replace(/[.,!?;]/g, '')
+                                              : null
+                                      }`}
+                                      state={blog}
+                                  >
                                       <BlogCard blogData={blog} />
                                   </Link>
                               </Grid.Col>

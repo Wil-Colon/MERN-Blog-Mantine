@@ -9,7 +9,7 @@ import { Fragment } from 'react';
 import { logOut } from '../../redux/actions/auth';
 
 export default function Header() {
-    const path = useLocation().pathname;
+    const path = useLocation();
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(
         (state: RootState) => state.user.currentUser

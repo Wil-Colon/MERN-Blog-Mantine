@@ -36,8 +36,6 @@ export function UserLoginForm({ location }: UserLoginProps) {
         }
     }, [dispatch, token]);
 
-    console.log(location);
-
     useEffect(() => {
         if (user !== null) {
             if (location === '/' || location === null) {

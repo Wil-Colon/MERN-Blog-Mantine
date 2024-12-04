@@ -15,36 +15,36 @@ import { RootState } from '../../redux/rootReducer';
 import { Link } from 'react-router-dom';
 
 interface CardProps {
-    title: string;
-    type: string;
-
-    coverPhoto: string;
-    _id: any;
+    blog: any;
 }
 
 interface BlogCarouselProps {
     currentBlogId: string;
 }
 
-function Card({ coverPhoto, title, type, _id }: CardProps) {
+function Card({ blog }: CardProps) {
     return (
         <Paper
             shadow="md"
             p="xl"
             radius="md"
-            style={{ backgroundImage: `url(${coverPhoto})` }}
+            style={{ backgroundImage: `url(${blog.coverPhoto})` }}
             className={classes.card}
         >
             <div>
                 <Text className={classes.category} size="xs">
-                    {type}
+                    {blog.type}
                 </Text>
                 <Title order={3} className={classes.title}>
-                    {title}
+                    {blog.title}
                 </Title>
             </div>
-
-            <Link to={`/blogs/${_id}`}>
+            <Link
+                to={`/blogs/${blog?.title
+                    .replace(/ /g, '-')
+                    .replace(/[.,!?;]/g, '')}`}
+                state={blog}
+            >
                 <Button variant="white" color="dark">
                     Read article
                 </Button>
@@ -69,7 +69,7 @@ export default function BlogCarousel({ currentBlogId }: BlogCarouselProps) {
         .filter((blog) => blog.type === 'blog')
         .map((blog) => (
             <Carousel.Slide key={blog.title}>
-                <Card {...blog} />
+                <Card blog={blog} />
             </Carousel.Slide>
         ));
 

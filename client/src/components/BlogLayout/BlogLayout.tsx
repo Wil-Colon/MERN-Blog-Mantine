@@ -21,7 +21,7 @@ import BlogCarousel from '../BlogCarousel/BlogCarousel';
 import AddComment, { UserComment } from '../AddComment/AddComment';
 
 export default function BlogLayout() {
-    const path = useLocation().pathname.slice(7);
+    const blogTitle = useLocation().pathname.slice(7).replace(/-/g, ' ');
     const dispatch = useDispatch();
     const blogs = useSelector((state: RootState) => state.blogs.blogs);
     const user = useSelector((state: RootState) => state.user.currentUser);
@@ -32,13 +32,17 @@ export default function BlogLayout() {
         blogs === null && dispatch(getAllBlogs());
 
         blogs !== null &&
-            setCurrentBlog(blogs.filter((blog) => blog._id === path)[0]);
+            setCurrentBlog(
+                blogs.filter(
+                    (blog) => blog.title.replace(/[.,!?;]/g, '') === blogTitle
+                )[0]
+            );
 
-        currentBlog !== null && setIsLoading(false);
-    }, [dispatch, blogs, path, currentBlog]);
+        currentBlog !== null && blogs !== null && setIsLoading(false);
+    }, [dispatch, blogs, currentBlog, blogTitle]);
 
     const loadingContainer = (
-        <BodyContainer fluid={false} size="lg">
+        <BodyContainer fluid={false} size="lg" pb="">
             <Center h={800}>
                 <Loader />
             </Center>
@@ -59,7 +63,7 @@ export default function BlogLayout() {
             >
                 <Title fw={400}>{currentBlog?.title}</Title>
                 <small style={{ marginTop: '-1rem' }}>
-                    {moment(currentBlog.date, moment.ISO_8601).format(
+                    {moment(currentBlog?.date, moment.ISO_8601).format(
                         'YYYY-MM-DD'
                     )}
                 </small>
@@ -82,7 +86,6 @@ export default function BlogLayout() {
                 >
                     <Flex className="blogcontainer__body">
                         <Text>{currentBlog?.body}</Text>
-
                         {user ? (
                             <LikeButton selectedThought={currentBlog} />
                         ) : (
@@ -101,15 +104,15 @@ export default function BlogLayout() {
                     </Flex>
                 </Flex>
             </Flex>
-            <AddComment currentBlogId={path} />
-            {currentBlog.comments.length <= 0 ? (
+            <AddComment currentBlogId={currentBlog?._id} />
+            {currentBlog?.comments.length <= 0 ? (
                 <p>No comments</p>
             ) : (
-                currentBlog.comments.map((blog) => (
+                currentBlog?.comments.map((blog) => (
                     <UserComment
                         commentData={blog}
-                        currentBlogId={path}
-                        commentUserId={blog.userId}
+                        currentBlogId={currentBlog?._id} //what blog does the comment belong to.
+                        // commentOwnerUserId={blog.userId}
                     />
                 ))
             )}
@@ -125,7 +128,7 @@ export default function BlogLayout() {
             {blogs.length <= 1 ? (
                 <p>No other blogs available!</p>
             ) : (
-                <BlogCarousel currentBlogId={path} />
+                <BlogCarousel currentBlogId={currentBlog?._id} />
             )}
         </BodyContainer>
     );

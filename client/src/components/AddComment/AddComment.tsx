@@ -19,7 +19,7 @@ import moment from 'moment';
 
 interface UserCommentProps {
     commentData: string;
-    commentUserId: string;
+    commentOwnerUserId: string;
     currentBlogId: string;
 }
 
@@ -29,7 +29,7 @@ interface AddCommentProps {
 
 export function UserComment({
     commentData,
-    commentUserId,
+    // commentOwnerUserId,
     currentBlogId,
 }: UserCommentProps) {
     const dateFormat = moment(commentData.date, moment.ISO_8601).format(
@@ -37,14 +37,20 @@ export function UserComment({
     );
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user.currentUser);
+    const blogs = useSelector((state: RootState) => state.blogs.blogs);
     const [allowDeleteComment, setAllowDeleteComment] = useState(false);
 
     useEffect(() => {
         if (user !== null) {
-            user._id === commentUserId && setAllowDeleteComment(true);
+            user._id === commentData.userId
+                ? setAllowDeleteComment(true)
+                : setAllowDeleteComment(false);
             user.isAdmin === true && setAllowDeleteComment(true);
         }
-    }, [user, commentUserId]);
+        if (user === null) {
+            setAllowDeleteComment(false);
+        }
+    }, [user, commentData, blogs]);
 
     return (
         <div className="comments">
