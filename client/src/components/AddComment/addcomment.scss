@@ -5,6 +5,16 @@
         border-bottom: 1px solid hsla(0, 0%, 65%, 0.137);
         padding-bottom: 1rem;
     }
+
+    &__link {
+        color: inherit;
+        &:link,
+        &:visited,
+        &:active,
+        &:hover {
+            text-decoration: none;
+        }
+    }
 }
 .add-comment {
     width: 55%;

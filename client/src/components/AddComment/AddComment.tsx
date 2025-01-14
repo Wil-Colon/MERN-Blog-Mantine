@@ -16,6 +16,7 @@ import { addComment, deleteComment } from '../../redux/actions/blog';
 import { useForm } from '@mantine/form';
 import { IconTrash } from '@tabler/icons-react';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 interface UserCommentProps {
     commentData: string;
@@ -29,7 +30,7 @@ interface AddCommentProps {
 
 export function UserComment({
     commentData,
-    // commentOwnerUserId,
+    commentOwnerUserId,
     currentBlogId,
 }: UserCommentProps) {
     const dateFormat = moment(commentData.date, moment.ISO_8601).format(
@@ -40,6 +41,7 @@ export function UserComment({
     const blogs = useSelector((state: RootState) => state.blogs.blogs);
     const [allowDeleteComment, setAllowDeleteComment] = useState(false);
 
+    //Check if currently logged in User exist, if yes, check if currently logged in user owns this comment and if so, allow delete.
     useEffect(() => {
         if (user !== null) {
             user._id === commentData.userId
@@ -47,6 +49,7 @@ export function UserComment({
                 : setAllowDeleteComment(false);
             user.isAdmin === true && setAllowDeleteComment(true);
         }
+
         if (user === null) {
             setAllowDeleteComment(false);
         }
@@ -54,19 +57,28 @@ export function UserComment({
 
     return (
         <div className="comments">
-            <Group>
-                <Avatar
-                    src={commentData.avatar}
-                    alt="Users avatar"
-                    radius="xl"
-                />
-                <div>
-                    <Text size="sm">{commentData.name}</Text>
-                    <Text size="xs" c="dimmed">
-                        {dateFormat}
-                    </Text>
-                </div>
-            </Group>
+            <Link
+                className="comments__link"
+                to={
+                    user === null
+                        ? '/login'
+                        : `/userprofile/${commentOwnerUserId}`
+                }
+            >
+                <Group>
+                    <Avatar
+                        src={commentData.avatar}
+                        alt="Users avatar"
+                        radius="xl"
+                    />
+                    <div>
+                        <Text size="sm">{commentData.name}</Text>
+                        <Text size="xs" c="dimmed">
+                            {dateFormat}
+                        </Text>
+                    </div>
+                </Group>
+            </Link>
             <Text pl={54} pt="sm" size="sm">
                 {commentData.text}
             </Text>

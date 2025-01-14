@@ -1,14 +1,4 @@
-import {
-    UnstyledButton,
-    Group,
-    Avatar,
-    Text,
-    rem,
-    Loader,
-    Center,
-    Divider,
-    Anchor,
-} from '@mantine/core';
+import { Group, Avatar, Text, rem, Anchor } from '@mantine/core';
 import { IconChevronRight } from '@tabler/icons-react';
 import classes from './profileLayout.module.scss';
 import { RootState } from '../../redux/rootReducer';
@@ -17,7 +7,6 @@ import { useMediaQuery } from '@mantine/hooks';
 import { IconBrandInstagram } from '@tabler/icons-react';
 import { IconBrandX } from '@tabler/icons-react';
 import { IconBrandFacebook } from '@tabler/icons-react';
-import { useState } from 'react';
 
 interface ProfileLayoutProps {
     profile: any;

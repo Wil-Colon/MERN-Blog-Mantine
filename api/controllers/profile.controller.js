@@ -63,7 +63,10 @@ exports.getProfileById = async (req, res) => {
     try {
         let id = req.params.id;
 
-        let profile = await Profile.findOne({ user: id });
+        let profile = await Profile.findOne({ user: id }).select('-_id -user');
+        let userAvatar = await User.findById(id).select('avatar');
+
+        let avatar = userAvatar.avatar;
 
         if (!profile) {
             return res
@@ -71,7 +74,7 @@ exports.getProfileById = async (req, res) => {
                 .json({ errors: [{ msg: 'No profile found.' }] });
         }
 
-        res.json(profile);
+        res.json({ profile, avatar });
     } catch (err) {
         return res.status(400).json({
             errors: [{ msg: 'error in auth controller' }],

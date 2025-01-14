@@ -108,11 +108,12 @@ export default function BlogLayout() {
             {currentBlog?.comments.length <= 0 ? (
                 <p>No comments</p>
             ) : (
-                currentBlog?.comments.map((blog) => (
+                currentBlog?.comments.map((blog, i) => (
                     <UserComment
+                        key={blog._id}
                         commentData={blog}
                         currentBlogId={currentBlog?._id} //what blog does the comment belong to.
-                        // commentOwnerUserId={blog.userId}
+                        commentOwnerUserId={blog.userId}
                     />
                 ))
             )}

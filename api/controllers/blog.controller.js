@@ -197,7 +197,7 @@ exports.deleteComment = async (req, res) => {
             return res.status(404).json({ msg: 'Comment does not exist' });
         }
 
-        // check if user deleting comment is currently logged in user
+        // check if user deleting comment is currently logged in user or Admin
         if (comment.userId.toString() === userId || user.isAdmin) {
             let updatedBlog = await Blog.findOneAndUpdate(
                 { _id: blogId },
@@ -210,19 +210,6 @@ exports.deleteComment = async (req, res) => {
                 comments: updatedBlog.comments,
             });
         }
-
-        //Check user attempting to delete comment is admin
-        // else if (user.isAdmin) {
-        //     let updatedBlog = await Blog.findOneAndUpdate(
-        //         { _id: blogId },
-        //         { $pull: { comments: { _id: commentId } } },
-        //         { safe: true, multi: false, new: true }
-        //     );
-
-        //     return res
-        //         .status(200)
-        //         .json({ id: updatedBlog.id, comments: updatedBlog.comments });
-        // }
     } catch (err) {
         return res.status(400).json({
             errors: [{ msg: 'Error in commentBlog' }],
@@ -279,41 +266,6 @@ exports.likeBlog = async (req, res) => {
         });
     }
 };
-
-//PRIVATE AUTH
-//Delete a 'Like' to a Blog
-//Delete /api/blog/unlike/:blogid
-// exports.unlikeblog = async (req, res) => {
-//     let userId = req.user.id;
-//     let blogId = req.params.blogid;
-
-//     try {
-//         let blog = await Blog.findById(blogId);
-
-//         //check if current user is user attempting to unlike
-//         const checkUser = blog.likes.find(
-//             (like) => like.user.toString() === userId
-//         );
-
-//         if (checkUser) {
-//             //return all likes not from the user and save
-//             const likes = blog.likes.filter(
-//                 (like) => like.user.toString() !== userId
-//             );
-
-//             blog.likes = likes;
-//             await blog.save();
-//             return res.status(200).json(blog.likes);
-//         }
-//         return res.status(400).json({
-//             errors: [{ msg: 'Unable to unlike.' }],
-//         });
-//     } catch (err) {
-//         return res.status(400).json({
-//             errors: [{ msg: 'Like blog server error.' }],
-//         });
-//     }
-// };
 
 //PRIVATE AUTH
 //check if user has a like/unlike in this blog

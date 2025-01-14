@@ -65,3 +65,13 @@ export const updateProfile = (profileInfo) => async (dispatch) => {
         dispatch(updateUserProfileFailure(errors));
     }
 };
+export const getProfileByID = (id) => async (dispatch) => {
+    try {
+        const res = await axios.get(`http://localhost:3000/api/profile/${id}`);
+
+        return res.data;
+    } catch (err) {
+        const errors = err.response.data.errors;
+        dispatch(getUserProfileError(errors[0]));
+    }
+};
