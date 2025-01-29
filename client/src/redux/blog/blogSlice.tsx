@@ -11,6 +11,21 @@ const blogSlice = createSlice({
     name: 'blog',
     initialState,
     reducers: {
+        getSingleBlogStart: (state) => {
+            state.blogs = null;
+            state.loading = true;
+            state.error = false;
+        },
+        getSingleBlogSuccess: (state, action) => {
+            state.blogs = action.payload;
+            state.loading = false;
+            state.error = false;
+        },
+        getSingleBlogError: (state, action) => {
+            state.blogs = null;
+            state.loading = false;
+            state.error = action.payload;
+        },
         getBlogsStart: (state) => {
             state.blogs = null;
             state.loading = true;
@@ -91,6 +106,9 @@ const blogSlice = createSlice({
 });
 
 export const {
+    getSingleBlogStart,
+    getSingleBlogSuccess,
+    getSingleBlogError,
     getBlogsStart,
     getBlogsSuccess,
     getBlogsError,

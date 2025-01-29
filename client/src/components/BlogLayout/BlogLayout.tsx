@@ -15,42 +15,35 @@ import {
 } from '@mantine/core';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllBlogs } from '../../redux/actions/blog';
+import { getRandomBlogs, getSingleBlogById } from '../../redux/actions/blog';
 import { RootState } from '../../redux/rootReducer';
 import BlogCarousel from '../BlogCarousel/BlogCarousel';
 import AddComment, { UserComment } from '../AddComment/AddComment';
 
 export default function BlogLayout() {
-    const blogTitle = useLocation().pathname.slice(7).replace(/-/g, ' ');
     const dispatch = useDispatch();
+    const location = useLocation();
+    const state = location.state;
     const blogs = useSelector((state: RootState) => state.blogs.blogs);
     const user = useSelector((state: RootState) => state.user.currentUser);
     const [currentBlog, setCurrentBlog] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        blogs === null && dispatch(getAllBlogs());
+        dispatch(getSingleBlogById(state._id));
+    }, [dispatch, state._id]);
 
-        blogs !== null &&
-            setCurrentBlog(
-                blogs.filter(
-                    (blog) => blog.title.replace(/[.,!?;]/g, '') === blogTitle
-                )[0]
-            );
+    useEffect(() => {
+        blogs !== null && setCurrentBlog(blogs);
+        currentBlog !== null && setIsLoading(false);
+    }, [blogs]);
 
-        currentBlog !== null && blogs !== null && setIsLoading(false);
-    }, [dispatch, blogs, currentBlog, blogTitle]);
-
-    const loadingContainer = (
+    return isLoading ? (
         <BodyContainer fluid={false} size="lg" pb="">
             <Center h={800}>
                 <Loader />
             </Center>
         </BodyContainer>
-    );
-
-    return isLoading ? (
-        loadingContainer
     ) : (
         <BodyContainer fluid={false} size="lg" pb={80}>
             <Flex

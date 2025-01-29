@@ -6,7 +6,11 @@ import {
     IconThumbUpFilled,
 } from '@tabler/icons-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkLikes, likeButton } from '../../redux/actions/blog';
+import {
+    checkLikes,
+    getSingleBlogById,
+    likeButton,
+} from '../../redux/actions/blog';
 import { useEffect, useState } from 'react';
 import { RootState } from '../../redux/rootReducer';
 
@@ -119,19 +123,28 @@ export default function LikeButton({ selectedThought }: LikeButtonUserProps) {
 export function LikeButtonsNonUser({
     selectedThought,
 }: LikeButtonNonUserProps) {
+    const dispatch = useDispatch();
     const blogs = useSelector((state: RootState) => state.blogs.blogs);
-    const [totalLikes, setTotalLikes] = useState(0);
-    const currentBlog = blogs.filter(
-        (blog) => blog._id === selectedThought._id
+    const [totalLikes, setTotalLikes] = useState(
+        blogs.likes.filter((likes) => likes.selection === 'liked').length
     );
+    // const currentBlog = blogs.filter(
+    //     (blog) => blog._id === selectedThought._id
+    // );
 
-    const likes = currentBlog[0].likes.filter(
-        (likes) => likes.selection === 'liked'
-    ).length;
+    // const likes = blogs.likes.filter(
+    //     (likes) => likes.selection === 'liked'
+    // ).length;
 
-    useEffect(() => {
-        setTotalLikes(likes);
-    }, [likes]);
+    // useEffect(() => {
+    //     dispatch(getSingleBlogById(selectedThought._id));
+
+    //     blogs !== null &&
+    //         setTotalLikes(
+    //             blogs.likes.filter((likes) => likes.selection === 'liked')
+    //                 .length
+    //         );
+    // }, [dispatch, selectedThought, blogs]);
 
     const popoverLike = (
         <Popover position="bottom" withArrow shadow="md">

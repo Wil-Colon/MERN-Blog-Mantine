@@ -18,9 +18,30 @@ exports.getAllBlogs = async (req, res) => {
     }
 };
 
+//Get 6 Blogs for /blogs page pagination
+//GET api/blog/limit/
+exports.getLimitedBlogs = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1; // Get the page number from query
+        const limit = parseInt(req.query.limit) || 6; // Set the default limit to 6
+        const skip = (page - 1) * limit; // Calculate the number of documents to skip
+
+        const blogs = await Blog.find().skip(skip).limit(limit);
+        const totalBlogs = await Blog.countDocuments(); // Get total blog count
+
+        res.json({
+            blogs,
+            totalPages: Math.ceil(totalBlogs / limit),
+            currentPage: page,
+        });
+    } catch (err) {
+        res.status(500).send('Server error');
+    }
+};
+
 //Get single Blog by ID
 //GET api/blog/:id
-exports.getSingleBlog = async (req, res) => {
+exports.getSingleBlogById = async (req, res) => {
     let blogId = req.params.id;
 
     try {
@@ -37,6 +58,18 @@ exports.getSingleBlog = async (req, res) => {
         return res.status(400).json({
             errors: [{ msg: 'Blog server error' }],
         });
+    }
+};
+
+//Get 5 random blogs
+//GET api/blog/random
+exports.getRandomBlogs = async (req, res) => {
+    try {
+        const randomBlogs = await Blog.aggregate([{ $sample: { size: 6 } }]); // Get  random blogs
+        console.log('der');
+        res.json(randomBlogs);
+    } catch (err) {
+        res.status(500).send('Server error');
     }
 };
 

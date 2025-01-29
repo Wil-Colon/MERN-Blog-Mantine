@@ -18,7 +18,7 @@ import UserProfile from './pages/UserProfile/UserProfile';
 import PrivateRoute from './utils/PrivateRoute';
 import PageNotFound from './pages/PageNotFound';
 import UserDashBoard from './pages/UserDashboard/UserDashboard';
-import BlogsList from './pages/BlogsList';
+import BlogsList from './pages/BlogList/BlogsList';
 import BlogLayout from './components/BlogLayout/BlogLayout';
 import '@mantine/carousel/styles.css';
 

@@ -4,21 +4,30 @@ const {
     getAllBlogs,
     createBlog,
     updateBlog,
-    getSingleBlog,
     deleteBlog,
     commentBlog,
     deleteComment,
     likeBlog,
-    unlikeblog,
     checklike,
+    getLimitedBlogs,
+    getSingleBlogById,
+    getRandomBlogs,
 } = require('../controllers/blog.controller');
 
 //GET All blogs
 router.get('/', getAllBlogs);
 
+//Get 6 Blogs for /blogs page pagination
+//GET api/blog/limit/
+router.get('/limit', getLimitedBlogs);
+
 //Get single Blog by ID
 //api/blog/:id
-router.get('/:id', getSingleBlog);
+router.get('/:id', getSingleBlogById);
+
+//Get random 5 blogs
+//api/blog/random
+router.get('/random/list', getRandomBlogs);
 
 //Private
 //Create Blog

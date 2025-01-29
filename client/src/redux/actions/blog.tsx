@@ -11,6 +11,9 @@ import {
     addCommentFailure,
     deleteCommentStart,
     deleteCommentSuccess,
+    getSingleBlogStart,
+    getSingleBlogSuccess,
+    getSingleBlogError,
 } from '../blog/blogSlice';
 import setAuthToken from '../../utils/setAuthToken';
 
@@ -27,6 +30,33 @@ export const getAllBlogs = () => async (dispatch) => {
     } catch (err) {
         const errors = err.response.data.errors;
         dispatch(getBlogsError(errors[0]));
+    }
+};
+
+//Get Single Blog by ID
+export const getSingleBlogById = (blogId) => async (dispatch) => {
+    dispatch(getSingleBlogStart());
+
+    try {
+        const res = await axios.get(`http://localhost:3000/api/blog/${blogId}`);
+
+        dispatch(getSingleBlogSuccess(res.data));
+
+        return res.data;
+    } catch (err) {
+        const errors = err.response.data.errors;
+        dispatch(getSingleBlogError(errors[0]));
+    }
+};
+
+export const getRandomBlogs = async () => {
+    try {
+        const res = await axios.get(
+            'http://localhost:3000/api/blog/random/list'
+        );
+        return res.data;
+    } catch (error) {
+        console.error('Error fetching random blogs:', error);
     }
 };
 

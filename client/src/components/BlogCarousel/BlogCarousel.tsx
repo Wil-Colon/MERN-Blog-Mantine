@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { Link } from 'react-router-dom';
+import { getRandomBlogs } from '../../redux/actions/blog';
 
 interface CardProps {
     blog: any;
@@ -55,17 +56,31 @@ function Card({ blog }: CardProps) {
 
 export default function BlogCarousel({ currentBlogId }: BlogCarouselProps) {
     const blogs = useSelector((state: RootState) => state.blogs.blogs);
-    const [blogList, setBlogList] = useState(
-        blogs.filter((blog) => blog._id !== currentBlogId)
-    );
+
+    const [randomBlogs, setRandomBlogs] = useState(null);
+
+    const [blogList, setBlogList] = useState(null);
 
     useEffect(() => {
-        setBlogList(blogs.filter((blog) => blog._id !== currentBlogId));
+        const fetchRandomBlogs = async () => {
+            const res = await getRandomBlogs();
+            setRandomBlogs(res.filter((blog) => blog._id !== currentBlogId));
+        };
+        fetchRandomBlogs();
     }, [currentBlogId]);
+
+    // useEffect(() => {
+    //    randomBlogs !== null && setBlogList(randomBlogs.filter((blog) => blog._id !== currentBlogId));
+    // }, [currentBlogId, randomBlogs]);
 
     const theme = useMantineTheme();
     const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
-    const slides = blogList
+
+    if (randomBlogs === null) {
+        return <p>Loading...</p>;
+    }
+
+    const slides = randomBlogs
         .filter((blog) => blog.type === 'blog')
         .map((blog) => (
             <Carousel.Slide key={blog.title}>
