@@ -11,23 +11,16 @@ export default function Home() {
     const [selectedThought, setSelectedThought] = useState(null);
 
     useEffect(() => {
-        blogs === null
-            ? dispatch(getAllBlogs())
-            : setSelectedThought(blogs.find((blog) => blog.type === 'thought'));
-
         selectedThought !== null &&
             setSelectedThought(
                 blogs.find((blog) => blog._id === selectedThought._id)
             );
-    }, [blogs, dispatch]);
+    }, []);
 
     return (
         <>
             <Hero selectedThought={selectedThought} />
-            <HomePageBlogContainer
-                blogs={blogs}
-                setSelectedThought={setSelectedThought}
-            />
+            <HomePageBlogContainer setSelectedThought={setSelectedThought} />
         </>
     );
 }

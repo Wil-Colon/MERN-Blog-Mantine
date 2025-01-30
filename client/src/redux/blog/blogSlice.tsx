@@ -47,11 +47,11 @@ const blogSlice = createSlice({
             state.error = false;
         },
         likeBlogSuccess: (state, action) => {
-            let blogIndex = state.blogs.findIndex(
-                (blog) => blog._id === action.payload._id
-            );
+            // let blogIndex = state.blogs.findIndex(
+            //     (blog) => blog._id === action.payload._id
+            // );
 
-            state.blogs[blogIndex] = action.payload;
+            state.blogs = action.payload;
             state.loading = false;
             state.error = false;
         },

@@ -36,12 +36,9 @@ export const getAllBlogs = () => async (dispatch) => {
 //Get Single Blog by ID
 export const getSingleBlogById = (blogId) => async (dispatch) => {
     dispatch(getSingleBlogStart());
-
     try {
         const res = await axios.get(`http://localhost:3000/api/blog/${blogId}`);
-
         dispatch(getSingleBlogSuccess(res.data));
-
         return res.data;
     } catch (err) {
         const errors = err.response.data.errors;

@@ -3,19 +3,41 @@ import { Center, Grid, Loader } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import BlogCard from '../BlogCard/BlogCard';
 import ThoughtCard from '../ThoughtCard/ThoughtCard';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllBlogs } from '../../redux/actions/blog';
 
 interface HomePageBlogContainerProps {
-    blogs: any;
     setSelectedThought: any;
 }
 
 export default function HomePageBlogContainer({
-    blogs,
     setSelectedThought,
 }: HomePageBlogContainerProps) {
     const isEven = (number: number) => number % 2;
+    const dispatch = useDispatch();
+    const blogs = useSelector((state: RootState) => state.blogs.blogs);
+    const [isLoading, setIsLoading] = useState(true);
 
-    return blogs !== null ? (
+    useEffect(() => {
+        dispatch(getAllBlogs());
+    }, []);
+
+    useEffect(() => {
+        if (blogs !== null) {
+            if (blogs.length > 1) {
+                setIsLoading(false);
+            }
+        }
+    }, [blogs]);
+
+    console.log(isLoading);
+
+    if (isLoading === true) {
+        return <p>Loading...</p>;
+    }
+
+    return (
         <div className="body-container">
             <Grid justify="center" grow>
                 {blogs.map((blog, i) =>
@@ -33,12 +55,12 @@ export default function HomePageBlogContainer({
                                   <Link
                                       to={`/blogs/${
                                           blog !== null
-                                              ? blog?.title
+                                              ? `${blog._id}-${blog?.title
                                                     .replace(/ /g, '-')
-                                                    .replace(/[.,!?;]/g, '')
+                                                    .replace(/[.,!?;]/g, '')}`
                                               : null
                                       }`}
-                                      state={blog}
+                                      //   state={blog}
                                   >
                                       <BlogCard blogData={blog} />
                                   </Link>
@@ -56,12 +78,6 @@ export default function HomePageBlogContainer({
                           )
                 )}
             </Grid>
-        </div>
-    ) : (
-        <div className="body-container">
-            <Center h={200}>
-                <Loader size={30} />
-            </Center>
         </div>
     );
 }

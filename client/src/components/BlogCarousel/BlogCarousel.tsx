@@ -7,11 +7,10 @@ import {
     Button,
     useMantineTheme,
     rem,
+    Loader,
 } from '@mantine/core';
 import classes from './blogCarousel.module.scss';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/rootReducer';
 import { Link } from 'react-router-dom';
 import { getRandomBlogs } from '../../redux/actions/blog';
 
@@ -41,9 +40,13 @@ function Card({ blog }: CardProps) {
                 </Title>
             </div>
             <Link
-                to={`/blogs/${blog?.title
-                    .replace(/ /g, '-')
-                    .replace(/[.,!?;]/g, '')}`}
+                to={`/blogs/${
+                    blog !== null
+                        ? `${blog._id}-${blog?.title
+                              .replace(/ /g, '-')
+                              .replace(/[.,!?;]/g, '')}`
+                        : null
+                }`}
                 state={blog}
             >
                 <Button variant="white" color="dark">
@@ -55,11 +58,9 @@ function Card({ blog }: CardProps) {
 }
 
 export default function BlogCarousel({ currentBlogId }: BlogCarouselProps) {
-    const blogs = useSelector((state: RootState) => state.blogs.blogs);
-
     const [randomBlogs, setRandomBlogs] = useState(null);
-
-    const [blogList, setBlogList] = useState(null);
+    const theme = useMantineTheme();
+    const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
     useEffect(() => {
         const fetchRandomBlogs = async () => {
@@ -69,15 +70,8 @@ export default function BlogCarousel({ currentBlogId }: BlogCarouselProps) {
         fetchRandomBlogs();
     }, [currentBlogId]);
 
-    // useEffect(() => {
-    //    randomBlogs !== null && setBlogList(randomBlogs.filter((blog) => blog._id !== currentBlogId));
-    // }, [currentBlogId, randomBlogs]);
-
-    const theme = useMantineTheme();
-    const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
-
     if (randomBlogs === null) {
-        return <p>Loading...</p>;
+        return <Loader />;
     }
 
     const slides = randomBlogs

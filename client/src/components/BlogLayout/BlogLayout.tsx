@@ -19,32 +19,33 @@ import { getRandomBlogs, getSingleBlogById } from '../../redux/actions/blog';
 import { RootState } from '../../redux/rootReducer';
 import BlogCarousel from '../BlogCarousel/BlogCarousel';
 import AddComment, { UserComment } from '../AddComment/AddComment';
+import axios from 'axios';
 
 export default function BlogLayout() {
-    const dispatch = useDispatch();
     const location = useLocation();
+    const dispatch = useDispatch();
     const state = location.state;
-    const blogs = useSelector((state: RootState) => state.blogs.blogs);
     const user = useSelector((state: RootState) => state.user.currentUser);
+    const blogs = useSelector((state: RootState) => state.blogs);
+    const blogId = location.pathname.replace(/\/blogs\/|-.*/g, '');
     const [currentBlog, setCurrentBlog] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        dispatch(getSingleBlogById(state._id));
-    }, [dispatch, state._id]);
+        const getBlog = async () => {
+            const res = await axios.get(
+                `http://localhost:3000/api/blog/${blogId}`
+            );
+            setCurrentBlog(res.data);
+            dispatch(getSingleBlogById(blogId));
+        };
+        getBlog();
+    }, [state]);
 
-    useEffect(() => {
-        blogs !== null && setCurrentBlog(blogs);
-        currentBlog !== null && setIsLoading(false);
-    }, [blogs]);
+    if (currentBlog === null) {
+        return <Loader />;
+    }
 
-    return isLoading ? (
-        <BodyContainer fluid={false} size="lg" pb="">
-            <Center h={800}>
-                <Loader />
-            </Center>
-        </BodyContainer>
-    ) : (
+    return (
         <BodyContainer fluid={false} size="lg" pb={80}>
             <Flex
                 mih={50}
@@ -54,20 +55,17 @@ export default function BlogLayout() {
                 direction="column"
                 wrap="wrap"
             >
-                <Title fw={400}>{currentBlog?.title}</Title>
+                <Title fw={400}>{currentBlog.title}</Title>
                 <small style={{ marginTop: '-1rem' }}>
-                    {moment(currentBlog?.date, moment.ISO_8601).format(
+                    {moment(currentBlog.date, moment.ISO_8601).format(
                         'YYYY-MM-DD'
                     )}
                 </small>
                 <Carousel mb={10} withIndicators height="100%">
                     <Carousel.Slide>
-                        <Image
-                            className="image"
-                            src={currentBlog?.coverPhoto}
-                        />
+                        <Image className="image" src={currentBlog.coverPhoto} />
                     </Carousel.Slide>
-                    {currentBlog?.galleryPhotos.map((photo, i) => (
+                    {currentBlog.galleryPhotos.map((photo, i) => (
                         <Carousel.Slide key={i}>
                             <Image src={photo}></Image>
                         </Carousel.Slide>
@@ -78,7 +76,7 @@ export default function BlogLayout() {
                     direction={{ base: 'column', sm: 'row' }}
                 >
                     <Flex className="blogcontainer__body">
-                        <Text>{currentBlog?.body}</Text>
+                        <Text>{currentBlog.body}</Text>
                         {user ? (
                             <LikeButton selectedThought={currentBlog} />
                         ) : (
@@ -87,25 +85,25 @@ export default function BlogLayout() {
                     </Flex>
                     <Flex className="blogcontainer__avatar">
                         <Avatar
-                            src={currentBlog?.avatar}
+                            src={currentBlog.avatar}
                             alt="it's me"
                             className="blogcontainer__avatar--photo image"
                         />
                         <Text className="blogcontainer__avatar--name">
-                            {currentBlog?.userName}
+                            {currentBlog.userName}
                         </Text>
                     </Flex>
                 </Flex>
             </Flex>
-            <AddComment currentBlogId={currentBlog?._id} />
-            {currentBlog?.comments.length <= 0 ? (
+            <AddComment currentBlogId={currentBlog._id} />
+            {currentBlog.comments.length <= 0 ? (
                 <p>No comments</p>
             ) : (
-                currentBlog?.comments.map((blog, i) => (
+                currentBlog.comments.map((blog, i) => (
                     <UserComment
                         key={blog._id}
                         commentData={blog}
-                        currentBlogId={currentBlog?._id} //what blog does the comment belong to.
+                        currentBlogId={currentBlog._id} //what blog does the comment belong to.
                         commentOwnerUserId={blog.userId}
                     />
                 ))
@@ -119,11 +117,8 @@ export default function BlogLayout() {
             >
                 Other great blogs to checkout!
             </Text>
-            {blogs.length <= 1 ? (
-                <p>No other blogs available!</p>
-            ) : (
-                <BlogCarousel currentBlogId={currentBlog?._id} />
-            )}
+
+            <BlogCarousel currentBlogId={currentBlog._id} />
         </BodyContainer>
     );
 }

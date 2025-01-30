@@ -30,13 +30,32 @@ export default function LikeButton({ selectedThought }: LikeButtonUserProps) {
     const [liked, setLiked] = useState('');
     const [totalLikes, setTotalLikes] = useState(0);
 
+    // useEffect(() => {
+    //     if (blogs === null) {
+    //         dispatch(getSingleBlogById(selectedThought._id));
+    //         setTotalLikes(
+    //             blogs.likes.filter((likes) => likes.selection === 'liked')
+    //                 .length
+    //         );
+    //     }
+
+    //     if (blogs.length > 1) {
+    //         setTotalLikes(
+    //             blogs
+    //                 .filter((blog) => blog._id === selectedThought._id)[0]
+    //                 .likes.filter((likes) => likes.selection === 'liked').length
+    //         );
+    //     }
+    // }, [blogs, selectedThought]);
+
     useEffect(() => {
-        setTotalLikes(
-            blogs
-                .filter((blog) => blog._id === selectedThought._id)[0]
-                .likes.filter((likes) => likes.selection === 'liked').length
-        );
-    }, [blogs, selectedThought]);
+        if (blogs !== null) {
+            setTotalLikes(
+                blogs.likes.filter((likes) => likes.selection === 'liked')
+                    .length
+            );
+        }
+    }, [blogs]);
 
     useEffect(() => {
         if (user !== null) {
@@ -123,14 +142,17 @@ export default function LikeButton({ selectedThought }: LikeButtonUserProps) {
 export function LikeButtonsNonUser({
     selectedThought,
 }: LikeButtonNonUserProps) {
-    const dispatch = useDispatch();
     const blogs = useSelector((state: RootState) => state.blogs.blogs);
-    const [totalLikes, setTotalLikes] = useState(
-        blogs.likes.filter((likes) => likes.selection === 'liked').length
-    );
-    // const currentBlog = blogs.filter(
-    //     (blog) => blog._id === selectedThought._id
-    // );
+    const [totalLikes, setTotalLikes] = useState(0);
+
+    useEffect(() => {
+        if (blogs !== null) {
+            setTotalLikes(
+                blogs.likes.filter((likes) => likes.selection === 'liked')
+                    .length
+            );
+        }
+    }, [blogs]);
 
     // const likes = blogs.likes.filter(
     //     (likes) => likes.selection === 'liked'

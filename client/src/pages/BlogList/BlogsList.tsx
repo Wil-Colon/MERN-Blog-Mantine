@@ -78,9 +78,9 @@ export default function BlogsList() {
                         <Link
                             to={`/blogs/${
                                 blog !== null
-                                    ? blog?.title
+                                    ? `${blog._id}-${blog?.title
                                           .replace(/ /g, '-')
-                                          .replace(/[.,!?;]/g, '')
+                                          .replace(/[.,!?;]/g, '')}`
                                     : null
                             }`}
                             state={blog}
