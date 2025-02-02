@@ -42,16 +42,11 @@ const blogSlice = createSlice({
             state.error = action.payload;
         },
         likeBlogStart: (state) => {
-            // state.blogs = state.blogs;
             state.loading = true;
             state.error = false;
         },
         likeBlogSuccess: (state, action) => {
-            // let blogIndex = state.blogs.findIndex(
-            //     (blog) => blog._id === action.payload._id
-            // );
-
-            state.blogs = action.payload;
+            state.blogs.likes = action.payload;
             state.loading = false;
             state.error = false;
         },
@@ -61,16 +56,11 @@ const blogSlice = createSlice({
             state.error = action.payload;
         },
         addCommentStart: (state) => {
-            // state.blogs = state.blogs;
             state.loading = true;
             state.error = false;
         },
         addCommentSuccess: (state, action) => {
-            let blogIndex = state.blogs.findIndex(
-                (blog) => blog._id === action.payload._id
-            );
-
-            state.blogs[blogIndex] = action.payload;
+            state.blogs = action.payload;
             state.loading = false;
             state.error = false;
         },
@@ -80,16 +70,11 @@ const blogSlice = createSlice({
             state.error = action.payload;
         },
         deleteCommentStart: (state) => {
-            // state.blogs = state.blogs;
             state.loading = true;
             state.error = false;
         },
         deleteCommentSuccess: (state, action) => {
-            let blogIndex = state.blogs.findIndex(
-                (blog) => blog._id === action.payload.id
-            );
-
-            state.blogs[blogIndex].comments = action.payload.comments;
+            state.blogs.comments = action.payload.comments;
             state.loading = false;
             state.error = false;
         },
@@ -98,7 +83,6 @@ const blogSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
-
         resetErrors: (state) => {
             state.error = false;
         },

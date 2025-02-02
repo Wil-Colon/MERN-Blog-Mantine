@@ -35,7 +35,9 @@ exports.getLimitedBlogs = async (req, res) => {
             currentPage: page,
         });
     } catch (err) {
-        res.status(500).send('Server error');
+        return res.status(400).json({
+            errors: [{ msg: 'Blog server error' }],
+        });
     }
 };
 
@@ -66,10 +68,12 @@ exports.getSingleBlogById = async (req, res) => {
 exports.getRandomBlogs = async (req, res) => {
     try {
         const randomBlogs = await Blog.aggregate([{ $sample: { size: 6 } }]); // Get  random blogs
-        console.log('der');
+
         res.json(randomBlogs);
     } catch (err) {
-        res.status(500).send('Server error');
+        return res.status(400).json({
+            errors: [{ msg: 'Blog server error' }],
+        });
     }
 };
 
@@ -85,7 +89,6 @@ exports.createBlog = async (req, res) => {
 
     try {
         //Get author by ID
-
         const author = await User.findById(id, 'username avatar');
 
         const blog = new Blog({
@@ -113,12 +116,10 @@ exports.updateBlog = async (req, res) => {
     let blogFields = req.body;
 
     try {
-        // Check of blog exists
+        // Check if blog exists
         let blog = await Blog.findById(blogId);
 
         let user = await User.findById(userId);
-
-        console.log(user);
 
         if (!blog) {
             return res
@@ -128,8 +129,6 @@ exports.updateBlog = async (req, res) => {
 
         //check if blog belongs to currently logged in user
         if (userId === blog.author.toString() || user.isAdmin === true) {
-            // let blog = await Blog.findById(blogId);
-
             let updatedBlog = await Blog.findByIdAndUpdate(
                 blogId,
                 { $set: blogFields },
@@ -287,7 +286,7 @@ exports.likeBlog = async (req, res) => {
             });
             await blog.save();
 
-            return res.status(200).json(blog);
+            return res.status(200).json(blog.likes);
         } else {
             return res.status(400).json({
                 errors: [{ msg: `Unable to ${selection} more then once.` }],

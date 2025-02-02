@@ -6,6 +6,7 @@ import ThoughtCard from '../ThoughtCard/ThoughtCard';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllBlogs } from '../../redux/actions/blog';
+import BodyContainer from '../BodyContainer/BodyContainer';
 
 interface HomePageBlogContainerProps {
     setSelectedThought: any;
@@ -33,8 +34,12 @@ export default function HomePageBlogContainer({
 
     console.log(isLoading);
 
-    if (isLoading === true) {
-        return <p>Loading...</p>;
+    if (isLoading === true || blogs === null) {
+        return (
+            <BodyContainer size={'xl'} fluid={false} pb={50}>
+                <Loader />
+            </BodyContainer>
+        );
     }
 
     return (
