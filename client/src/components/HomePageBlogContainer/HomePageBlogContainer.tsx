@@ -22,17 +22,17 @@ export default function HomePageBlogContainer({
 
     useEffect(() => {
         dispatch(getAllBlogs());
-    }, []);
+    }, [dispatch]);
 
-    useEffect(() => {
-        if (blogs !== null) {
-            if (blogs.length > 1) {
-                setIsLoading(false);
-            }
-        }
-    }, [blogs]);
+    // useEffect(() => {
+    //     if (blogs !== null) {
+    //         if (blogs.length > 1) {
+    //             setIsLoading(false);
+    //         }
+    //     }
+    // }, [blogs]);
 
-    if (isLoading === true || blogs === null) {
+    if (blogs === null) {
         return (
             <BodyContainer size={'xl'} fluid={false} pb={50}>
                 <Loader />

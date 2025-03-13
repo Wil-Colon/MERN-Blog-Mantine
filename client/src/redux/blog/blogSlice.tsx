@@ -12,7 +12,6 @@ const blogSlice = createSlice({
     initialState,
     reducers: {
         getSingleBlogStart: (state) => {
-            state.blogs = null;
             state.loading = true;
             state.error = false;
         },
@@ -27,7 +26,6 @@ const blogSlice = createSlice({
             state.error = action.payload;
         },
         getBlogsStart: (state) => {
-            state.blogs = null;
             state.loading = true;
             state.error = false;
         },
@@ -79,7 +77,12 @@ const blogSlice = createSlice({
             state.error = false;
         },
         deleteCommentSuccess: (state, action) => {
-            state.blogs.comments = action.payload.comments;
+            state.blogs = state.blogs.map((blog) =>
+                blog._id === action.payload.id
+                    ? { ...blog, comments: action.payload.comments }
+                    : blog
+            );
+
             state.loading = false;
             state.error = false;
         },

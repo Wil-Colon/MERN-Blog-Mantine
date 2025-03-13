@@ -2,24 +2,15 @@ import './bloglayout.scss';
 import moment from 'moment';
 import BodyContainer from '../BodyContainer/BodyContainer';
 import LikeButton, { LikeButtonsNonUser } from '../LikeButton/LikeButton';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Carousel } from '@mantine/carousel';
-import {
-    Avatar,
-    Center,
-    Flex,
-    Image,
-    Loader,
-    Text,
-    Title,
-} from '@mantine/core';
+import { Avatar, Flex, Image, Loader, Text, Title } from '@mantine/core';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRandomBlogs, getSingleBlogById } from '../../redux/actions/blog';
+import { getSingleBlogById } from '../../redux/actions/blog';
 import { RootState } from '../../redux/rootReducer';
 import BlogCarousel from '../BlogCarousel/BlogCarousel';
 import AddComment, { UserComment } from '../AddComment/AddComment';
-import axios from 'axios';
 
 export default function BlogLayout() {
     const location = useLocation();
@@ -32,14 +23,6 @@ export default function BlogLayout() {
 
     useEffect(() => {
         dispatch(getSingleBlogById(blogId));
-        // const getBlog = async () => {
-        //     const res = await axios.get(
-        //         `http://localhost:3000/api/blog/${blogId}`
-        //     );
-        //     // setblogs(res.data);
-        //     dispatch(getSingleBlogById(blogId));
-        // };
-        // getBlog();
     }, [state, blogId, dispatch]);
 
     if (blogs === null || blogs.length > 1) {

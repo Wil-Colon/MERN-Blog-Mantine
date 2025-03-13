@@ -111,7 +111,7 @@ export const likeButton = (blogId, selection) => async (dispatch) => {
     }
 };
 
-//Like/unlike blog
+//Add a comment to a blog
 export const addComment = (blogId, commentData) => async (dispatch) => {
     let errors;
 
@@ -135,7 +135,7 @@ export const addComment = (blogId, commentData) => async (dispatch) => {
     }
 };
 
-//Like/unlike blog
+//Delete a comment from a blog
 export const deleteComment = (blogId, commentId) => async (dispatch) => {
     let errors;
 

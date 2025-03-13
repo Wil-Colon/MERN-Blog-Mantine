@@ -6,8 +6,8 @@ import { getAllBlogs, getRecentThought } from '../redux/actions/blog';
 import type { RootState } from '../redux/rootReducer';
 
 export default function Home() {
-    const dispatch = useDispatch();
-    const blogs = useSelector((state: RootState) => state.blogs.blogs);
+    // const dispatch = useDispatch();
+    // const blogs = useSelector((state: RootState) => state.blogs.blogs);
     const [selectedThought, setSelectedThought] = useState(null);
 
     useEffect(() => {
