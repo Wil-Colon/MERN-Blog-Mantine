@@ -18,6 +18,22 @@ exports.getAllBlogs = async (req, res) => {
     }
 };
 
+//Get the most recent 'Thought'
+//GET api/blog/thought
+exports.getRecentThought = async (req, res) => {
+    try {
+        const blog = await Blog.findOne({ type: 'thought' }).sort({
+            createdAt: -1,
+        });
+
+        return res.status(200).json(blog);
+    } catch (err) {
+        return res.status(400).json({
+            errors: [{ msg: 'Blog server error' }],
+        });
+    }
+};
+
 //Get 6 Blogs for /blogs page pagination
 //GET api/blog/limit/
 exports.getLimitedBlogs = async (req, res) => {
@@ -55,7 +71,7 @@ exports.getSingleBlogById = async (req, res) => {
             });
         }
 
-        res.status(200).json(blog);
+        res.status(200).json([blog]);
     } catch (err) {
         return res.status(400).json({
             errors: [{ msg: 'Blog server error' }],
@@ -267,7 +283,7 @@ exports.likeBlog = async (req, res) => {
         if (!like) {
             blog.likes.push({ user: userId, selection: selection });
             await blog.save();
-            return res.status(200).json(blog.likes);
+            return res.status(200).json({ id: blog._id, likes: blog.likes });
         }
 
         //if user does have something, check if like/unlike and switch user selection
@@ -286,7 +302,7 @@ exports.likeBlog = async (req, res) => {
             });
             await blog.save();
 
-            return res.status(200).json(blog.likes);
+            return res.status(200).json({ id: blog._id, likes: blog.likes });
         } else {
             return res.status(400).json({
                 errors: [{ msg: `Unable to ${selection} more then once.` }],

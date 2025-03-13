@@ -6,11 +6,7 @@ import {
     IconThumbUpFilled,
 } from '@tabler/icons-react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    checkLikes,
-    getSingleBlogById,
-    likeButton,
-} from '../../redux/actions/blog';
+import { checkLikes, likeButton } from '../../redux/actions/blog';
 import { useEffect, useState } from 'react';
 import { RootState } from '../../redux/rootReducer';
 
@@ -30,31 +26,12 @@ export default function LikeButton({ selectedThought }: LikeButtonUserProps) {
     const [liked, setLiked] = useState('');
     const [totalLikes, setTotalLikes] = useState(0);
 
-    // useEffect(() => {
-    //     if (blogs === null) {
-    //         dispatch(getSingleBlogById(selectedThought._id));
-    //         setTotalLikes(
-    //             blogs.likes.filter((likes) => likes.selection === 'liked')
-    //                 .length
-    //         );
-    //     }
-
-    //     if (blogs.length > 1) {
-    //         setTotalLikes(
-    //             blogs
-    //                 .filter((blog) => blog._id === selectedThought._id)[0]
-    //                 .likes.filter((likes) => likes.selection === 'liked').length
-    //         );
-    //     }
-    // }, [blogs, selectedThought]);
-
     useEffect(() => {
-        if (blogs !== null) {
-            setTotalLikes(
-                blogs.likes.filter((likes) => likes.selection === 'liked')
-                    .length
-            );
-        }
+        setTotalLikes(
+            blogs
+                .filter((blog) => blog._id === selectedThought._id)[0]
+                .likes.filter((likes) => likes.selection === 'liked').length
+        );
     }, [blogs]);
 
     useEffect(() => {
@@ -142,31 +119,14 @@ export default function LikeButton({ selectedThought }: LikeButtonUserProps) {
 export function LikeButtonsNonUser({
     selectedThought,
 }: LikeButtonNonUserProps) {
-    const blogs = useSelector((state: RootState) => state.blogs.blogs);
     const [totalLikes, setTotalLikes] = useState(0);
 
     useEffect(() => {
-        if (blogs !== null) {
-            setTotalLikes(
-                blogs.likes.filter((likes) => likes.selection === 'liked')
-                    .length
-            );
-        }
-    }, [blogs]);
-
-    // const likes = blogs.likes.filter(
-    //     (likes) => likes.selection === 'liked'
-    // ).length;
-
-    // useEffect(() => {
-    //     dispatch(getSingleBlogById(selectedThought._id));
-
-    //     blogs !== null &&
-    //         setTotalLikes(
-    //             blogs.likes.filter((likes) => likes.selection === 'liked')
-    //                 .length
-    //         );
-    // }, [dispatch, selectedThought, blogs]);
+        setTotalLikes(
+            selectedThought.likes.filter((likes) => likes.selection === 'liked')
+                .length
+        );
+    }, [selectedThought.likes]);
 
     const popoverLike = (
         <Popover position="bottom" withArrow shadow="md">

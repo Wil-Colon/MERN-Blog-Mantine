@@ -14,6 +14,7 @@ import {
     getSingleBlogStart,
     getSingleBlogSuccess,
     getSingleBlogError,
+    deleteCommentFailure,
 } from '../blog/blogSlice';
 import setAuthToken from '../../utils/setAuthToken';
 
@@ -30,6 +31,18 @@ export const getAllBlogs = () => async (dispatch) => {
     } catch (err) {
         const errors = err.response.data.errors;
         dispatch(getBlogsError(errors[0]));
+    }
+};
+
+//Get recent 'Thought'
+//Used for Home page hero
+export const getRecentThought = async () => {
+    try {
+        const res = await axios.get('http://localhost:3000/api/blog/thought');
+
+        return res.data;
+    } catch (err) {
+        console.error('Error fetching random blogs:', error);
     }
 };
 
@@ -140,7 +153,7 @@ export const deleteComment = (blogId, commentId) => async (dispatch) => {
         return res.data;
     } catch (err) {
         errors = err.response.data.errors;
-        dispatch(addCommentFailure(errors[0]));
+        dispatch(deleteCommentFailure(errors[0]));
         return errors;
     }
 };

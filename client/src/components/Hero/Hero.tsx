@@ -1,7 +1,7 @@
 import classes from './hero.module.scss';
 import Divider from '../Divider/Divider';
 import HeroThought from '../HeroThought/HeroThought';
-import { Overlay, Container, Avatar, Loader, Center } from '@mantine/core';
+import { Overlay, Container, Avatar } from '@mantine/core';
 import { useEffect, useState } from 'react';
 
 interface HeroProps {
@@ -9,22 +9,22 @@ interface HeroProps {
 }
 
 export default function Hero({ selectedThought }: HeroProps) {
-    const [thought, setThought] = useState(null);
+    // const [thought, setThought] = useState(null);
 
-    useEffect(() => {
-        selectedThought !== null && setThought(selectedThought);
-    }, [selectedThought]);
+    // useEffect(() => {
+    //     selectedThought !== null && setThought(selectedThought);
+    // }, [selectedThought]);
 
     return (
         <div className={classes.hero}>
             <Overlay className={classes.root} opacity={1} zIndex={0} />
             <Container className={classes.container} size="md">
-                {thought !== null ? (
+                {selectedThought !== null ? (
                     <>
                         <HeroThought selectedThought={selectedThought} />
                         <Avatar
                             className={classes.avatar}
-                            src={thought.avatar}
+                            src={selectedThought.avatar}
                         />
                     </>
                 ) : (

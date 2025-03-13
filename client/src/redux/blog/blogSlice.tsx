@@ -46,7 +46,12 @@ const blogSlice = createSlice({
             state.error = false;
         },
         likeBlogSuccess: (state, action) => {
-            state.blogs.likes = action.payload;
+            state.blogs = state.blogs.map((blog) =>
+                blog._id === action.payload.id
+                    ? { ...blog, likes: action.payload.likes }
+                    : blog
+            );
+
             state.loading = false;
             state.error = false;
         },

@@ -2,7 +2,7 @@ import HomePageBlogContainer from '../components/HomePageBlogContainer/HomePageB
 import Hero from '../components/Hero/Hero';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getAllBlogs } from '../redux/actions/blog';
+import { getAllBlogs, getRecentThought } from '../redux/actions/blog';
 import type { RootState } from '../redux/rootReducer';
 
 export default function Home() {
@@ -11,10 +11,11 @@ export default function Home() {
     const [selectedThought, setSelectedThought] = useState(null);
 
     useEffect(() => {
-        selectedThought !== null &&
-            setSelectedThought(
-                blogs.find((blog) => blog._id === selectedThought._id)
-            );
+        const fetchRecentThought = async () => {
+            const res = await getRecentThought();
+            setSelectedThought(res);
+        };
+        fetchRecentThought();
     }, []);
 
     return (

@@ -12,10 +12,15 @@ const {
     getLimitedBlogs,
     getSingleBlogById,
     getRandomBlogs,
+    getRecentThought,
 } = require('../controllers/blog.controller');
 
 //GET All blogs
 router.get('/', getAllBlogs);
+
+//Get the most recent 'Thought'
+//GET api/blog/thought
+router.get('/thought', getRecentThought);
 
 //Get 6 Blogs for /blogs page pagination
 //GET api/blog/limit/

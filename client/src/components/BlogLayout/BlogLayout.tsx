@@ -31,14 +31,15 @@ export default function BlogLayout() {
     // const [blogs, setblogs] = useState(null);
 
     useEffect(() => {
-        const getBlog = async () => {
-            const res = await axios.get(
-                `http://localhost:3000/api/blog/${blogId}`
-            );
-            // setblogs(res.data);
-            dispatch(getSingleBlogById(blogId));
-        };
-        getBlog();
+        dispatch(getSingleBlogById(blogId));
+        // const getBlog = async () => {
+        //     const res = await axios.get(
+        //         `http://localhost:3000/api/blog/${blogId}`
+        //     );
+        //     // setblogs(res.data);
+        //     dispatch(getSingleBlogById(blogId));
+        // };
+        // getBlog();
     }, [state, blogId, dispatch]);
 
     if (blogs === null || blogs.length > 1) {
@@ -49,50 +50,52 @@ export default function BlogLayout() {
         <BodyContainer fluid={false} size="lg" pb={80}>
             <Carousel mt={30} mb={10} withIndicators height="100%">
                 <Carousel.Slide>
-                    <Image className="image" src={blogs.coverPhoto} />
+                    <Image className="image" src={blogs[0].coverPhoto} />
                 </Carousel.Slide>
-                {blogs.galleryPhotos.map((photo, i) => (
+                {blogs[0].galleryPhotos.map((photo, i) => (
                     <Carousel.Slide key={i}>
                         <Image src={photo}></Image>
                     </Carousel.Slide>
                 ))}
             </Carousel>
             <div>
-                <Title fw={400}>{blogs.title}</Title>
+                <Title fw={400}>{blogs[0].title}</Title>
                 <small style={{ marginTop: '-1rem' }}>
-                    {moment(blogs.date, moment.ISO_8601).format('YYYY-MM-DD')}
+                    {moment(blogs[0].date, moment.ISO_8601).format(
+                        'YYYY-MM-DD'
+                    )}
                 </small>
 
                 <div className="blogcontainer">
                     <Flex className="blogcontainer__body">
-                        <Text>{blogs.body}</Text>
+                        <Text>{blogs[0].body}</Text>
                         {user ? (
-                            <LikeButton selectedThought={blogs} />
+                            <LikeButton selectedThought={blogs[0]} />
                         ) : (
-                            <LikeButtonsNonUser selectedThought={blogs} />
+                            <LikeButtonsNonUser selectedThought={blogs[0]} />
                         )}
                     </Flex>
                     <Flex className="blogcontainer__avatar">
                         <Avatar
-                            src={blogs.avatar}
+                            src={blogs[0].avatar}
                             alt="it's me"
                             className="blogcontainer__avatar--photo image"
                         />
                         <Text className="blogcontainer__avatar--name">
-                            {blogs.userName}
+                            {blogs[0].userName}
                         </Text>
                     </Flex>
                 </div>
             </div>
-            <AddComment currentBlogId={blogs._id} />
-            {blogs.comments.length <= 0 ? (
+            <AddComment currentBlogId={blogs[0]._id} />
+            {blogs[0].comments.length <= 0 ? (
                 <p>No comments</p>
             ) : (
-                blogs.comments.map((blog, i) => (
+                blogs[0].comments.map((blog, i) => (
                     <UserComment
                         key={blog._id}
                         commentData={blog}
-                        currentBlogId={blogs._id} //what blog does the comment belong to.
+                        currentBlogId={blogs[0]._id} //what blog does the comment belong to.
                         commentOwnerUserId={blog.userId}
                     />
                 ))
@@ -107,7 +110,7 @@ export default function BlogLayout() {
                 Other great blogs to checkout!
             </Text>
 
-            <BlogCarousel blogsId={blogs._id} />
+            <BlogCarousel blogsId={blogs[0]._id} />
         </BodyContainer>
     );
 }

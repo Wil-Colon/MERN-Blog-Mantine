@@ -32,8 +32,6 @@ export default function HomePageBlogContainer({
         }
     }, [blogs]);
 
-    console.log(isLoading);
-
     if (isLoading === true || blogs === null) {
         return (
             <BodyContainer size={'xl'} fluid={false} pb={50}>
