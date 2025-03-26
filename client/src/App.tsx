@@ -5,7 +5,7 @@ import { MantineProvider } from '@mantine/core';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
 import { loadUser } from './redux/actions/auth';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Notifications } from '@mantine/notifications';
 import Home from './pages/Home';
 import About from './pages/About';

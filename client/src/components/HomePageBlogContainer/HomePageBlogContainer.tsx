@@ -10,26 +10,14 @@ import { getAllBlogs } from '../../redux/actions/blog';
 
 interface HomePageBlogContainerProps {
     setSelectedThought: any;
+    blogs: any;
 }
 
 export default function HomePageBlogContainer({
     setSelectedThought,
+    blogs,
 }: HomePageBlogContainerProps) {
     const isEven = (number: number) => number % 2;
-    const dispatch = useDispatch();
-    const blogs = useSelector((state: RootState) => state.blogs.blogs);
-
-    useEffect(() => {
-        dispatch(getAllBlogs());
-    }, [dispatch]);
-
-    if (blogs === null || blogs.length < 1) {
-        return (
-            <BodyContainer size={'xl'} fluid={false} pb={50}>
-                <Loader />
-            </BodyContainer>
-        );
-    }
 
     return (
         <div className="body-container">
