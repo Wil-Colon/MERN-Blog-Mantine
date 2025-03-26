@@ -38,12 +38,12 @@ exports.getRecentThought = async (req, res) => {
 //GET api/blog/limit/
 exports.getLimitedBlogs = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1; // Get the page number from query
-        const limit = parseInt(req.query.limit) || 6; // Set the default limit to 6
-        const skip = (page - 1) * limit; // Calculate the number of documents to skip
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 6;
+        const skip = (page - 1) * limit;
 
         const blogs = await Blog.find().skip(skip).limit(limit);
-        const totalBlogs = await Blog.countDocuments(); // Get total blog count
+        const totalBlogs = await Blog.countDocuments();
 
         res.json({
             blogs,
@@ -54,6 +54,22 @@ exports.getLimitedBlogs = async (req, res) => {
         return res.status(400).json({
             errors: [{ msg: 'Blog server error' }],
         });
+    }
+};
+
+// Search Route: Fetch blogs that match search query
+exports.searchBlogs = async (req, res) => {
+    try {
+        const query = req.query.q || '';
+        const searchRegex = new RegExp(query, 'i'); // Case-insensitive search
+
+        const blogs = await Blog.find({
+            $or: [{ title: searchRegex }, { body: searchRegex }],
+        });
+
+        res.json(blogs);
+    } catch (err) {
+        res.status(500).send('Server error');
     }
 };
 

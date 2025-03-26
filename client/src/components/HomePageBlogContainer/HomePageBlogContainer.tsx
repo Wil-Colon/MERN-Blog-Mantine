@@ -1,12 +1,12 @@
 import './homePageBlogContainer.scss';
-import { Center, Grid, Loader } from '@mantine/core';
-import { Link } from 'react-router-dom';
 import BlogCard from '../BlogCard/BlogCard';
+import BodyContainer from '../BodyContainer/BodyContainer';
 import ThoughtCard from '../ThoughtCard/ThoughtCard';
-import { useEffect, useState } from 'react';
+import { Grid, Loader } from '@mantine/core';
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllBlogs } from '../../redux/actions/blog';
-import BodyContainer from '../BodyContainer/BodyContainer';
 
 interface HomePageBlogContainerProps {
     setSelectedThought: any;
@@ -18,21 +18,12 @@ export default function HomePageBlogContainer({
     const isEven = (number: number) => number % 2;
     const dispatch = useDispatch();
     const blogs = useSelector((state: RootState) => state.blogs.blogs);
-    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         dispatch(getAllBlogs());
     }, [dispatch]);
 
-    // useEffect(() => {
-    //     if (blogs !== null) {
-    //         if (blogs.length > 1) {
-    //             setIsLoading(false);
-    //         }
-    //     }
-    // }, [blogs]);
-
-    if (blogs === null) {
+    if (blogs === null || blogs.length < 1) {
         return (
             <BodyContainer size={'xl'} fluid={false} pb={50}>
                 <Loader />
@@ -63,7 +54,6 @@ export default function HomePageBlogContainer({
                                                     .replace(/[.,!?;]/g, '')}`
                                               : null
                                       }`}
-                                      //   state={blog}
                                   >
                                       <BlogCard blogData={blog} />
                                   </Link>

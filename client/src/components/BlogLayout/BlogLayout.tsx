@@ -19,7 +19,6 @@ export default function BlogLayout() {
     const user = useSelector((state: RootState) => state.user.currentUser);
     const blogs = useSelector((state: RootState) => state.blogs.blogs);
     const blogId = location.pathname.replace(/\/blogs\/|-.*/g, '');
-    // const [blogs, setblogs] = useState(null);
 
     useEffect(() => {
         dispatch(getSingleBlogById(blogId));

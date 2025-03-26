@@ -2,11 +2,12 @@
 .search-bar {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    gap: 0.2rem;
+    margin: 1rem;
+    align-items: center;
 }
 
 .search-bar input {
-    margin-top: 1rem;
     width: 80%;
     max-width: 400px;
     padding: 10px;
@@ -22,73 +23,6 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* BlogPagination.css */
-.blog-container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.blog-container h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.blog-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.blog-card {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    transition: box-shadow 0.3s ease;
-}
-
-.blog-card h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.blog-card p {
-    font-size: 1em;
-    margin-bottom: 10px;
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 8px;
-    height: 200px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.blog-card button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-.blog-card:hover {
-    transform: scale(1.05);
-    filter: blur(2px);
-}
-
-.blog-card button:hover {
-    background-color: #0056b3;
-}
-
-.blog-card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
 .pagination {
     display: flex;
     justify-content: center;
@@ -96,21 +30,19 @@
 }
 
 .page-button {
-    background-color: #f9f9f9;
-    color: #333;
-    border: 1px solid #ddd;
-    padding: 10px 15px;
     margin: 0 5px;
-    cursor: pointer;
-    border-radius: 5px;
+
     transition: background-color 0.3s ease;
 }
 
-.page-button.active {
+.active {
     background-color: #007bff;
     color: #fff;
 }
 
 .page-button:hover {
+    @include dark {
+        background: rgb(59, 110, 159);
+    }
     background-color: #e9ecef;
 }

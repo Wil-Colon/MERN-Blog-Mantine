@@ -1,126 +1,165 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios'; // Assuming you're using Axios for API calls
 import './bloglist.scss';
-import { Grid } from '@mantine/core';
-import { Link } from 'react-router-dom';
-import BlogCard from '../../components/BlogCard/BlogCard';
 import BodyContainer from '../../components/BodyContainer/BodyContainer';
+import BlogCard from '../../components/BlogCard/BlogCard';
+import axios from 'axios'; // Assuming you're using Axios for API calls
+import { useEffect, useState } from 'react';
+import { Button, Grid, Input } from '@mantine/core';
+import { Link } from 'react-router-dom';
 
 export default function BlogsList() {
-    const [blogs, setBlogs] = useState([]); // Blogs for the current page
-    const [filteredBlogs, setFilteredBlogs] = useState([]); // Blogs matching the search query
-    const [searchQuery, setSearchQuery] = useState(''); // Search query
+    const [blogs, setBlogs] = useState([]); // Stores displayed blogs
+    const [searchResults, setSearchResults] = useState([]); // Stores search results
+    const [searchQuery, setSearchQuery] = useState(''); // Search input
+    const [isSearching, setIsSearching] = useState(false); // Flag to determine if searching
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [value, setValue] = useState('');
     const blogsPerPage = 6;
 
     useEffect(() => {
-        fetchBlogs(currentPage);
-    }, [currentPage]); // Fetch data when page changes
+        if (!isSearching) {
+            fetchBlogs(currentPage);
+        }
+    }, [currentPage, isSearching]); // Fetch only when page changes or search stops
 
     useEffect(() => {
-        // Filter blogs based on the search query
-        if (searchQuery.trim() === '') {
-            setFilteredBlogs(blogs); // Reset to all blogs if no query
+        if (searchQuery.trim()) {
+            fetchSearchResults(searchQuery);
         } else {
-            const query = searchQuery.toLowerCase();
-            const results = blogs.filter(
-                (blog) =>
-                    blog.title.toLowerCase().includes(query) ||
-                    blog.body.toLowerCase().includes(query)
-            );
-            setFilteredBlogs(results);
+            fetchBlogs(currentPage);
         }
-    }, [searchQuery, blogs]);
+    }, [currentPage, searchQuery]); // Fetch new data when page or search query changes
 
-    // Fetch blogs from backend with pagination
+    // Fetch blogs for the current page
     const fetchBlogs = async (page) => {
         try {
             const response = await axios.get(
                 `http://localhost:3000/api/blog/limit?page=${page}&limit=${blogsPerPage}`
             );
             setBlogs(response.data.blogs);
-            setFilteredBlogs(response.data.blogs); // Reset filteredBlogs to fetched blogs
             setTotalPages(response.data.totalPages);
         } catch (error) {
             console.error('Error fetching blogs:', error);
         }
     };
 
-    const handlePageChange = (pageNumber) => {
-        if (pageNumber >= 1 && pageNumber <= totalPages) {
-            setCurrentPage(pageNumber);
+    // Fetch search results from the backend
+    const fetchSearchResults = async (query) => {
+        if (!searchQuery.trim()) return; // Prevent empty search
+        try {
+            const response = await axios.get(
+                `http://localhost:3000/api/blog/search?q=${query}`
+            );
+            setSearchResults(response.data);
+            setIsSearching(true);
+        } catch (error) {
+            console.error('Error searching blogs:', error);
         }
     };
 
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value); // Update search query
+    const searchButton = (value) => {
+        setSearchQuery(value);
+        fetchSearchResults(value);
     };
+
+    // Reset search and show paginated results
+    const resetSearch = () => {
+        setIsSearching(false);
+        setSearchQuery('');
+        setSearchResults([]);
+        setValue('');
+    };
+
+    // Determine what to display: search results or paginated blogs
+    const displayedBlogs = searchQuery.trim() ? searchResults : blogs;
 
     return (
         <BodyContainer fluid={false} size="lg" pb={80}>
             {/* Search Bar */}
             <div className="search-bar">
-                <input
+                <Input
+                    value={value}
+                    onChange={(event) => setValue(event.currentTarget.value)}
                     type="text"
                     placeholder="Search blogs..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
                 />
-            </div>
-            <Grid justify="center" grow>
-                {filteredBlogs.map((blog, i) => (
-                    <Grid.Col
-                        key={i}
-                        span={{ base: 11, md: 6, lg: 5 }}
-                        className="body-container__column"
+                <Button
+                    disabled={!value && true}
+                    className="search-bar__button"
+                    onClick={() => searchButton(value)}
+                >
+                    Search
+                </Button>
+                {isSearching && (
+                    <Button
+                        onClick={resetSearch}
+                        className="search-bar__button"
                     >
-                        <Link
-                            to={`/blogs/${
-                                blog !== null
-                                    ? `${blog._id}-${blog?.title
-                                          .replace(/ /g, '-')
-                                          .replace(/[.,!?;]/g, '')}`
-                                    : null
-                            }`}
-                            state={blog}
+                        Clear
+                    </Button>
+                )}
+            </div>
+
+            <Grid justify="center" grow>
+                {displayedBlogs.length > 0 ? (
+                    displayedBlogs.map((blog) => (
+                        <Grid.Col
+                            key={blog._id}
+                            span={{ base: 11, md: 6, lg: 5 }}
+                            className="body-container__column"
                         >
-                            <BlogCard blogData={blog} />
-                        </Link>
-                    </Grid.Col>
-                ))}
+                            <Link
+                                to={`/blogs/${
+                                    blog !== null
+                                        ? `${blog._id}-${blog?.title
+                                              .replace(/ /g, '-')
+                                              .replace(/[.,!?;]/g, '')}`
+                                        : null
+                                }`}
+                                state={blog}
+                            >
+                                <BlogCard blogData={blog} />
+                            </Link>
+                        </Grid.Col>
+                    ))
+                ) : (
+                    <p>No blogs found.</p>
+                )}
             </Grid>
 
-            {/* Pagination */}
-            <div className="pagination">
-                <button
-                    className="page-button"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                >
-                    Previous
-                </button>
-
-                {[...Array(totalPages)].map((_, i) => (
-                    <button
-                        key={i}
-                        className={`page-button ${
-                            currentPage === i + 1 ? 'active' : ''
-                        }`}
-                        onClick={() => handlePageChange(i + 1)}
+            {/* Pagination (Hidden when searching) */}
+            {!isSearching && (
+                <div className="pagination">
+                    <Button
+                        // className="page-button"
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
                     >
-                        {i + 1}
-                    </button>
-                ))}
+                        Previous
+                    </Button>
 
-                <button
-                    className="page-button"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                >
-                    Next
-                </button>
-            </div>
+                    {[...Array(totalPages)].map((_, i) => (
+                        <Button
+                            variant="default"
+                            key={i}
+                            className={`page-button ${
+                                currentPage === i + 1 ? 'active' : ''
+                            }`}
+                            onClick={() => setCurrentPage(i + 1)}
+                        >
+                            {i + 1}
+                        </Button>
+                    ))}
+
+                    <Button
+                        // className="page-button"
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                    >
+                        Next
+                    </Button>
+                </div>
+            )}
         </BodyContainer>
     );
 }
