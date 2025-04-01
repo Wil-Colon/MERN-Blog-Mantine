@@ -1,12 +1,16 @@
 import './bloglist.scss';
 import BodyContainer from '../../components/BodyContainer/BodyContainer';
 import BlogCard from '../../components/BlogCard/BlogCard';
-import axios from 'axios'; // Assuming you're using Axios for API calls
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Button, Grid, Input } from '@mantine/core';
 import { Link } from 'react-router-dom';
 
-export default function BlogsList() {
+interface BlogListProps {
+    edit: boolean;
+}
+
+export default function BlogsList({ edit }: BlogListProps) {
     const [blogs, setBlogs] = useState([]); // Stores displayed blogs
     const [searchResults, setSearchResults] = useState([]); // Stores search results
     const [searchQuery, setSearchQuery] = useState(''); // Search input
@@ -108,18 +112,25 @@ export default function BlogsList() {
                             span={{ base: 11, md: 6, lg: 5 }}
                             className="body-container__column"
                         >
-                            <Link
-                                to={`/blogs/${
-                                    blog !== null
-                                        ? `${blog._id}-${blog?.title
-                                              .replace(/ /g, '-')
-                                              .replace(/[.,!?;]/g, '')}`
-                                        : null
-                                }`}
-                                state={blog}
-                            >
-                                <BlogCard blogData={blog} />
-                            </Link>
+                            {/* Are we in the Admin Edit page? */}
+                            {!edit ? (
+                                <Link
+                                    to={`/blogs/${
+                                        blog !== null
+                                            ? `${blog._id}-${blog?.title
+                                                  .replace(/ /g, '-')
+                                                  .replace(/[.,!?;]/g, '')}`
+                                            : null
+                                    }`}
+                                    state={blog}
+                                >
+                                    <BlogCard blogData={blog} />
+                                </Link>
+                            ) : (
+                                <Link key={blog._id} to={`edit/${blog._id}`}>
+                                    <BlogCard blogData={blog} />
+                                </Link>
+                            )}
                         </Grid.Col>
                     ))
                 ) : (

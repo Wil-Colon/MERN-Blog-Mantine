@@ -1,12 +1,8 @@
 import './homePageBlogContainer.scss';
 import BlogCard from '../BlogCard/BlogCard';
-import BodyContainer from '../BodyContainer/BodyContainer';
 import ThoughtCard from '../ThoughtCard/ThoughtCard';
-import { Grid, Loader } from '@mantine/core';
+import { Grid } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllBlogs } from '../../redux/actions/blog';
 
 interface HomePageBlogContainerProps {
     setSelectedThought: any;

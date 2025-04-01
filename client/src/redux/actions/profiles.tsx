@@ -65,6 +65,7 @@ export const updateProfile = (profileInfo) => async (dispatch) => {
         dispatch(updateUserProfileFailure(errors));
     }
 };
+
 export const getProfileByID = (id) => async (dispatch) => {
     try {
         const res = await axios.get(`http://localhost:3000/api/profile/${id}`);
