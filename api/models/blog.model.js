@@ -5,10 +5,10 @@ const BlogSchema = new mongoose.Schema(
         type: {
             type: String,
         },
-        author: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'user',
-        },
+        // author: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: 'user',
+        // },
         avatar: {
             type: String,
         },

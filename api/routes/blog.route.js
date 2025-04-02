@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const auth = require('../middleware/auth');
+const { upload, handleFileUploads } = require('../middleware/upload');
 const {
     getAllBlogs,
     createBlog,
@@ -42,7 +43,16 @@ router.get('/random/list', getRandomBlogs);
 //Private
 //Create Blog
 //Post /api/blog/createblog
-router.post('/createblog', auth, createBlog);
+router.post(
+    '/createblog',
+    auth,
+    upload.fields([
+        { name: 'coverphoto' },
+        { name: 'galleryphotos', maxCount: 5 },
+    ]),
+    handleFileUploads,
+    createBlog
+);
 
 //Private
 //UpdateBlog

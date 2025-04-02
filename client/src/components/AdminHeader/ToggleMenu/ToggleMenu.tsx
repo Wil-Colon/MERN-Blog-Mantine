@@ -78,25 +78,7 @@ export default function ToggleMenu({
                                 : {}
                         }
                     >
-                        Blog
-                    </p>
-                </Menu.Item>
-                <Menu.Item
-                    onClick={() => toggleMenuItem('/thought')}
-                    leftSection={
-                        <IconPhoto
-                            style={{ width: rem(14), height: rem(14) }}
-                        />
-                    }
-                >
-                    <p
-                        style={
-                            active === '/thought'
-                                ? { color: 'red', textDecoration: 'underline' }
-                                : {}
-                        }
-                    >
-                        Thought
+                        Blogs
                     </p>
                 </Menu.Item>
                 <Menu.Item

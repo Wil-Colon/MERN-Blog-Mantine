@@ -114,8 +114,9 @@ exports.getRandomBlogs = async (req, res) => {
 //POST /api/blog/createblog
 exports.createBlog = async (req, res) => {
     let id = req.user.id;
+
     let blogFields = {
-        author: id,
+        // author: id,
         ...req.body,
     };
 

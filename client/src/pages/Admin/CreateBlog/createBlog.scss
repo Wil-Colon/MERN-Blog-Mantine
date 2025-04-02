@@ -1,0 +1,123 @@
+.button {
+    &:disabled,
+    &[data-disabled] {
+        border-color: light-dark(
+            var(--mantine-color-gray-3),
+            var(--mantine-color-dark-4)
+        );
+        background-color: grey;
+    }
+}
+
+/* Container Styling */
+.create-blog {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Form Title */
+.create-blog h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+.create-blog form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels */
+.create-blog label {
+    font-weight: bold;
+    margin: 10px 0 5px;
+    color: #555;
+}
+
+/* Input Fields & Textarea */
+.create-blog input,
+.create-blog select,
+.create-blog textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+/* Focus Effect */
+.create-blog input:focus,
+.create-blog select:focus,
+.create-blog textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Textarea */
+.create-blog textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+/* File Input */
+.create-blog input[type='file'] {
+    padding: 5px;
+}
+
+/* Submit Button */
+.create-blog button {
+    margin-top: 15px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.create-blog button:hover {
+    background-color: #0056b3;
+}
+
+/* Error Messages */
+.error {
+    color: red;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+/* Success Message */
+.success {
+    color: green;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* 🔽 Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    .create-blog {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .create-blog input,
+    .create-blog select,
+    .create-blog textarea {
+        font-size: 14px;
+    }
+
+    .create-blog button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
