@@ -1,8 +1,8 @@
 import HomePageBlogContainer from '../components/HomePageBlogContainer/HomePageBlogContainer';
 import Hero from '../components/Hero/Hero';
-import { useEffect, useState } from 'react';
-import { getAllBlogs, getRecentThought } from '../redux/actions/blog';
 import BodyContainer from '../components/BodyContainer/BodyContainer';
+import { useEffect, useState } from 'react';
+import { getRecentBlogs, getRecentThought } from '../redux/actions/blog';
 import { Loader } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/rootReducer';
@@ -13,7 +13,7 @@ export default function Home() {
     const [selectedThought, setSelectedThought] = useState(null);
 
     useEffect(() => {
-        dispatch(getAllBlogs());
+        dispatch(getRecentBlogs());
 
         const fetchRecentThought = async () => {
             const res = await getRecentThought();

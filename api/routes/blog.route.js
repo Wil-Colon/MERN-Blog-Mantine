@@ -15,10 +15,15 @@ const {
     getRandomBlogs,
     getRecentThought,
     searchBlogs,
+    getRecentBlogs,
 } = require('../controllers/blog.controller');
 
 //GET All blogs
 router.get('/', getAllBlogs);
+
+//GET Recent 6 blogs, newest to oldest
+//GET api/blog/getrecentblogs
+router.get('/getrecentblogs', getRecentBlogs);
 
 //Get the most recent 'Thought'
 //GET api/blog/thought

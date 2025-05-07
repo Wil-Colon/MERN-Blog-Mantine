@@ -15,8 +15,29 @@ import {
     getSingleBlogSuccess,
     getSingleBlogError,
     deleteCommentFailure,
+    getRecentBlogsStart,
+    getRecentBlogsSuccess,
+    getRecentBlogsError,
 } from '../blog/blogSlice';
 import setAuthToken from '../../utils/setAuthToken';
+
+//Get recent 6 blogs in order for home page
+export const getRecentBlogs = () => async (dispatch) => {
+    dispatch(getRecentBlogsStart());
+
+    try {
+        const res = await axios.get(
+            'http://localhost:3000/api/blog/getrecentblogs/'
+        );
+
+        dispatch(getRecentBlogsSuccess(res.data));
+
+        return res.data;
+    } catch (err) {
+        const errors = err.response.data.errors;
+        dispatch(getRecentBlogsError(errors[0]));
+    }
+};
 
 //Get all blogs
 export const getAllBlogs = () => async (dispatch) => {

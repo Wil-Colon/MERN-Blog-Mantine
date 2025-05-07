@@ -1,6 +1,5 @@
 const { Blog } = require('../models/blog.model');
 const { User } = require('../models/user.model');
-
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -9,6 +8,22 @@ dotenv.config();
 exports.getAllBlogs = async (req, res) => {
     try {
         let blogs = await Blog.find();
+
+        return res.status(200).json(blogs);
+    } catch (err) {
+        return res.status(400).json({
+            errors: [{ msg: 'Blog server error' }],
+        });
+    }
+};
+
+//Get Recent 6 blogs in order from newest to oldest
+//GET api/recentBlogs
+exports.getRecentBlogs = async (req, res) => {
+    try {
+        let blogs = await Blog.find()
+            .sort({ createdAt: -1 }) // Sort by newest first
+            .limit(6); // Get only 6;
 
         return res.status(200).json(blogs);
     } catch (err) {

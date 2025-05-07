@@ -39,6 +39,20 @@ const blogSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        getRecentBlogsStart: (state) => {
+            state.loading = true;
+            state.error = false;
+        },
+        getRecentBlogsSuccess: (state, action) => {
+            state.blogs = action.payload;
+            state.loading = false;
+            state.error = false;
+        },
+        getRecentBlogsError: (state, action) => {
+            state.blogs = null;
+            state.loading = false;
+            state.error = action.payload;
+        },
         likeBlogStart: (state) => {
             state.loading = true;
             state.error = false;
@@ -113,5 +127,8 @@ export const {
     deleteCommentStart,
     deleteCommentSuccess,
     deleteCommentFailure,
+    getRecentBlogsStart,
+    getRecentBlogsSuccess,
+    getRecentBlogsError,
 } = blogSlice.actions;
 export default blogSlice.reducer;
