@@ -62,7 +62,15 @@ router.post(
 //Private
 //UpdateBlog
 //Put /api/blog/updateblog/:blogid
-router.put('/updateblog/:blogid', auth, updateBlog);
+router.put(
+    '/updateblog/:blogid',
+    auth,
+    upload.fields([
+        { name: 'coverphoto', maxCount: 1 },
+        { name: 'galleryphotos', maxCount: 5 },
+    ]),
+    updateBlog
+);
 
 //Private
 //Delete Blog by ID

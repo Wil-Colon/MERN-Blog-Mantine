@@ -27,12 +27,25 @@ export default function LikeButton({ selectedThought }: LikeButtonUserProps) {
     const [totalLikes, setTotalLikes] = useState(0);
 
     useEffect(() => {
-        setTotalLikes(
-            blogs
-                .filter((blog) => blog._id === selectedThought._id)[0]
-                .likes.filter((likes) => likes.selection === 'liked').length
-        );
+        if (blogs.length >= 6) {
+            setTotalLikes(
+                blogs
+                    .filter((blog) => blog._id === selectedThought._id)[0]
+                    .likes.filter((likes) => likes.selection === 'liked').length
+            );
+        } else {
+            setTotalLikes(
+                blogs.likes.filter((likes) => likes.selection === 'liked')
+                    .length
+            );
+        }
     }, [blogs]);
+
+    // useEffect(() => {
+    //     setTotalLikes(
+    //         blogs.likes.filter((likes) => likes.selection === 'liked').length
+    //     );
+    // }, [blogs]);
 
     useEffect(() => {
         if (user !== null) {

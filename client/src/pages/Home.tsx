@@ -22,13 +22,23 @@ export default function Home() {
         fetchRecentThought();
     }, [dispatch]);
 
-    if (blogs === null || blogs.length < 6) {
+    // if (blogs === null || blogs.length < 6) {
+    //     return (
+    //         <BodyContainer size="xs" fluid pb>
+    //             <Loader />
+    //         </BodyContainer>
+    //     );
+    // }
+
+    if (blogs === null || !Array.isArray(blogs)) {
         return (
             <BodyContainer size="xs" fluid pb>
                 <Loader />
             </BodyContainer>
         );
     }
+
+    // console.log(blogs.isArray());
 
     return (
         <>

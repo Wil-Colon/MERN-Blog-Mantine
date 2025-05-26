@@ -22,6 +22,7 @@ import BlogsList from './pages/BlogList/BlogsList';
 import BlogLayout from './components/BlogLayout/BlogLayout';
 import '@mantine/carousel/styles.css';
 import CreateBlog from './pages/Admin/CreateBlog/CreateBlog';
+import EditBlog from './pages/Admin/EditBlog/EditBlog';
 
 function App() {
     const dispatch = useDispatch();
@@ -80,7 +81,7 @@ function App() {
                         />
                         <Route
                             path="/admin/blog/edit/:id"
-                            element={<AdminDashboard />}
+                            element={<EditBlog />}
                         />
                         <Route
                             path="/admin/createblog"

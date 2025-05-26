@@ -58,11 +58,13 @@ const blogSlice = createSlice({
             state.error = false;
         },
         likeBlogSuccess: (state, action) => {
-            state.blogs = state.blogs.map((blog) =>
-                blog._id === action.payload.id
-                    ? { ...blog, likes: action.payload.likes }
-                    : blog
-            );
+            Array.isArray(state.blogs)
+                ? (state.blogs = state.blogs.map((blog) =>
+                      blog._id === action.payload.id
+                          ? { ...blog, likes: action.payload.likes }
+                          : blog
+                  ))
+                : (state.blogs.likes = action.payload.likes);
 
             state.loading = false;
             state.error = false;

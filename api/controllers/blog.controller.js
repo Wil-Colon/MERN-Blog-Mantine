@@ -102,7 +102,7 @@ exports.getSingleBlogById = async (req, res) => {
             });
         }
 
-        res.status(200).json([blog]);
+        res.status(200).json(blog);
     } catch (err) {
         return res.status(400).json({
             errors: [{ msg: 'Blog server error' }],
@@ -159,31 +159,32 @@ exports.createBlog = async (req, res) => {
 //Update Blog
 //PUT /api/blog/updateblog/:blogid
 exports.updateBlog = async (req, res) => {
-    let userId = req.user.id;
-    let blogId = req.params.blogid;
-    let blogFields = req.body;
-
     try {
-        // Check if blog exists
-        let blog = await Blog.findById(blogId);
-
+        let userId = req.user.id;
         let user = await User.findById(userId);
 
-        if (!blog) {
-            return res
-                .status(400)
-                .json({ errors: [{ msg: 'No blog found to update.' }] });
-        }
+        const blog = await Blog.findById(req.params.blogid);
+        if (!blog) return res.status(404).json({ message: 'Blog not found' });
 
-        //check if blog belongs to currently logged in user
-        if (userId === blog.author.toString() || user.isAdmin === true) {
-            let updatedBlog = await Blog.findByIdAndUpdate(
-                blogId,
-                { $set: blogFields },
+        const updates = {
+            type: req.body.type || blog.type,
+            username: req.body.username || blog.username,
+            title: req.body.title || blog.title,
+            body: req.body.body || blog.body,
+            coverphoto: req.body.coverphoto || blog.coverphoto,
+            galleryphotos: req.body.galleryphotos || blog.galleryphotos,
+        };
+
+        if (user.isAdmin === true) {
+            const updatedBlog = await Blog.findByIdAndUpdate(
+                req.params.id,
+                updates,
                 { new: true }
             );
-
-            return res.status(200).json(updatedBlog);
+            res.json({
+                message: 'Blog updated successfully',
+                blog: updatedBlog,
+            });
         } else {
             return res.status(400).json({
                 errors: [
@@ -193,7 +194,8 @@ exports.updateBlog = async (req, res) => {
                 ],
             });
         }
-    } catch (err) {
+    } catch (error) {
+        console.error('Update Error:', error);
         return res.status(400).json({
             errors: [{ msg: 'Blog server error.' }],
         });

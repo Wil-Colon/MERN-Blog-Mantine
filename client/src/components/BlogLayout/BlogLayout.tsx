@@ -32,52 +32,50 @@ export default function BlogLayout() {
         <BodyContainer fluid={false} size="lg" pb={80}>
             <Carousel mt={30} mb={10} withIndicators height="100%">
                 <Carousel.Slide>
-                    <Image className="image" src={blogs[0].coverPhoto} />
+                    <Image className="image" src={blogs.coverPhoto} />
                 </Carousel.Slide>
-                {blogs[0].galleryPhotos.map((photo, i) => (
+                {blogs.galleryPhotos.map((photo, i) => (
                     <Carousel.Slide key={i}>
                         <Image src={photo}></Image>
                     </Carousel.Slide>
                 ))}
             </Carousel>
             <div>
-                <Title fw={400}>{blogs[0].title}</Title>
+                <Title fw={400}>{blogs.title}</Title>
                 <small style={{ marginTop: '-1rem' }}>
-                    {moment(blogs[0].date, moment.ISO_8601).format(
-                        'YYYY-MM-DD'
-                    )}
+                    {moment(blogs.date, moment.ISO_8601).format('YYYY-MM-DD')}
                 </small>
 
                 <div className="blogcontainer">
                     <Flex className="blogcontainer__body">
-                        <Text>{blogs[0].body}</Text>
+                        <Text>{blogs.body}</Text>
                         {user ? (
-                            <LikeButton selectedThought={blogs[0]} />
+                            <LikeButton selectedThought={blogs} />
                         ) : (
-                            <LikeButtonsNonUser selectedThought={blogs[0]} />
+                            <LikeButtonsNonUser selectedThought={blogs} />
                         )}
                     </Flex>
                     <Flex className="blogcontainer__avatar">
                         <Avatar
-                            src={blogs[0].avatar}
+                            src={blogs.avatar}
                             alt="it's me"
                             className="blogcontainer__avatar--photo image"
                         />
                         <Text className="blogcontainer__avatar--name">
-                            {blogs[0].userName}
+                            {blogs.userName}
                         </Text>
                     </Flex>
                 </div>
             </div>
-            <AddComment currentBlogId={blogs[0]._id} />
-            {blogs[0].comments.length <= 0 ? (
+            <AddComment currentBlogId={blogs._id} />
+            {blogs.comments.length <= 0 ? (
                 <p>No comments</p>
             ) : (
-                blogs[0].comments.map((blog, i) => (
+                blogs.comments.map((blog, i) => (
                     <UserComment
                         key={blog._id}
                         commentData={blog}
-                        currentBlogId={blogs[0]._id} //what blog does the comment belong to.
+                        currentBlogId={blogs._id} //what blog does the comment belong to.
                         commentOwnerUserId={blog.userId}
                     />
                 ))
@@ -92,7 +90,7 @@ export default function BlogLayout() {
                 Other great blogs to checkout!
             </Text>
 
-            <BlogCarousel blogsId={blogs[0]._id} />
+            <BlogCarousel blogsId={blogs._id} />
         </BodyContainer>
     );
 }
