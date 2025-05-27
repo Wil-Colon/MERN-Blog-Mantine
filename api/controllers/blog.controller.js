@@ -250,7 +250,7 @@ exports.commentBlog = async (req, res) => {
 
         await blog.save();
 
-        return res.status(200).json([blog]);
+        return res.status(200).json(blog);
     } catch (err) {
         return res.status(400).json({
             errors: [{ msg: 'Error in commentBlog' }],

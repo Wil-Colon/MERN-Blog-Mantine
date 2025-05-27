@@ -93,12 +93,12 @@ const blogSlice = createSlice({
             state.error = false;
         },
         deleteCommentSuccess: (state, action) => {
-            state.blogs = state.blogs.map((blog) =>
-                blog._id === action.payload.id
-                    ? { ...blog, comments: action.payload.comments }
-                    : blog
-            );
-
+            // state.blogs = state.blogs.map((blog) =>
+            //     blog._id === action.payload.id
+            //         ? { ...blog, comments: action.payload.comments }
+            //         : blog
+            // );
+            state.blogs = { ...state.blogs, comments: action.payload.comments };
             state.loading = false;
             state.error = false;
         },
