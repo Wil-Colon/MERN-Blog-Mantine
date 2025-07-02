@@ -4,10 +4,10 @@ import { useParams } from 'react-router-dom';
 import './editblog.scss';
 
 export default function EditBlog() {
-    const { id } = useParams(); // blog ID from route
+    const { id } = useParams();
     const [formData, setFormData] = useState({
         type: '',
-        username: '',
+        userName: '',
         title: '',
         body: '',
     });
@@ -15,31 +15,30 @@ export default function EditBlog() {
     const [galleryPhotos, setGalleryPhotos] = useState([]);
     const [existingCover, setExistingCover] = useState('');
     const [existingGallery, setExistingGallery] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [removedGallery, setRemovedGallery] = useState([]);
+    const [originalData, setOriginalData] = useState(null);
     const [message, setMessage] = useState('');
-    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const res = await axios.get(
+                const { data } = await axios.get(
                     `http://localhost:3000/api/blog/${id}`
                 );
-                const blog = res.data;
                 setFormData({
-                    type: blog.type,
-                    username: blog.userName,
-                    title: blog.title,
-                    body: blog.body,
+                    type: data.type,
+                    userName: data.userName,
+                    title: data.title,
+                    body: data.body,
                 });
-
-                setExistingCover(blog.coverPhoto);
-                setExistingGallery(blog.galleryPhotos);
+                setExistingCover(data.coverPhoto);
+                setExistingGallery(data.galleryPhotos);
+                setOriginalData(data);
             } catch (err) {
                 setMessage('Error loading blog.');
             }
         };
-
         fetchBlog();
     }, [id]);
 
@@ -52,30 +51,71 @@ export default function EditBlog() {
         else setGalleryPhotos(files);
     };
 
+    const handleRemoveGalleryImage = (url) => {
+        setExistingGallery(existingGallery.filter((img) => img !== url));
+        setRemovedGallery([...removedGallery, url]);
+    };
+
+    const hasChanges = () => {
+        if (!originalData) return false;
+        const fieldsChanged = ['type', 'title', 'body'].some(
+            (field) => formData[field] !== originalData[field]
+        );
+        return (
+            fieldsChanged ||
+            coverPhoto ||
+            galleryPhotos.length > 0 ||
+            removedGallery.length > 0
+        );
+    };
+
+    const uploadImage = async (file) => {
+        const fileData = new FormData();
+        fileData.append('image', file);
+        const { data } = await axios.post(
+            'http://localhost:3000/api/blog/updateandupload',
+            fileData,
+            {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            }
+        );
+        return data.url;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!hasChanges()) return;
+        if (existingGallery.length + galleryPhotos.length < 1) {
+            setMessage('At least one gallery photo must remain.');
+            return;
+        }
+
         setLoading(true);
 
-        const formDataObj = new FormData();
-        Object.keys(formData).forEach((key) =>
-            formDataObj.append(key, formData[key])
-        );
-        if (coverPhoto) formDataObj.append('coverphoto', coverPhoto);
-        galleryPhotos.forEach((file) =>
-            formDataObj.append('galleryphotos', file)
-        );
-
         try {
-            const res = await axios.put(
-                `http://localhost:3000/api/blog/updateblog/${id}`,
-                formDataObj,
-                {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                }
-            );
+            let coverUrl = existingCover;
+            if (coverPhoto) {
+                coverUrl = await uploadImage(coverPhoto);
+            }
 
-            setMessage(res.data.message || 'Blog updated!');
-        } catch (error) {
+            const newGalleryUrls = await Promise.all(
+                galleryPhotos.map(uploadImage)
+            );
+            const finalGallery = [...existingGallery, ...newGalleryUrls];
+
+            const updated = {
+                ...formData,
+                coverPhoto: coverUrl,
+                galleryPhotos: finalGallery,
+            };
+
+            const { data } = await axios.put(
+                `http://localhost:3000/api/blog/updateblog/${id}`,
+                updated
+            );
+            setMessage(data.message);
+        } catch (err) {
+            console.error(err);
             setMessage('Error updating blog.');
         }
 
@@ -119,31 +159,47 @@ export default function EditBlog() {
                         style={{ width: '100%', maxHeight: '200px' }}
                     />
                 )}
-
-                <label>New Cover Photo (optional):</label>
+                <label>New Cover Photo:</label>
                 <input
                     type="file"
                     accept="image/*"
                     onChange={(e) => handleFileChange(e, 'coverPhoto')}
                 />
 
-                <label>Current Gallery:</label>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                    {existingGallery?.map((url, i) => (
-                        <img
-                            key={i}
-                            src={url}
-                            alt={`gallery-${i}`}
-                            style={{
-                                width: '100px',
-                                height: '100px',
-                                objectFit: 'cover',
-                            }}
-                        />
+                <label>Gallery Images:</label>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                    {existingGallery.map((url, i) => (
+                        <div key={i} style={{ position: 'relative' }}>
+                            <img
+                                src={url}
+                                style={{
+                                    width: '100px',
+                                    height: '100px',
+                                    objectFit: 'cover',
+                                }}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => handleRemoveGalleryImage(url)}
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    right: 0,
+                                    background: 'red',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '50%',
+                                    width: '10px',
+                                    height: '10px',
+                                }}
+                            >
+                                ×
+                            </button>
+                        </div>
                     ))}
                 </div>
 
-                <label>New Gallery Photos (optional):</label>
+                <label>Add New Gallery Photos:</label>
                 <input
                     type="file"
                     multiple
@@ -151,11 +207,10 @@ export default function EditBlog() {
                     onChange={(e) => handleFileChange(e, 'galleryPhotos')}
                 />
 
-                <button type="submit">
+                <button type="submit" disabled={!hasChanges() || loading}>
                     {loading ? 'Updating...' : 'Update Blog'}
                 </button>
             </form>
-
             {message && <p className="success">{message}</p>}
         </div>
     );

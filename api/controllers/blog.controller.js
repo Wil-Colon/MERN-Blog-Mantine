@@ -160,40 +160,10 @@ exports.createBlog = async (req, res) => {
 //PUT /api/blog/updateblog/:blogid
 exports.updateBlog = async (req, res) => {
     try {
-        let userId = req.user.id;
-        let user = await User.findById(userId);
-
-        const blog = await Blog.findById(req.params.blogid);
-        if (!blog) return res.status(404).json({ message: 'Blog not found' });
-
-        const updates = {
-            type: req.body.type || blog.type,
-            username: req.body.username || blog.username,
-            title: req.body.title || blog.title,
-            body: req.body.body || blog.body,
-            coverphoto: req.body.coverphoto || blog.coverphoto,
-            galleryphotos: req.body.galleryphotos || blog.galleryphotos,
-        };
-
-        if (user.isAdmin === true) {
-            const updatedBlog = await Blog.findByIdAndUpdate(
-                req.params.id,
-                updates,
-                { new: true }
-            );
-            res.json({
-                message: 'Blog updated successfully',
-                blog: updatedBlog,
-            });
-        } else {
-            return res.status(400).json({
-                errors: [
-                    {
-                        msg: 'Blog does not belong to current user or user is not admin.',
-                    },
-                ],
-            });
-        }
+        const blog = await Blog.findByIdAndUpdate(req.params.blogid, req.body, {
+            new: true,
+        });
+        res.json({ message: 'Blog updated successfully', blog });
     } catch (error) {
         console.error('Update Error:', error);
         return res.status(400).json({
@@ -201,6 +171,18 @@ exports.updateBlog = async (req, res) => {
         });
     }
 };
+
+// //Private
+// //Upload Images to AWS. Created for UpdateBlog PUT
+// //Post /api/blog/updateBlog/upload
+// exports.updateandupload = async (req, res) => {
+//     try {
+//         const url = await uploadToS3(req.file); // from your uploadMiddleware
+//         res.json({ url });
+//     } catch (err) {
+//         res.status(500).json({ message: 'Upload failed' });
+//     }
+// };
 
 //PRIVATE AUTH
 //Delete Blog by ID

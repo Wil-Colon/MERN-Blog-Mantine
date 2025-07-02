@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const auth = require('../middleware/auth');
-const { upload, handleFileUploads } = require('../middleware/upload');
+const {
+    upload,
+    handleFileUploads,
+    updateAndUpload,
+} = require('../middleware/upload');
 const {
     getAllBlogs,
     createBlog,
@@ -16,6 +20,7 @@ const {
     getRecentThought,
     searchBlogs,
     getRecentBlogs,
+    updateandupload,
 } = require('../controllers/blog.controller');
 
 //GET All blogs
@@ -62,15 +67,12 @@ router.post(
 //Private
 //UpdateBlog
 //Put /api/blog/updateblog/:blogid
-router.put(
-    '/updateblog/:blogid',
-    auth,
-    upload.fields([
-        { name: 'coverphoto', maxCount: 1 },
-        { name: 'galleryphotos', maxCount: 5 },
-    ]),
-    updateBlog
-);
+router.put('/updateblog/:blogid', auth, updateBlog);
+
+//Private
+//Upload Images to AWS. Created for UpdateBlog PUT
+//Post /api/blog/updateandupload/:id
+router.post('/updateandupload', upload.single('image'), updateAndUpload);
 
 //Private
 //Delete Blog by ID

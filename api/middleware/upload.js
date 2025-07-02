@@ -71,4 +71,13 @@ const handleFileUploads = async (req, res, next) => {
     }
 };
 
-module.exports = { upload, handleFileUploads };
+const updateAndUpload = async (req, res) => {
+    try {
+        const url = await uploadToS3(req.file); // from your uploadMiddleware
+        res.json({ url });
+    } catch (err) {
+        res.status(500).json({ message: 'Upload failed' });
+    }
+};
+
+module.exports = { upload, handleFileUploads, updateAndUpload, uploadToS3 };
