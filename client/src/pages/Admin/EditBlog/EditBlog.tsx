@@ -207,7 +207,13 @@ export default function EditBlog() {
                     onChange={(e) => handleFileChange(e, 'galleryPhotos')}
                 />
 
-                <button type="submit" disabled={!hasChanges() || loading}>
+                <button
+                    className={
+                        hasChanges() && !loading ? 'enabled' : 'disabled'
+                    }
+                    type="submit"
+                    disabled={!hasChanges() || loading}
+                >
                     {loading ? 'Updating...' : 'Update Blog'}
                 </button>
             </form>
