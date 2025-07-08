@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './editblog.scss';
+import { Menu, Button, Text } from '@mantine/core';
+import { IconTrash } from '@tabler/icons-react';
 
 export default function EditBlog() {
     const { id } = useParams();
@@ -19,6 +21,7 @@ export default function EditBlog() {
     const [originalData, setOriginalData] = useState(null);
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchBlog = async () => {
@@ -41,6 +44,27 @@ export default function EditBlog() {
         };
         fetchBlog();
     }, [id]);
+
+    const handleDelete = async () => {
+        const confirm = window.confirm(
+            'Are you sure you want to delete this blog?'
+        );
+
+        if (!confirm) return;
+
+        try {
+            await axios.delete(
+                `http://localhost:3000/api/blog/deleteblog/${id}`
+            );
+            setMessage('Blog deleted successfully.');
+            setTimeout(() => {
+                navigate('/admin/blog'); // or use navigate('/')
+            }, 1500);
+        } catch (err) {
+            console.error(err);
+            setMessage('Error deleting blog.');
+        }
+    };
 
     const handleChange = (e) =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -124,6 +148,35 @@ export default function EditBlog() {
 
     return (
         <div className="create-blog">
+            <Menu shadow="md" width={200}>
+                <Menu.Target>
+                    <Button>Delete Blog</Button>
+                </Menu.Target>
+
+                <Menu.Dropdown>
+                    <Menu.Label>Danger zone</Menu.Label>
+
+                    <Menu.Item
+                        color="red"
+                        leftSection={<IconTrash size={14} />}
+                        onClick={() => handleDelete()}
+                        style={{
+                            width: '89%',
+                            marginTop: '15px',
+                            backgroundColor: '#dc3545',
+                            color: 'white',
+                            border: 'none',
+                            padding: '10px',
+                            fontWeight: 'bold',
+                            borderRadius: '5px',
+                            cursor: 'pointer',
+                        }}
+                    >
+                        Delete Blog
+                    </Menu.Item>
+                </Menu.Dropdown>
+            </Menu>
+
             <h2>Edit Blog</h2>
             <form onSubmit={handleSubmit}>
                 <label>Type:</label>

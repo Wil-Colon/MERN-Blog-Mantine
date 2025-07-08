@@ -13,3 +13,9 @@ button.enabled {
 button.enabled:hover {
     background-color: #0056b3;
 }
+
+.create-blog {
+    @include dark {
+        background: rgb(126, 126, 126);
+    }
+}
